@@ -38,7 +38,7 @@ function renderSetup(msg) {
   document.body.innerHTML = `<div class="mado-wrap mado-setup">
     <h1 class="mado-title">${T.setupTitle}</h1>
     <p class="mado-desc">${msg ? Mado.esc(msg) : T.setupText}</p>
-    <p><a class="mado-btn" href="admin.html">${T.setupAdmin}</a></p>
+    <p><a class="mado-btn" href="${Mado.url('admin.html')}">${T.setupAdmin}</a></p>
     <form id="mado-try"><label class="mado-desc">${T.tryNpub}</label>
       <div class="mado-row"><input id="mado-try-npub" placeholder="npub1…" autocomplete="off" required><button class="mado-btn">${T.tryBtn}</button></div>
     </form></div>`;

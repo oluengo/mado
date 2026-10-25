@@ -1,7 +1,7 @@
 {
   "version": 1,
   "author": {
-    "npub": "npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj"
+    "npub": ""
   },
   "relays": [
     "wss://relay.damus.io",
@@ -25,7 +25,7 @@
     "maxPosts": 300
   },
   "site": {
-    "url": "https://oluengo.github.io/mado/",
+    "url": "",
     "title": "",
     "description": "",
     "logo": "",

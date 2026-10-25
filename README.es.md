@@ -23,7 +23,7 @@ Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por t
 
 > Atajo: abre `config.json` en GitHub, pulsa el lápiz y pega el JSON de **Copiar JSON**.
 
-¿Lo quieres en otro sitio (dominio propio, subcarpeta de una web existente)? Mira [Alojamiento propio](docs/es/alojamiento-propio.md).
+Este repositorio es una **plantilla**: su `config.json` está vacío a propósito. Para tener tu blog dentro de otra web con solo `index.html` + `config.json`, usa una [instancia ligera](docs/es/alojamiento-propio.md#instancia-ligera-recomendada-para-tu-propio-blog). Otras opciones (dominio propio, subcarpeta): [Alojamiento propio](docs/es/alojamiento-propio.md).
 
 ## Documentación
 
@@ -59,6 +59,7 @@ themes/
   themes.json           temas de color
   <id>/theme.css
 fonts/fonts.json        tipografías
+examples/instance/       instancia ligera (index.html + config.json)
 docs/es, docs/en        documentación
 ```
 

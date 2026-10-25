@@ -12,3 +12,4 @@
 - Site verification via NIP-05 or signed link (profile website / NIP-78), shown as a halo on the avatar.
 - Settings page with export/import and optional NIP-78 publishing.
 - Languages: es, ca, en, it, de (blog and settings page, `?lang=` parameter).
+- Lightweight instances: run a blog from another folder with only `index.html` + `config.json` (`examples/instance/`, `admin.html?site=`).

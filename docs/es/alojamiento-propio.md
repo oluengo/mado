@@ -4,6 +4,24 @@
 
 Mado son archivos estáticos con rutas relativas, así que funciona en cualquier alojamiento estático y en cualquier carpeta.
 
+## Instancia ligera (recomendada para tu propio blog)
+
+Mantén Mado como plantilla limpia y ejecuta tu blog desde otra carpeta con solo dos archivos:
+
+```
+tu-web/
+  mado/            ← Mado (fork o copia), sin tocar
+  blog/
+    index.html     ← copia de examples/instance/index.html
+    config.json    ← tu configuración
+```
+
+`index.html` carga el código, los diseños, los temas y las tipografías desde `/mado/`; solo `config.json` es tuyo. Al actualizar Mado (sincronizando tu fork) se actualizan todas las instancias, y nadie que haga fork de Mado hereda tu configuración.
+
+Para editar la configuración de la instancia, abre `/mado/admin.html?site=/blog/`: carga `/blog/config.json`, guarda su propio borrador y **Vista previa** abre `/blog/`.
+
+La URL `/mado/` de `index.html` también puede apuntar a otra web (`https://usuario.github.io/mado/`), pero mejor tu propio fork, para controlar las actualizaciones.
+
 ## En tu web principal de GitHub Pages
 
 Para servir Mado en `https://usuario.github.io/` (o dentro, por ejemplo `/blog/`):

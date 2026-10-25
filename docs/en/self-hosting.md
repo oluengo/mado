@@ -4,6 +4,24 @@
 
 Mado is plain static files with relative paths, so it runs on any static host and in any folder.
 
+## Lightweight instance (recommended for your own blog)
+
+Keep Mado as a clean template and run your blog from another folder with just two files:
+
+```
+your-site/
+  mado/            ← Mado (fork or copy), untouched
+  blog/
+    index.html     ← copy of examples/instance/index.html
+    config.json    ← your settings
+```
+
+`index.html` loads the code, layouts, themes and typographies from `/mado/`; only `config.json` is yours. Updating Mado (sync your fork) updates every instance, and nobody who forks Mado inherits your settings.
+
+To edit the instance settings, open `/mado/admin.html?site=/blog/`: it loads `/blog/config.json`, keeps its own draft and **Preview** opens `/blog/`.
+
+The `/mado/` URL in `index.html` can also point to another site (`https://user.github.io/mado/`), but prefer your own fork so updates are under your control.
+
 ## On your main GitHub Pages site
 
 To serve Mado at `https://user.github.io/` (or inside it, e.g. `/blog/`):

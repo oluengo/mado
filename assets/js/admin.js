@@ -45,13 +45,19 @@ function renderDateOptions() {
 }
 
 /* ---------- Carga inicial ---------- */
+// ?site=/blog/ edita la configuración de una instancia ligera en otra carpeta del mismo dominio.
+const SITE = (() => {
+  const v = new URLSearchParams(location.search).get('site') || '';
+  return /^(\.{0,2}\/)(?!\/)[\w\-./]*$/.test(v) ? v.replace(/\/?$/, '/') : '';
+})();
 async function repoConfig() {
   if (window.MADO_CONFIG) return Mado.clone(window.MADO_CONFIG);
-  const r = await fetch('config.json', { cache: 'no-store' });
+  const r = await fetch(SITE + 'config.json', { cache: 'no-store' });
   if (!r.ok) throw Error('config.json');
   return r.json();
 }
-const draft = Mado.store.get('mado-draft');
+const DRAFT = Mado.draftKey(new URL(SITE || './', location.href).href);
+const draft = Mado.store.get(DRAFT);
 try { cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(draft || await repoConfig())); }
 catch { cfg = Mado.clone(Mado.DEFAULTS); }
 
@@ -113,7 +119,7 @@ function collect() {
 
 function update(save = true) {
   $('#json').textContent = pretty(cfg);
-  if (save) Mado.store.set('mado-draft', cfg);
+  if (save) Mado.store.set(DRAFT, cfg);
 }
 
 $('#form').addEventListener('input', e => {
@@ -229,8 +235,8 @@ $('#analyze').addEventListener('click', e => {
 $('#b-preview').onclick = () => {
   collect(); update();
   if (window.MADO_BUNDLE) return msg(a('previewBundle'), 'err');
-  if (!Mado.store.set('mado-draft', cfg)) return msg(a('noStorage'), 'err');
-  window.open('index.html?preview', '_blank');
+  if (!Mado.store.set(DRAFT, cfg)) return msg(a('noStorage'), 'err');
+  window.open((SITE || '') + 'index.html?preview', '_blank');
 };
 $('#b-download').onclick = () => {
   collect();
@@ -252,7 +258,7 @@ $('#b-import').onchange = async e => {
 };
 $('#b-reload').onclick = async () => {
   if (!confirm(a('reloadConfirm'))) return;
-  try { cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(await repoConfig())); Mado.store.del('mado-draft'); fill(); msg(a('reloaded'), 'ok'); showProfile(); }
+  try { cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(await repoConfig())); Mado.store.del(DRAFT); fill(); msg(a('reloaded'), 'ok'); showProfile(); }
   catch { msg(a('reloadFail'), 'err'); }
 };
 $('#b-clear').onclick = () => { Mado.store.clear('mado-cache:'); Mado.store.clear('mado-profile:'); Mado.store.clear('mado-remote:'); msg(a('cacheCleared'), 'ok'); };
@@ -293,7 +299,7 @@ $('#b-nostr-pub').onclick = async () => {
 
 /* ---------- Verificación de la web ---------- */
 const guessUrl = () => /^https?:$/.test(location.protocol) && !window.MADO_BUNDLE
-  ? location.origin + location.pathname.replace(/[^/]*$/, '') : '';
+  ? new URL(SITE || './', location.href).href : '';
 const siteUrl = () => cfg.site.url || guessUrl();
 const hostOf = u => { try { return new URL(/^[a-z]+:\/\//i.test(u) ? u : 'https://' + u).hostname; } catch { return ''; } };
 if (!cfg.site.url && guessUrl()) $('#site-url').placeholder = guessUrl();

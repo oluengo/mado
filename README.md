@@ -23,7 +23,7 @@ Mado turns your Nostr articles (NIP-23) and notes into a website you host yourse
 
 > Shortcut: open `config.json` on GitHub, click the pencil and paste the JSON from **Copy JSON**.
 
-Want it somewhere else (your own domain, a subfolder of an existing site)? See [Self-hosting](docs/en/self-hosting.md).
+This repository is a **template**: its `config.json` is empty on purpose. To run your blog inside another site with only `index.html` + `config.json`, use a [lightweight instance](docs/en/self-hosting.md#lightweight-instance-recommended-for-your-own-blog). Other options (own domain, subfolder): [Self-hosting](docs/en/self-hosting.md).
 
 ## Documentation
 
@@ -59,6 +59,7 @@ themes/
   themes.json           colour themes
   <id>/theme.css
 fonts/fonts.json        typographies
+examples/instance/       lightweight instance (index.html + config.json)
 docs/en, docs/es        documentation
 ```
 

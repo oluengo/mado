@@ -4,6 +4,18 @@
 'use strict';
 const Mado = {};
 
+/* ---------- Ubicación del código ----------
+   Mado puede ejecutarse desde otra carpeta (instancia ligera): el código, los temas, diseños
+   y tipografías se cargan desde donde está este archivo, y config.json desde la página. */
+Mado.BASE = (() => {
+  if (typeof window.MADO_BASE === 'string') return window.MADO_BASE;
+  const src = document.currentScript && document.currentScript.src;
+  return src ? src.replace(/assets\/js\/core\.js(\?.*)?$/, '') : '';
+})();
+// Borrador del admin, uno por carpeta (plantilla e instancias no se mezclan).
+Mado.draftKey = href => 'mado-draft:' + new URL('./', href).pathname;
+Mado.url = p => /^(https?:|data:|\/)/.test(p) ? p : Mado.BASE + p;
+
 /* ---------- Configuración por defecto ---------- */
 Mado.DEFAULTS = {
   version: 1,
@@ -198,9 +210,9 @@ Mado.fetchRemoteConfig = async cfg => {
 
 // Orden: borrador del admin (?preview) > window.MADO_CONFIG > config.json; luego NIP-78 si está activo.
 Mado.loadConfig = async ({ preview = false } = {}) => {
-  let cfg = preview ? Mado.store.get('mado-draft') : null;
+  let cfg = preview ? Mado.store.get(Mado.draftKey(location.href)) : null;
   if (!cfg && window.MADO_CONFIG) cfg = window.MADO_CONFIG;
-  if (!cfg) { const r = await fetch('config.json', { cache: 'no-store' }); if (!r.ok) throw Error('config.json'); cfg = await r.json(); }
+  if (!cfg) { const r = await fetch(window.MADO_CONFIG_URL || 'config.json', { cache: 'no-store' }); if (!r.ok) throw Error('config.json'); cfg = await r.json(); }
   cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(cfg));
   if (cfg.remoteConfig.enabled && cfg.author.npub && !preview) {
     const key = 'mado-remote:' + cfg.author.npub + ':' + cfg.remoteConfig.d;
@@ -270,7 +282,7 @@ Mado.checkOwnership = async ({ pk, profile, signedUrl, here, host }) => {
 /* ---------- Temas y modo claro/oscuro ---------- */
 Mado.loadThemes = async () => {
   if (window.MADO_THEMES) return window.MADO_THEMES;
-  try { const r = await fetch('themes/themes.json', { cache: 'no-store' }); return await r.json(); }
+  try { const r = await fetch(Mado.url('themes/themes.json'), { cache: 'no-store' }); return await r.json(); }
   catch { return [{ id: 'violeta', name: 'Violeta' }]; }
 };
 // Un tema es solo una paleta de colores (claro y oscuro).
@@ -279,14 +291,14 @@ Mado.applyTheme = theme => {
   const css = window.MADO_THEMES_CSS && window.MADO_THEMES_CSS[theme.id];
   let n;
   if (css) { n = document.createElement('style'); n.textContent = css; }
-  else { n = document.createElement('link'); n.rel = 'stylesheet'; n.href = `themes/${theme.id}/theme.css`; }
+  else { n = document.createElement('link'); n.rel = 'stylesheet'; n.href = Mado.url(`themes/${theme.id}/theme.css`); }
   n.dataset.madoTheme = ''; document.head.appendChild(n);
 };
 
 /* ---------- Tipografía ---------- */
 Mado.loadFonts = async () => {
   if (window.MADO_FONTS) return window.MADO_FONTS;
-  try { const r = await fetch('fonts/fonts.json', { cache: 'no-store' }); return await r.json(); }
+  try { const r = await fetch(Mado.url('fonts/fonts.json'), { cache: 'no-store' }); return await r.json(); }
   catch { return [{ id: 'mono', body: 'ui-monospace, monospace', head: 'ui-monospace, monospace', size: '15px' }]; }
 };
 Mado.applyFont = font => {
@@ -307,7 +319,7 @@ Mado._layouts = {};
 Mado.registerLayout = (id, def) => { Mado._layouts[id] = def || {}; };
 Mado.loadLayouts = async () => {
   if (window.MADO_LAYOUTS) return window.MADO_LAYOUTS;
-  try { const r = await fetch('layouts/layouts.json', { cache: 'no-store' }); return await r.json(); }
+  try { const r = await fetch(Mado.url('layouts/layouts.json'), { cache: 'no-store' }); return await r.json(); }
   catch { return [{ id: 'list', name: 'List' }]; }
 };
 const loadScript = src => new Promise(res => {
@@ -315,13 +327,13 @@ const loadScript = src => new Promise(res => {
 });
 // Carga (si hace falta) y aplica un diseño. Si falla, usa el diseño de lista integrado.
 Mado.useLayout = async id => {
-  if (!Mado._layouts[id] && !window.MADO_BUNDLE) await loadScript(`layouts/${id}/layout.js`);
+  if (!Mado._layouts[id] && !window.MADO_BUNDLE) await loadScript(Mado.url(`layouts/${id}/layout.js`));
   if (!Mado._layouts[id]) id = 'list';
   document.querySelectorAll('[data-mado-layout]').forEach(n => n.remove());
   const css = window.MADO_LAYOUTS_CSS && window.MADO_LAYOUTS_CSS[id];
   let n;
   if (css != null) { n = document.createElement('style'); n.textContent = css; }
-  else { n = document.createElement('link'); n.rel = 'stylesheet'; n.href = `layouts/${id}/layout.css`; }
+  else { n = document.createElement('link'); n.rel = 'stylesheet'; n.href = Mado.url(`layouts/${id}/layout.css`); }
   n.dataset.madoLayout = ''; document.head.appendChild(n);
   document.body.className = document.body.className.replace(/\blayout-\S+/g, '').trim();
   document.body.classList.add('layout-' + id);
@@ -350,7 +362,7 @@ Mado.toggleMode = () => {
 /* Avatar por defecto si el perfil no tiene imagen: el icono Nostrich de SovrynMatt
    (https://github.com/SovrynMatt/Nostr-Website-Button-Design, libre de uso; ver CREDITS.md).
    Si ese archivo no está, se usa el avestruz dibujado aquí abajo. */
-Mado.DEFAULT_AVATAR = window.MADO_DEFAULT_AVATAR || 'assets/img/nostrich.png';
+Mado.DEFAULT_AVATAR = window.MADO_DEFAULT_AVATAR || Mado.url('assets/img/nostrich.png');
 Mado.OSTRICH = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#efe9df"/><path d="M8 64c2-11 10-18 24-18s22 7 24 18z" fill="#5f5751"/><path d="M14 64c3-8 9-12 18-12s15 4 18 12z" fill="#746a62"/><path d="M28.5 50c1.6-9 1.4-18 .2-26l6.4-.6c1.1 8.6 1.1 17.6-.4 26.8z" fill="#e7cdb6"/><ellipse cx="33.5" cy="19" rx="8.5" ry="7.4" fill="#e7cdb6"/><path d="M40.5 17.2c4.3-.4 7.8.4 10 2.2-2.6 1.6-6.4 2.3-10.4 1.8z" fill="#d8a56f"/><path d="M40.6 19.6l9.4-.2" stroke="#b9854f" stroke-width=".8" stroke-linecap="round"/><circle cx="36.3" cy="17.4" r="2.6" fill="#2b2622"/><circle cx="37.1" cy="16.6" r=".8" fill="#fff"/><path d="M33.2 14.2c1.4-.9 3.4-1 4.9-.3" stroke="#2b2622" stroke-width=".9" fill="none" stroke-linecap="round"/><path d="M27 13.5c.6-2.5 2.4-3.8 4.2-4.1M30 12c1-1.9 2.6-2.8 4.3-2.8" stroke="#8a7e74" stroke-width="1" fill="none" stroke-linecap="round"/></svg>');
 
 // Si una imagen de avatar falla: primero el avatar por defecto configurado, luego el avestruz.
