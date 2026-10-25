@@ -15,7 +15,8 @@
   },
   "content": {
     "kinds": [
-      30023
+      30023,
+      1
     ],
     "includeTags": [],
     "tagMode": "any",
@@ -36,7 +37,7 @@
     "layout": "list",
     "theme": "violeta",
     "font": "mono",
-    "lang": "es",
+    "lang": "auto",
     "langSwitch": false,
     "dateFormat": "long",
     "perPage": 10,

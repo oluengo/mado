@@ -23,7 +23,7 @@ Mado.DEFAULTS = {
   relays: ['wss://relay.damus.io', 'wss://nos.lol', 'wss://relay.primal.net', 'wss://relay.snort.social'],
   remoteConfig: { enabled: false, d: 'mado-config' },
   content: {
-    kinds: [30023],          // 30023 = artículos (NIP-23), 1 = notas
+    kinds: [30023, 1],       // 30023 = artículos (NIP-23), 1 = notas
     includeTags: [],         // solo publicaciones con estos hashtags
     tagMode: 'any',          // 'any' = alguno, 'all' = todos
     excludeTags: [],
@@ -35,7 +35,7 @@ Mado.DEFAULTS = {
     url: '',                 // URL pública del blog (va firmada si se publica en Nostr)
     title: '', description: '', logo: '', fallbackAvatar: '', useProfile: true,
     theme: 'violeta', font: 'mono', colorMode: 'auto', modeToggle: true,
-    layout: 'list', lang: 'es', langSwitch: false, dateFormat: 'long', perPage: 10, order: 'desc',
+    layout: 'list', lang: 'auto', langSwitch: false, dateFormat: 'long', perPage: 10, order: 'desc',
     showTags: true, showReadingTime: true, showSearch: true,
     excerptLength: 220, footer: ''
   },

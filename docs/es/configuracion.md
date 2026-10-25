@@ -27,7 +27,7 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 
 | Campo | Por defecto | Descripción |
 |---|---|---|
-| `kinds` | `[30023]` | `30023` = artículos (NIP-23), `1` = notas. |
+| `kinds` | `[30023, 1]` | `30023` = artículos (NIP-23), `1` = notas. |
 | `includeTags` | `[]` | Solo publicaciones con estos hashtags. Vacío = todas. Sin distinguir mayúsculas. |
 | `tagMode` | `"any"` | `"any"` = al menos uno, `"all"` = todos. |
 | `excludeTags` | `[]` | Ocultar publicaciones con estos hashtags. |
@@ -49,7 +49,7 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 | `font` | `"mono"` | Id de tipografía de `fonts/fonts.json`. |
 | `colorMode` | `"auto"` | `"auto"`, `"light"` u `"dark"`. |
 | `modeToggle` | `true` | Botón claro/oscuro. |
-| `lang` | `"es"` | `es`, `ca`, `en`, `it`, `de` o `"auto"` (navegador). La URL puede cambiarlo con `?lang=`. |
+| `lang` | `"auto"` | `es`, `ca`, `en`, `it`, `de` o `"auto"` (navegador). La URL puede cambiarlo con `?lang=`. |
 | `langSwitch` | `false` | Selector de idioma en la cabecera. |
 | `dateFormat` | `"long"` | `"long"`, `"short"` o `"relative"`. |
 | `perPage` | `10` | Publicaciones por página. |

@@ -27,7 +27,7 @@ List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `rel
 
 | Field | Default | Description |
 |---|---|---|
-| `kinds` | `[30023]` | `30023` = articles (NIP-23), `1` = notes. |
+| `kinds` | `[30023, 1]` | `30023` = articles (NIP-23), `1` = notes. |
 | `includeTags` | `[]` | Only posts with these hashtags. Empty = all. Case-insensitive. |
 | `tagMode` | `"any"` | `"any"` = at least one hashtag, `"all"` = every hashtag. |
 | `excludeTags` | `[]` | Hide posts with these hashtags. |
@@ -49,7 +49,7 @@ List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `rel
 | `font` | `"mono"` | Typography id from `fonts/fonts.json`. |
 | `colorMode` | `"auto"` | `"auto"`, `"light"` or `"dark"`. |
 | `modeToggle` | `true` | Light/dark button. |
-| `lang` | `"es"` | `es`, `ca`, `en`, `it`, `de` or `"auto"` (browser). The URL can override it with `?lang=`. |
+| `lang` | `"auto"` | `es`, `ca`, `en`, `it`, `de` or `"auto"` (browser). The URL can override it with `?lang=`. |
 | `langSwitch` | `false` | Language selector in the header. |
 | `dateFormat` | `"long"` | `"long"`, `"short"` or `"relative"`. |
 | `perPage` | `10` | Posts per page. |
