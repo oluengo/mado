@@ -1,4 +1,4 @@
-# Mado 窓
+# Mado
 
 **A window onto your Nostr posts, on your own website.**
 

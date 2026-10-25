@@ -73,7 +73,7 @@ function renderLayouts() {
 }
 function renderFonts() {
   $('#fonts').innerHTML = fonts.map(f => card('font', f.id, cfg.site.font, Mado.tr(f.name, ui), Mado.tr(f.description, ui),
-    `<span class="font-sample" style="font-family:${Mado.esc(f.head || f.body)}">Aa 窓</span>`)).join('');
+    `<span class="font-sample" style="font-family:${Mado.esc(f.head || f.body)}">Aa Bb 123</span>`)).join('');
 }
 let lastAnalysis = null;
 function renderThemes() {
