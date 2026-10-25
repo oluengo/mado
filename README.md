@@ -1,3 +1,5 @@
+<p align="center"><img src="assets/img/logo-purple.svg" width="96" alt="Mado"></p>
+
 # Mado
 
 **A window onto your Nostr posts, on your own website.**
@@ -51,6 +53,7 @@ assets/
   js/admin.js           settings page logic
   js/i18n.js            texts in 5 languages
   js/vendor/            signature verification (@noble, MIT)
+  img/logo.svg          logo and favicons
   img/nostrich.png      default avatar (see CREDITS.md)
 layouts/
   layouts.json          layout list

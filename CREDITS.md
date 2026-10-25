@@ -1,5 +1,9 @@
 # Credits · Créditos
 
+## Logo
+
+`assets/img/logo*.svg`, `logo-*.png`, `favicon.ico` — Mado logo by oluengo. Released with the project under the MIT license · Logo de Mado de oluengo, publicado con el proyecto bajo licencia MIT.
+
 ## Default avatar · Avatar por defecto
 
 `assets/img/nostrich.png` — **Purple Nostrich Icon** by **SovrynMatt**, cropped to a round 256 px avatar · recortado como avatar redondo de 256 px.
