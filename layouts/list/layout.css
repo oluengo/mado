@@ -1,0 +1,10 @@
+/* Diseño «Lista»: una columna con separadores; si hay portada, miniatura a la derecha. */
+.layout-list .mado-list { gap: 0 }
+.layout-list .mado-item { padding: 24px 0; border-bottom: 1px dashed var(--line) }
+.layout-list .mado-item:first-child { padding-top: 0 }
+.layout-list .mado-item.has-cover { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 20px; align-items: start }
+.layout-list .mado-item.has-cover .mado-cover-link { order: 2 }
+.layout-list .mado-item .mado-cover { aspect-ratio: 1; margin: 4px 0 0 }
+.layout-list .mado-item h2 { font-size: 1.15rem }
+.layout-list .mado-excerpt { color: var(--muted); font-size: .92em }
+@media (max-width: 480px) { .layout-list .mado-item.has-cover { grid-template-columns: minmax(0, 1fr) 76px; gap: 14px } }

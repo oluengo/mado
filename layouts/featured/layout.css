@@ -1,0 +1,30 @@
+/* Diseño «Portada destacada»: cabecera centrada, primera publicación a lo grande, resto en rejilla
+   y artículos con letra capitular. */
+.layout-featured .mado-wrap { max-width: max(var(--maxw), 1080px) }
+.layout-featured .mado-header { text-align: center; padding-top: 48px; border-bottom: 3px double var(--line) }
+.layout-featured .mado-top { justify-content: center; position: relative }
+.layout-featured .mado-brand { flex-direction: column; gap: 10px }
+.layout-featured .mado-tools { position: absolute; right: 0; top: 0 }
+.layout-featured .mado-title { font-size: clamp(1.9rem, 6vw, 2.8rem); letter-spacing: -.01em }
+.layout-featured .mado-desc { font-style: italic }
+.layout-featured .mado-nav { justify-content: center; text-transform: uppercase; letter-spacing: .08em; font-size: .72rem }
+.layout-featured .mado-search { max-width: 360px; margin-left: auto; margin-right: auto }
+.mado-hero { margin: 0 0 44px; padding-bottom: 40px; border-bottom: 1px solid var(--line) }
+.mado-hero .mado-cover { aspect-ratio: 21/9; margin-bottom: 20px }
+.mado-hero h2 { font-family: var(--font-head); font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.15; margin: 0 0 10px }
+.mado-hero h2 a { color: inherit; text-decoration: none }
+.mado-hero h2 a:hover { color: var(--accent) }
+.mado-hero .mado-excerpt { font-size: 1.1em; max-width: 62ch }
+@media (min-width: 860px) {
+  .mado-hero.has-cover { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center }
+  .mado-hero.has-cover .mado-cover { margin: 0; aspect-ratio: 4/3 }
+}
+.mado-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 28px }
+.mado-grid > .mado-item .mado-cover { aspect-ratio: 3/2; margin-bottom: 12px }
+.mado-grid .mado-item h2 { font-size: 1.15rem }
+.mado-grid .mado-excerpt { color: var(--muted); font-size: .92em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden }
+.layout-featured .mado-meta { font-style: italic }
+.layout-featured .mado-post { max-width: 760px; margin: 0 auto }
+.layout-featured .mado-post h1 { font-size: clamp(2rem, 6vw, 2.9rem); letter-spacing: -.01em }
+.layout-featured .mado-body { line-height: 1.75 }
+.layout-featured .mado-body > p:first-child::first-letter { float: left; font-family: var(--font-head); font-size: 3.4em; line-height: .9; padding: 6px 8px 0 0; color: var(--accent) }

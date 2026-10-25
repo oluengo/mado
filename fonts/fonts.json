@@ -1,0 +1,65 @@
+[
+  {
+    "id": "mono",
+    "name": {
+      "es": "Monoespaciada",
+      "ca": "Monoespaiada",
+      "en": "Monospace",
+      "it": "Monospaziato",
+      "de": "Monospace"
+    },
+    "description": {
+      "es": "Técnica y sobria.",
+      "ca": "Tècnica i sòbria.",
+      "en": "Technical and sober.",
+      "it": "Tecnico e sobrio.",
+      "de": "Technisch und schlicht."
+    },
+    "body": "ui-monospace, SFMono-Regular, Menlo, Consolas, \"Liberation Mono\", monospace",
+    "head": "ui-monospace, SFMono-Regular, Menlo, Consolas, \"Liberation Mono\", monospace",
+    "size": "15px",
+    "href": ""
+  },
+  {
+    "id": "serif",
+    "name": {
+      "es": "Serif",
+      "ca": "Serif",
+      "en": "Serif",
+      "it": "Serif",
+      "de": "Serif"
+    },
+    "description": {
+      "es": "Editorial, para leer largo.",
+      "ca": "Editorial, per llegir llarg.",
+      "en": "Editorial, for long reads.",
+      "it": "Editoriale, per letture lunghe.",
+      "de": "Redaktionell, für lange Texte."
+    },
+    "body": "\"Source Serif 4\", Georgia, \"Times New Roman\", serif",
+    "head": "\"Fraunces\", Georgia, serif",
+    "size": "18px",
+    "href": "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+  },
+  {
+    "id": "sans",
+    "name": {
+      "es": "Sans",
+      "ca": "Sans",
+      "en": "Sans",
+      "it": "Sans",
+      "de": "Sans"
+    },
+    "description": {
+      "es": "Moderna y limpia.",
+      "ca": "Moderna i neta.",
+      "en": "Modern and clean.",
+      "it": "Moderno e pulito.",
+      "de": "Modern und klar."
+    },
+    "body": "\"Inter\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "head": "\"Inter\", system-ui, -apple-system, \"Segoe UI\", sans-serif",
+    "size": "16px",
+    "href": "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;650&display=swap"
+  }
+]

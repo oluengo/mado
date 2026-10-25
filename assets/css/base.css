@@ -1,0 +1,103 @@
+/* Mado — estructura común. Los temas solo cambian variables y detalles. */
+:root {
+  --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73; --line: #e4e4e7; --card: #fff;
+  --accent: #7b3fe4; --accent-bg: #f1ebfd;
+  --font-body: system-ui, -apple-system, "Segoe UI", sans-serif; --font-head: var(--font-body);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 8px; --maxw: 740px; --fs: 16px; --gap: 28px;
+}
+* { box-sizing: border-box }
+html { -webkit-text-size-adjust: 100% }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: var(--fs); line-height: 1.65 }
+a { color: var(--accent) }
+img, video { max-width: 100% }
+[hidden] { display: none !important }
+
+.mado-wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 16px }
+.mado-header { border-bottom: 1px solid var(--line); padding: 32px 0 18px; margin-bottom: 32px }
+.mado-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px }
+.mado-brand { display: flex; align-items: center; gap: 14px; min-width: 0 }
+.mado-brand-text { text-decoration: none; color: inherit; min-width: 0 }
+
+/* Avatar con halo de verificación: verde pastel = verificada, rojo pastel = no verificada */
+:root { --halo-ok: 134, 205, 160; --halo-no: 236, 150, 150 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --halo-ok: 110, 190, 140; --halo-no: 220, 120, 120 } }
+:root[data-theme="dark"] { --halo-ok: 110, 190, 140; --halo-no: 220, 120, 120 }
+.mado-av { display: inline-block; flex: none; line-height: 0; border-radius: 50%; transition: box-shadow .3s }
+.mado-av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; background: var(--line) }
+.mado-av-h { width: 52px; height: 52px }
+.mado-av-f { width: 18px; height: 18px; margin: 0 6px }
+.mado-halo.mado-av-h.is-ok { box-shadow: 0 0 0 2px rgba(var(--halo-ok), .35), 0 0 12px 4px rgba(var(--halo-ok), .45) }
+.mado-halo.mado-av-h.is-no { box-shadow: 0 0 0 2px rgba(var(--halo-no), .30), 0 0 12px 4px rgba(var(--halo-no), .40) }
+.mado-halo.mado-av-f.is-ok { box-shadow: 0 0 0 1px rgba(var(--halo-ok), .45), 0 0 5px 2px rgba(var(--halo-ok), .45) }
+.mado-halo.mado-av-f.is-no { box-shadow: 0 0 0 1px rgba(var(--halo-no), .40), 0 0 5px 2px rgba(var(--halo-no), .40) }
+.mado-footer-author { display: flex; align-items: center; flex-wrap: wrap }
+.mado-credit { opacity: .85 }
+.mado-credit a { color: inherit }
+.mado-vstate b { font-weight: 600 }
+.mado-vstate.is-ok b { color: rgb(var(--halo-ok)) }
+.mado-vstate.is-no b { color: rgb(var(--halo-no)) }
+.mado-lang { padding: 5px 8px; max-width: 130px }
+.mado-title { font-family: var(--font-head); font-size: 1.45rem; font-weight: 650; line-height: 1.2; margin: 0 }
+.mado-desc { color: var(--muted); margin: 4px 0 0; font-size: .95rem }
+.mado-tools { display: flex; gap: 8px }
+.mado-btn { font: inherit; font-size: .85rem; background: none; color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 12px; cursor: pointer; text-decoration: none; display: inline-block }
+.mado-btn:hover { border-color: var(--accent); color: var(--accent) }
+.mado-nav { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; font-size: .9rem }
+.mado-nav a { color: var(--muted); text-decoration: none }
+.mado-nav a:hover, .mado-nav a.active { color: var(--accent) }
+.mado-search { margin-top: 14px }
+.mado-search input, .mado-row input { width: 100%; font: inherit; font-size: .9rem; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 11px }
+
+.mado-status { color: var(--muted); font-size: .95rem; padding: 24px 0 }
+.mado-heading { font-family: var(--font-head); font-size: 1.05rem; font-weight: 500; color: var(--muted); margin: 0 0 20px }
+.mado-list { display: grid; gap: var(--gap) }
+.mado-item { min-width: 0 }
+.mado-item h2 { font-family: var(--font-head); font-size: 1.3rem; line-height: 1.3; margin: 0 0 6px }
+.mado-item h2 a { color: inherit; text-decoration: none }
+.mado-item h2 a:hover { color: var(--accent) }
+.mado-meta { display: flex; flex-wrap: wrap; gap: 2px 14px; color: var(--muted); font-size: .8rem }
+.mado-pin { color: var(--accent); font-weight: 600 }
+.mado-excerpt { margin: 10px 0 0 }
+.mado-cover { display: block; width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius); background: var(--line); margin-bottom: 14px }
+.mado-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px }
+.mado-tag { font-size: .75rem; text-decoration: none; background: var(--accent-bg); color: var(--accent); padding: 2px 10px; border-radius: 99px }
+.mado-tag span { opacity: .65 }
+.mado-tagcloud { display: flex; flex-wrap: wrap; gap: 8px }
+.mado-tagcloud .mado-tag { font-size: .85rem; padding: 4px 12px }
+.mado-note-link { text-decoration: none; display: block; margin-bottom: 6px }
+.mado-text { white-space: pre-wrap; overflow-wrap: anywhere }
+.mado-media { display: block; max-width: 100%; border-radius: var(--radius); margin: 10px 0 }
+.mado-hashtag { text-decoration: none }
+
+.mado-pager { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 40px 0 0; font-size: .9rem }
+.mado-pager a { text-decoration: none }
+.mado-pager-info { color: var(--muted); font-size: .8rem }
+
+.mado-post h1 { font-family: var(--font-head); font-size: clamp(1.7rem, 5vw, 2.3rem); line-height: 1.2; margin: 0 0 10px }
+.mado-post-cover { margin: 22px 0 0; aspect-ratio: auto; max-height: 460px }
+.mado-lead { font-size: 1.15rem; color: var(--muted); margin: 22px 0 0 }
+.mado-body { font-size: 1.05rem; margin-top: 24px; overflow-wrap: anywhere }
+.mado-body h1, .mado-body h2, .mado-body h3, .mado-body h4 { font-family: var(--font-head); line-height: 1.3; margin: 1.8em 0 .6em }
+.mado-body img { border-radius: var(--radius); height: auto }
+.mado-body pre { overflow-x: auto; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; font-size: .85rem }
+.mado-body code { font-family: var(--font-mono); font-size: .9em }
+.mado-body blockquote { margin: 1.2em 0; padding: 0 0 0 16px; border-left: 3px solid var(--accent); color: var(--muted) }
+.mado-body table { border-collapse: collapse; display: block; overflow-x: auto }
+.mado-body th, .mado-body td { border: 1px solid var(--line); padding: 6px 10px }
+.mado-body hr { border: 0; border-top: 1px solid var(--line); margin: 2em 0 }
+.mado-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; margin-top: 36px; font-size: .9rem }
+
+.mado-about { text-align: center }
+.mado-avatar { width: 96px; height: 96px; border-radius: 50%; object-fit: cover }
+.mado-about-name { font-family: var(--font-head); margin: 12px 0 2px }
+.mado-about .mado-meta { justify-content: center }
+.mado-about .mado-text { text-align: left; margin-top: 20px }
+.mado-about .mado-actions { justify-content: center }
+
+.mado-footer { border-top: 1px solid var(--line); margin-top: 56px; padding: 20px 0 48px; color: var(--muted); font-size: .8rem }
+.mado-footer p { margin: 4px 0 }
+
+.mado-setup { padding-top: 64px }
+.mado-setup .mado-row { display: flex; gap: 8px; margin-top: 8px }
+.mado-setup form { margin-top: 28px }

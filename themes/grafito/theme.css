@@ -1,0 +1,6 @@
+/* Tema «Grafito»: solo colores. Claro y oscuro. */
+:root { --bg: #fafafa; --fg: #111111; --muted: #6b6b6b; --line: #e2e2e2; --card: #ffffff; --accent: #111111; --accent-bg: #eeeeee }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0d0d0d; --fg: #eeeeee; --muted: #9a9a9a; --line: #2a2a2a; --card: #161616; --accent: #f2f2f2; --accent-bg: #262626 }
+}
+:root[data-theme="dark"] { --bg: #0d0d0d; --fg: #eeeeee; --muted: #9a9a9a; --line: #2a2a2a; --card: #161616; --accent: #f2f2f2; --accent-bg: #262626 }

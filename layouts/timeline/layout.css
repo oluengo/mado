@@ -1,0 +1,9 @@
+/* Diseño «Cronología» */
+.mado-tl-group + .mado-tl-group { margin-top: 12px }
+.mado-tl-month { font-family: var(--font-head); font-size: .8rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin: 0 0 14px }
+.mado-tl-items { border-left: 2px solid var(--line); margin-left: 5px; padding-left: 22px }
+.mado-tl-items > .mado-item { position: relative; padding: 0 0 26px; border: 0; background: none }
+.mado-tl-items > .mado-item::before { content: ""; position: absolute; left: -29px; top: .45em; width: 10px; height: 10px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent) }
+.mado-tl .mado-cover-link { display: none }
+.mado-tl .mado-item h2 { font-size: 1.12rem }
+.mado-tl .mado-excerpt { margin-top: 6px }

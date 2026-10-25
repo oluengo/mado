@@ -1,0 +1,6 @@
+/* Tema «Violeta»: solo colores. Claro y oscuro. */
+:root { --bg: #fafafa; --fg: #1d1d1f; --muted: #6e6e73; --line: #e4e4e7; --card: #ffffff; --accent: #7b3fe4; --accent-bg: #f1ebfd }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #121214; --fg: #ececef; --muted: #9a9aa2; --line: #2a2a2e; --card: #1a1a1d; --accent: #b18cff; --accent-bg: #241c35 }
+}
+:root[data-theme="dark"] { --bg: #121214; --fg: #ececef; --muted: #9a9aa2; --line: #2a2a2e; --card: #1a1a1d; --accent: #b18cff; --accent-bg: #241c35 }

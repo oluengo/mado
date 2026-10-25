@@ -1,0 +1,176 @@
+[
+  {
+    "id": "violeta",
+    "name": {
+      "es": "Violeta",
+      "ca": "Violeta",
+      "en": "Violet",
+      "it": "Viola",
+      "de": "Violett"
+    },
+    "description": {
+      "es": "Gris claro con acento morado Nostr.",
+      "ca": "Gris clar amb accent morat Nostr.",
+      "en": "Light grey with a Nostr purple accent.",
+      "it": "Grigio chiaro con accento viola Nostr.",
+      "de": "Hellgrau mit Nostr-Violett als Akzent."
+    },
+    "preview": {
+      "light": [
+        "#fafafa",
+        "#1d1d1f",
+        "#7b3fe4"
+      ],
+      "dark": [
+        "#121214",
+        "#ececef",
+        "#b18cff"
+      ]
+    }
+  },
+  {
+    "id": "oceano",
+    "name": {
+      "es": "Océano",
+      "ca": "Oceà",
+      "en": "Ocean",
+      "it": "Oceano",
+      "de": "Ozean"
+    },
+    "description": {
+      "es": "Azules tranquilos.",
+      "ca": "Blaus tranquils.",
+      "en": "Calm blues.",
+      "it": "Blu tranquilli.",
+      "de": "Ruhige Blautöne."
+    },
+    "preview": {
+      "light": [
+        "#f6f9fc",
+        "#14202b",
+        "#1f6fb2"
+      ],
+      "dark": [
+        "#0e151c",
+        "#e4ecf2",
+        "#6cb4ee"
+      ]
+    }
+  },
+  {
+    "id": "bosque",
+    "name": {
+      "es": "Bosque",
+      "ca": "Bosc",
+      "en": "Forest",
+      "it": "Bosco",
+      "de": "Wald"
+    },
+    "description": {
+      "es": "Verdes naturales.",
+      "ca": "Verds naturals.",
+      "en": "Natural greens.",
+      "it": "Verdi naturali.",
+      "de": "Natürliche Grüntöne."
+    },
+    "preview": {
+      "light": [
+        "#f7f8f4",
+        "#1b231c",
+        "#2f7a4b"
+      ],
+      "dark": [
+        "#0f1410",
+        "#e5ece4",
+        "#6fc48d"
+      ]
+    }
+  },
+  {
+    "id": "arena",
+    "name": {
+      "es": "Arena",
+      "ca": "Sorra",
+      "en": "Sand",
+      "it": "Sabbia",
+      "de": "Sand"
+    },
+    "description": {
+      "es": "Papel cálido con acento terracota.",
+      "ca": "Paper càlid amb accent terracota.",
+      "en": "Warm paper with a terracotta accent.",
+      "it": "Carta calda con accento terracotta.",
+      "de": "Warmes Papier mit Terrakotta-Akzent."
+    },
+    "preview": {
+      "light": [
+        "#fbf8f3",
+        "#22201c",
+        "#b4462b"
+      ],
+      "dark": [
+        "#171512",
+        "#ece6dd",
+        "#e77d5f"
+      ]
+    }
+  },
+  {
+    "id": "grafito",
+    "name": {
+      "es": "Grafito",
+      "ca": "Grafit",
+      "en": "Graphite",
+      "it": "Grafite",
+      "de": "Graphit"
+    },
+    "description": {
+      "es": "Blanco y negro, sin color.",
+      "ca": "Blanc i negre, sense color.",
+      "en": "Black and white, no colour.",
+      "it": "Bianco e nero, senza colore.",
+      "de": "Schwarzweiß, ohne Farbe."
+    },
+    "preview": {
+      "light": [
+        "#fafafa",
+        "#111111",
+        "#111111"
+      ],
+      "dark": [
+        "#0d0d0d",
+        "#eeeeee",
+        "#f2f2f2"
+      ]
+    }
+  },
+  {
+    "id": "sakura",
+    "name": {
+      "es": "Sakura",
+      "ca": "Sakura",
+      "en": "Sakura",
+      "it": "Sakura",
+      "de": "Sakura"
+    },
+    "description": {
+      "es": "Rosa suave con acento cereza.",
+      "ca": "Rosa suau amb accent cirera.",
+      "en": "Soft pink with a cherry accent.",
+      "it": "Rosa tenue con accento ciliegia.",
+      "de": "Zartrosa mit Kirschakzent."
+    },
+    "preview": {
+      "light": [
+        "#fdf7f8",
+        "#2a1d21",
+        "#c2416b"
+      ],
+      "dark": [
+        "#171013",
+        "#f1e4e8",
+        "#f08aab"
+      ]
+    }
+  }
+]

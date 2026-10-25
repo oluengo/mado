@@ -1,0 +1,10 @@
+/* Diseño «Compacto» */
+.mado-compact { display: block }
+.mado-row { display: grid; grid-template-columns: 5.5em minmax(0, 1fr) auto; gap: 14px; align-items: baseline; padding: 10px 0; border-bottom: 1px solid var(--line); color: inherit; text-decoration: none }
+.mado-row:first-child { border-top: 1px solid var(--line) }
+.mado-row:hover .mado-row-title { color: var(--accent) }
+.mado-row time { font-family: var(--font-mono); font-size: .78rem; color: var(--muted) }
+.mado-row-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.mado-row.is-pinned .mado-row-title { font-weight: 600 }
+.mado-row-tags { display: flex; gap: 8px; font-size: .75rem; color: var(--muted) }
+@media (max-width: 560px) { .mado-row-tags { display: none } .mado-row { grid-template-columns: 5.5em minmax(0, 1fr) } }

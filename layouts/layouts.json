@@ -1,0 +1,14 @@
+[
+  { "id": "list", "name": { "es": "Lista", "ca": "Llista", "en": "List", "it": "Elenco", "de": "Liste" },
+    "description": { "es": "Una columna clásica.", "ca": "Una columna clàssica.", "en": "A classic single column.", "it": "Una colonna classica.", "de": "Klassisch, eine Spalte." } },
+  { "id": "grid", "name": { "es": "Rejilla", "ca": "Graella", "en": "Grid", "it": "Griglia", "de": "Raster" },
+    "description": { "es": "Tarjetas en columnas.", "ca": "Targetes en columnes.", "en": "Cards in columns.", "it": "Schede in colonne.", "de": "Karten in Spalten." } },
+  { "id": "sidebar", "name": { "es": "Barra lateral", "ca": "Barra lateral", "en": "Sidebar", "it": "Barra laterale", "de": "Seitenleiste" },
+    "description": { "es": "Perfil, menú y etiquetas a un lado.", "ca": "Perfil, menú i etiquetes a un costat.", "en": "Profile, menu and tags on the side.", "it": "Profilo, menu e tag di lato.", "de": "Profil, Menü und Schlagwörter seitlich." } },
+  { "id": "featured", "name": { "es": "Portada destacada", "ca": "Portada destacada", "en": "Featured", "it": "In evidenza", "de": "Aufmacher" },
+    "description": { "es": "La última publicación a lo grande y el resto en rejilla.", "ca": "L'última publicació en gran i la resta en graella.", "en": "Latest post large, the rest in a grid.", "it": "L'ultimo post in grande, il resto in griglia.", "de": "Neuester Beitrag groß, der Rest im Raster." } },
+  { "id": "timeline", "name": { "es": "Cronología", "ca": "Cronologia", "en": "Timeline", "it": "Cronologia", "de": "Zeitleiste" },
+    "description": { "es": "Agrupadas por mes en una línea de tiempo.", "ca": "Agrupades per mes en una línia de temps.", "en": "Grouped by month on a timeline.", "it": "Raggruppati per mese su una linea temporale.", "de": "Nach Monat gruppiert auf einer Zeitleiste." } },
+  { "id": "compact", "name": { "es": "Compacto", "ca": "Compacte", "en": "Compact", "it": "Compatto", "de": "Kompakt" },
+    "description": { "es": "Una línea por publicación: fecha y título.", "ca": "Una línia per publicació: data i títol.", "en": "One line per post: date and title.", "it": "Una riga per post: data e titolo.", "de": "Eine Zeile pro Beitrag: Datum und Titel." } }
+]

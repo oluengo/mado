@@ -1,0 +1,13 @@
+/* Diseño «Rejilla»: tarjetas en columnas. */
+.layout-grid .mado-wrap { max-width: max(var(--maxw), 1120px) }
+.layout-grid .mado-header { border: 0 }
+.layout-grid .mado-search { max-width: 420px }
+.mado-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap: 22px }
+.mado-grid > .mado-item { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; transition: transform .15s, box-shadow .15s }
+.mado-grid > .mado-item:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgb(0 0 0 / .07) }
+.mado-grid > .mado-item.is-pinned { border-color: var(--accent) }
+.mado-grid > .mado-item .mado-cover { border-radius: 0; margin: 0 }
+.mado-grid .mado-item-body, .mado-grid .mado-note { padding: 16px 18px 18px }
+.mado-grid .mado-item h2 { font-size: 1.1rem }
+.mado-grid .mado-excerpt { color: var(--muted); font-size: .92em; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden }
+.layout-grid .mado-post { max-width: 740px; margin: 0 auto }

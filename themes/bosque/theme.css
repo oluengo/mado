@@ -1,0 +1,6 @@
+/* Tema «Bosque»: solo colores. Claro y oscuro. */
+:root { --bg: #f7f8f4; --fg: #1b231c; --muted: #5f6b60; --line: #dfe5da; --card: #ffffff; --accent: #2f7a4b; --accent-bg: #e3f1e7 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0f1410; --fg: #e5ece4; --muted: #93a294; --line: #253027; --card: #151c16; --accent: #6fc48d; --accent-bg: #16301f }
+}
+:root[data-theme="dark"] { --bg: #0f1410; --fg: #e5ece4; --muted: #93a294; --line: #253027; --card: #151c16; --accent: #6fc48d; --accent-bg: #16301f }

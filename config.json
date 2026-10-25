@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "author": {
+    "npub": ""
+  },
+  "relays": [
+    "wss://relay.damus.io",
+    "wss://nos.lol",
+    "wss://relay.primal.net",
+    "wss://relay.snort.social"
+  ],
+  "remoteConfig": {
+    "enabled": false,
+    "d": "mado-config"
+  },
+  "content": {
+    "kinds": [
+      30023
+    ],
+    "includeTags": [],
+    "tagMode": "any",
+    "excludeTags": [],
+    "hideReplies": true,
+    "pinned": [],
+    "maxPosts": 300
+  },
+  "site": {
+    "url": "",
+    "title": "",
+    "description": "",
+    "logo": "",
+    "fallbackAvatar": "",
+    "useProfile": true,
+    "colorMode": "auto",
+    "modeToggle": true,
+    "layout": "list",
+    "theme": "violeta",
+    "font": "mono",
+    "lang": "es",
+    "langSwitch": false,
+    "dateFormat": "long",
+    "perPage": 10,
+    "order": "desc",
+    "showTags": true,
+    "showReadingTime": true,
+    "showSearch": true,
+    "excerptLength": 220,
+    "footer": ""
+  },
+  "nav": {
+    "showAllTags": true,
+    "showAbout": true,
+    "sections": [],
+    "links": []
+  },
+  "advanced": {
+    "cacheMinutes": 10,
+    "timeoutMs": 7000,
+    "verifySignatures": true
+  }
+}

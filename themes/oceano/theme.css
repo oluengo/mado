@@ -1,0 +1,6 @@
+/* Tema «Océano»: solo colores. Claro y oscuro. */
+:root { --bg: #f6f9fc; --fg: #14202b; --muted: #5d6b78; --line: #dde5ec; --card: #ffffff; --accent: #1f6fb2; --accent-bg: #e3eef8 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #0e151c; --fg: #e4ecf2; --muted: #8fa0ae; --line: #223040; --card: #141d26; --accent: #6cb4ee; --accent-bg: #12283b }
+}
+:root[data-theme="dark"] { --bg: #0e151c; --fg: #e4ecf2; --muted: #8fa0ae; --line: #223040; --card: #141d26; --accent: #6cb4ee; --accent-bg: #12283b }

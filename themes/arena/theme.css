@@ -1,0 +1,6 @@
+/* Tema «Arena»: solo colores. Claro y oscuro. */
+:root { --bg: #fbf8f3; --fg: #22201c; --muted: #77706a; --line: #e9e2d8; --card: #ffffff; --accent: #b4462b; --accent-bg: #f6e6df }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #171512; --fg: #ece6dd; --muted: #a39b90; --line: #2e2a25; --card: #1f1c18; --accent: #e77d5f; --accent-bg: #3a231b }
+}
+:root[data-theme="dark"] { --bg: #171512; --fg: #ece6dd; --muted: #a39b90; --line: #2e2a25; --card: #1f1c18; --accent: #e77d5f; --accent-bg: #3a231b }

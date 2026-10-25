@@ -1,0 +1,6 @@
+/* Tema «Sakura»: solo colores. Claro y oscuro. */
+:root { --bg: #fdf7f8; --fg: #2a1d21; --muted: #7d6a70; --line: #f1dfe3; --card: #ffffff; --accent: #c2416b; --accent-bg: #fbe7ed }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: #171013; --fg: #f1e4e8; --muted: #a8939a; --line: #33242a; --card: #1f161a; --accent: #f08aab; --accent-bg: #3a1e29 }
+}
+:root[data-theme="dark"] { --bg: #171013; --fg: #f1e4e8; --muted: #a8939a; --line: #33242a; --card: #1f161a; --accent: #f08aab; --accent-bg: #3a1e29 }
