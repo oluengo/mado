@@ -518,7 +518,8 @@ Mado.t = lang => { const B = (window.MADO_I18N || {}).BLOG || {}; return B[lang]
 Mado.ta = lang => { const A = (window.MADO_I18N || {}).ADMIN || {}; return A[lang] || A.es; };
 
 /* Proyecto original (mención en el pie). Puedes cambiarlo, aunque se agradece que lo mantengas. */
-Mado.PROJECT = { name: 'Mado', url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
+Mado.VERSION = '0.2.0';
+Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;
 })();

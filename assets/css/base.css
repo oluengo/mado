@@ -112,3 +112,5 @@ img, video { max-width: 100% }
 .mado-setup { padding-top: 64px }
 .mado-setup .mado-row { display: flex; gap: 8px; margin-top: 8px }
 .mado-setup form { margin-top: 28px }
+.mado-ver{opacity:.7;font-size:.9em;text-decoration:none}
+.mado-ver:hover{opacity:1;text-decoration:underline}

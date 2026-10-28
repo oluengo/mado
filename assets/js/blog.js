@@ -122,7 +122,7 @@ function renderBrand() {
     `<p class="mado-footer-author">${T.by} <a class="mado-av mado-av-f ${halo}" href="${njump}" target="_blank" rel="noopener" title="${Mado.esc(tip)}" aria-label="${Mado.esc(tip)}"><img id="mado-flogo" src="${Mado.esc(logo)}" alt=""></a><a href="${njump}" target="_blank" rel="noopener">${name}</a></p>` +
     // Estado de la verificación y mención al proyecto original.
     (status ? `<p class="mado-credit">${status.replace(/ · $/, '')}</p>` : '') +
-    `<p class="mado-credit">${T.madeWith} <a href="${Mado.PROJECT.url}" target="_blank" rel="noopener">${Mado.PROJECT.name}</a> · <a href="${Mado.PROJECT.url}/blob/main/LICENSE" target="_blank" rel="noopener">${T.license}</a></p>`;
+    `<p class="mado-credit">${T.madeWith} <a href="${Mado.PROJECT.url}" target="_blank" rel="noopener">${Mado.PROJECT.name}</a> <a class="mado-ver" href="${Mado.PROJECT.url}/releases" target="_blank" rel="noopener" title="${Mado.PROJECT.name} ${Mado.PROJECT.version}">v${Mado.PROJECT.version}</a> · <a href="${Mado.PROJECT.url}/blob/main/LICENSE" target="_blank" rel="noopener">${T.license}</a></p>`;
   Mado.avatarFallback($('#mado-flogo'), fallback);
   state.siteTitle = title;
   renderNav();

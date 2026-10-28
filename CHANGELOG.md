@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.2.0 (2026-10-28)
+
+- Version number shown next to "Made with Mado" (links to the releases).
 
 - Videos in notes and articles show as players, paused until the visitor starts them (by file extension or NIP-92 `imeta` type).
 - YouTube links (watch, youtu.be, shorts, live) show the thumbnail with a play button; the player (youtube-nocookie) only loads when the visitor clicks, keeping the start time.
