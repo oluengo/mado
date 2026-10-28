@@ -11,6 +11,7 @@ Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por t
 - Portada paginada, enlaces permanentes, secciones por hashtag, nube de etiquetas, buscador y página «Sobre mí».
 - Filtros por hashtag (incluir/excluir, alguno/todos), publicaciones fijadas y respuestas ocultas.
 - Aspecto en tres piezas independientes: 6 diseños (estructura), 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos libremente y crea los tuyos.
+- Interacciones de Nostr, cada una opcional: reacciones, comentarios (número y texto en hilo), zaps, citas y reposts.
 - Cinco idiomas: castellano, català, English, italiano y Deutsch.
 - Página de configuración (`admin.html`) que genera `config.json`: no hace falta editar JSON a mano.
 - Cada evento se comprueba con su firma, y tu web puede demostrar que es tuya (NIP-05 o enlace firmado).

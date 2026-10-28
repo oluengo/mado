@@ -75,7 +75,7 @@ Cada pieza lleva ya su id; **incluye cada pieza una sola vez** (`aside` es opcio
 | `ctx.defaultItem(post)` | La tarjeta de publicación por defecto de Mado |
 | `ctx.href(post)`, `ctx.tagHref(tag)` | Enlaces |
 | `ctx.date(post)`, `ctx.month(post)` | Fecha formateada, «Mes de año» |
-| `ctx.meta(post)`, `ctx.tags(post)`, `ctx.cover(post)` | Piezas HTML ya hechas |
+| `ctx.meta(post)`, `ctx.tags(post)`, `ctx.cover(post)`, `ctx.ix(post)` | Piezas HTML ya hechas (`ix` = contadores de interacciones, se rellenan al cargar) |
 | `ctx.excerpt(post)` | Resumen o extracto |
 | `ctx.esc(texto)` | Texto escapado para HTML: úsalo con cualquier texto que insertes |
 | `ctx.home`, `ctx.page`, `ctx.pages` | ¿Es la portada? Página actual y total |

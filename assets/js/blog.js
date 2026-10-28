@@ -35,6 +35,8 @@ async function start() {
     const play = e => { const el = e.target.closest && e.target.closest('.mado-yt:not(.is-playing)'); if (!el) return; e.preventDefault(); Mado.playYoutube(el); };
     document.addEventListener('click', play);
     document.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') play(e); });
+    // Ir a las respuestas sin cambiar la ruta (#/post/…).
+    document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('[data-ix-go]'); if (!a) return; e.preventDefault(); const r = $('#mado-replies'); if (r) r.scrollIntoView({ behavior: 'smooth' }); });
   }
   Mado.playLabel = T.playVideo;
   route();
@@ -277,6 +279,7 @@ function viewList({ tag, q, page }) {
   view((heading ? `<h2 class="mado-heading">${Mado.esc(heading)}</h2>` : '') +
     (items.length ? renderList(items, { page, pages, home: !tag && !q }) : `<p class="mado-status">${T.empty}</p>`) +
     pager(page, pages, base));
+  if (items.length) loadIx(items, false);
 }
 
 // Lo que recibe un diseño para pintar: piezas ya hechas y utilidades.
@@ -284,7 +287,7 @@ function ctx(extra = {}) {
   return {
     lang, T, cfg, esc: Mado.esc, href: postHref, tagHref,
     item: p => (layout.item || itemHtml)(p, ctx(extra)), defaultItem: itemHtml,
-    meta: metaHtml, tags: tagsHtml, excerpt,
+    meta: metaHtml, tags: tagsHtml, excerpt, ix: p => ixSlot(p, false),
     date: p => Mado.fmtDate(p.date, cfg.site.dateFormat, lang), month: p => Mado.fmtMonth(p.date, lang),
     cover: p => p.image ? `<a class="mado-cover-link" href="${postHref(p)}" tabindex="-1"><img class="mado-cover" src="${Mado.esc(p.image)}" alt="" loading="lazy"></a>` : '',
     ...extra
@@ -313,7 +316,7 @@ function excerpt(p) {
 function itemHtml(p) {
   if (!p.isArticle) {
     return `<article class="mado-item mado-note${p.pinned ? ' is-pinned' : ''}"><a class="mado-note-link" href="${postHref(p)}">${metaHtml(p)}</a>
-      <div class="mado-text">${Mado.linkify(p.content, tagHref, p.media)}</div>${tagsHtml(p)}</article>`;
+      <div class="mado-text">${Mado.linkify(p.content, tagHref, p.media)}</div>${tagsHtml(p)}${ixSlot(p, false)}</article>`;
   }
   const url = postHref(p);
   return `<article class="mado-item${p.pinned ? ' is-pinned' : ''}${p.image ? ' has-cover' : ''}">
@@ -322,7 +325,7 @@ function itemHtml(p) {
       <h2><a href="${url}">${Mado.esc(p.title)}</a></h2>
       ${metaHtml(p)}
       <p class="mado-excerpt">${Mado.esc(excerpt(p))}</p>
-      ${tagsHtml(p)}
+      ${tagsHtml(p)}${ixSlot(p, false)}
     </div></article>`;
 }
 
@@ -357,14 +360,120 @@ async function viewPost(slug) {
     ${p.isArticle && p.summary ? `<p class="mado-lead">${Mado.esc(p.summary)}</p>` : ''}
     <div class="mado-body">${p.isArticle ? Mado.md(p.content, p.media) : `<div class="mado-text">${Mado.linkify(p.content, tagHref, p.media)}</div>`}</div>
     ${tagsHtml(p)}
+    ${ixSlot(p, true)}
     <div class="mado-actions">
       <a href="#/" onclick="if(history.length>1){history.back();return false}">${T.back}</a>
       <a href="https://njump.me/${nostrId}" target="_blank" rel="noopener">${T.openNostr}</a>
       <button class="mado-btn" id="mado-copy">${T.copy}</button>
-    </div></article>`);
+    </div>
+    ${ixOn().replyList ? `<section class="mado-replies" id="mado-replies" data-for="${p.id}"><h2 class="mado-replies-h">${T.ixReplies}</h2><p class="mado-status">${T.loading}</p></section>` : ''}
+    </article>`);
+  loadIx([p], true, nostrId);
   $('#mado-copy').onclick = async e => {
     try { await navigator.clipboard.writeText(location.href); e.target.textContent = T.copied; } catch {}
   };
+}
+
+/* ---------- Interacciones ---------- */
+const ixMem = {}, profMem = {};
+const ixOn = () => cfg.interactions || {};
+const ixAny = () => { const o = ixOn(); return o.reactions || o.replies || o.zaps || o.quotes || o.reposts; };
+// Hueco donde se pintan los contadores; se rellena cuando llegan los datos.
+function ixSlot(p, full) {
+  if (!ixAny() || (!full && !ixOn().inList)) return '';
+  return `<div class="mado-ix" data-ix="${p.id}" hidden></div>`;
+}
+const ICON = {
+  reactions: '<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  replies: '<path d="M5 5h14v10H9l-4 4z"/>',
+  reposts: '<path d="M7 7h10l-3-3M17 17H7l3 3M17 7v5M7 17v-5"/>',
+  quotes: '<path d="M6 17c2-1 3-3 3-6V7H5v4h4M15 17c2-1 3-3 3-6V7h-4v4h4"/>',
+  zaps: '<path d="M13 3 6 13h5l-1 8 7-10h-5z"/>'
+};
+const icon = k => `<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${ICON[k]}</svg>`;
+const coordOf = p => p.isArticle && p.d ? `${p.kind}:${p.pubkey}:${p.d}` : '';
+
+function ixBar(p, s, full) {
+  const o = ixOn(), n = v => Mado.fmtCount(v, lang), out = [];
+  const add = (k, v, label, text) => { if (o[k] && v > 0) out.push(`<span class="mado-ix-i mado-ix-${k}" title="${Mado.esc(label)}" aria-label="${Mado.esc(label)}">${icon(k)}<span>${text}</span></span>`); };
+  const emo = Object.entries(s.emojis || {}).sort((a, b) => b[1] - a[1]).slice(0, 6).map(([e, c]) => `${e} ${c}`).join('  ');
+  add('reactions', s.reactions, T.ixReactionsN(s.reactions) + (emo ? ` · ${emo}` : ''), n(s.reactions));
+  if (o.replies && s.replies > 0) {
+    const label = Mado.esc(T.ixRepliesN(s.replies));
+    out.push(full ? `<a class="mado-ix-i mado-ix-replies" href="#mado-replies" data-ix-go title="${label}" aria-label="${label}">${icon('replies')}<span>${n(s.replies)}</span></a>`
+      : `<a class="mado-ix-i mado-ix-replies" href="${postHref(p)}" title="${label}" aria-label="${label}">${icon('replies')}<span>${n(s.replies)}</span></a>`);
+  }
+  add('reposts', s.reposts, T.ixRepostsN(s.reposts), n(s.reposts));
+  add('quotes', s.quotes, T.ixQuotesN(s.quotes), n(s.quotes));
+  add('zaps', s.zaps, T.ixZapsN(s.zaps, n(s.sats)), s.sats ? n(s.sats) : n(s.zaps));
+  return out.join('');
+}
+
+function paintIx(p, s, full) {
+  document.querySelectorAll(`.mado-ix[data-ix="${p.id}"]`).forEach(el => {
+    const html = ixBar(p, s, full);
+    el.innerHTML = html; el.hidden = !html;
+  });
+}
+
+const summary = d => ({ reactions: d.reactions, emojis: d.emojis, replies: d.replies.length, zaps: d.zaps, sats: d.sats, quotes: d.quotes, reposts: d.reposts });
+
+async function loadIx(posts, full, nostrId) {
+  const o = ixOn();
+  if (!ixAny() && !(full && o.replyList)) return;
+  if (!full && !o.inList) return;
+  const ttl = cfg.advanced.cacheMinutes * 60000, todo = [];
+  for (const p of posts) {
+    const c = ixMem[p.id] || Mado.store.get('mado-ix:' + p.id);
+    if (c) paintIx(p, c.data, full);
+    if (full || !c || Date.now() - c.ts >= ttl) todo.push(p);
+  }
+  if (!todo.length) return;
+  let res;
+  try { res = await Mado.fetchInteractions(cfg.relays, todo.map(p => ({ id: p.id, coord: coordOf(p) })), { ...o, replyList: full && o.replyList }, cfg.advanced.timeoutMs); }
+  catch { return; }
+  for (const p of todo) {
+    const s = summary(res[p.id]), c = { ts: Date.now(), data: s };
+    ixMem[p.id] = c; Mado.store.set('mado-ix:' + p.id, c);
+    paintIx(p, s, full);
+  }
+  if (full && o.replyList) renderReplies(todo[0], res[todo[0].id].replies, nostrId);
+}
+
+async function renderReplies(p, replies, nostrId) {
+  const box = document.getElementById('mado-replies');
+  if (!box || box.dataset.for !== p.id) return;
+  const foot = `<p class="mado-replies-foot"><a href="https://njump.me/${nostrId}" target="_blank" rel="noopener">${T.ixReplyOn}</a></p>`;
+  const head = `<h2 class="mado-replies-h">${T.ixReplies}${replies.length ? ` <span>${replies.length}</span>` : ''}</h2>`;
+  if (!replies.length) { box.innerHTML = head + `<p class="mado-status">${T.ixNoReplies}</p>` + foot; return; }
+  // Perfiles de quienes responden (nombre y foto).
+  const want = [...new Set(replies.map(e => e.pubkey))].filter(k => !profMem[k]).slice(0, 150);
+  if (want.length) {
+    try {
+      const metas = await Mado.query(cfg.relays, { kinds: [0], authors: want }, { timeout: cfg.advanced.timeoutMs });
+      metas.sort((a, b) => a.created_at - b.created_at).forEach(m => { try { profMem[m.pubkey] = JSON.parse(m.content); } catch {} });
+    } catch {}
+    want.forEach(k => { if (!profMem[k]) profMem[k] = {}; });
+  }
+  if (box.dataset.for !== p.id || !document.body.contains(box)) return;
+  // Hilo: cada respuesta cuelga de su padre; si el padre no está, va al primer nivel.
+  const ids = new Set(replies.map(e => e.id)), kids = {};
+  replies.forEach(e => { const par = Mado.replyParent(e); const k = par && ids.has(par) && par !== e.id ? par : ''; (kids[k] = kids[k] || []).push(e); });
+  const fallback = cfg.site.fallbackAvatar || Mado.DEFAULT_AVATAR;
+  const one = (e, depth) => {
+    const pr = profMem[e.pubkey] || {}, npub = Mado.hexToNpub(e.pubkey);
+    const name = Mado.esc(pr.display_name || pr.name || npub.slice(0, 12) + '…');
+    const pic = Mado.esc(pr.picture || fallback);
+    const sub = (kids[e.id] || []).map(c => one(c, depth + 1)).join('');
+    return `<div class="mado-reply${depth ? ' is-sub' : ''}">
+      <div class="mado-reply-head"><a class="mado-reply-av" href="https://njump.me/${npub}" target="_blank" rel="noopener"><img src="${pic}" alt="" loading="lazy" data-fb></a>
+        <a class="mado-reply-name" href="https://njump.me/${npub}" target="_blank" rel="noopener">${name}</a>
+        <a class="mado-reply-date" href="https://njump.me/${Mado.nevent(e.id, e.pubkey)}" target="_blank" rel="noopener">${Mado.fmtDate(e.created_at, 'relative', lang)}</a></div>
+      <div class="mado-text mado-reply-text">${Mado.linkify(e.content, tagHref, Mado.imeta(e))}</div>
+      ${sub ? `<div class="mado-reply-kids${depth >= 3 ? ' is-flat' : ''}">${sub}</div>` : ''}</div>`;
+  };
+  box.innerHTML = head + `<div class="mado-reply-list">${(kids[''] || []).map(e => one(e, 0)).join('')}</div>` + foot;
+  box.querySelectorAll('img[data-fb]').forEach(i => Mado.avatarFallback(i, fallback));
 }
 
 function viewTags() {

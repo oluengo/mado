@@ -67,6 +67,22 @@ List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `rel
 | `sections` | `[]` | Menu entries that show a hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | External links: `{ "label": "GitHub", "url": "https://…" }`. |
 
+## `interactions`
+
+What other people do with your posts on Nostr. Each option is independent. Data is read from the relays in `relays`, so numbers may differ slightly from other clients.
+
+| Field | Default | Description |
+|---|---|---|
+| `reactions` | `true` | Reactions (kind 7): one per person; the emoji breakdown shows on hover. |
+| `replies` | `true` | Number of comments (kind 1 notes and NIP-22 comments, kind 1111). |
+| `replyList` | `true` | Comment text, threaded, at the end of each post, with a link to reply on Nostr. |
+| `zaps` | `true` | Zaps (kind 9735): total sats. |
+| `quotes` | `true` | Quotes: notes that mention the post (`q` tag). |
+| `reposts` | `true` | Reposts (kind 6 and 16), one per person. |
+| `inList` | `true` | Also show counters on the home page and listings. If `false`, only inside the post. |
+
+Counters are kept in the local cache (`advanced.cacheMinutes`). The "Compact" layout does not show them in the list.
+
 ## `advanced`
 
 | Field | Default | Description |

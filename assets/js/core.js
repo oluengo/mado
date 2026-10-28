@@ -40,6 +40,16 @@ Mado.DEFAULTS = {
     excerptLength: 220, footer: ''
   },
   nav: { showAllTags: true, showAbout: true, sections: [], links: [] },
+  // Interacciones de otras personas con cada publicación. Cada una se activa por separado.
+  interactions: {
+    reactions: true,         // reacciones (kind 7)
+    replies: true,           // número de respuestas
+    replyList: true,         // texto de las respuestas, en la página de la publicación
+    zaps: true,              // zaps (kind 9735): número y sats
+    quotes: true,            // citas (notas que la mencionan)
+    reposts: true,           // reposts (kind 6 / 16)
+    inList: true             // mostrar los contadores también en la portada y los listados
+  },
   advanced: { cacheMinutes: 10, timeoutMs: 7000, verifySignatures: true }
 };
 
@@ -127,9 +137,9 @@ Mado.verifySignatures = true;
 Mado.verifyEvent = e => !Mado.verifySignatures || !!(window.NostrVerify && window.NostrVerify.verifyEvent(e));
 
 /* ---------- Relays ---------- */
-// Consulta un filtro en varios relays y devuelve los eventos únicos con firma válida.
+// Consulta uno o varios filtros en varios relays y devuelve los eventos únicos con firma válida.
 Mado.query = (relays, filter, { timeout = 7000 } = {}) => new Promise(resolve => {
-  const events = new Map(), socks = [];
+  const events = new Map(), socks = [], filters = Array.isArray(filter) ? filter : [filter];
   let pending = relays.length, finished = false, timer;
   const finish = () => {
     if (finished) return; finished = true; clearTimeout(timer);
@@ -144,7 +154,7 @@ Mado.query = (relays, filter, { timeout = 7000 } = {}) => new Promise(resolve =>
     let ws; try { ws = new WebSocket(url); } catch { return done(); }
     socks.push(ws);
     const sub = 'mado' + Math.random().toString(36).slice(2, 9);
-    ws.onopen = () => ws.send(JSON.stringify(['REQ', sub, filter]));
+    ws.onopen = () => ws.send(JSON.stringify(['REQ', sub, ...filters]));
     ws.onmessage = m => {
       let d; try { d = JSON.parse(m.data); } catch { return; }
       if (d[0] === 'EVENT' && d[1] === sub && d[2] && d[2].id && !events.has(d[2].id) && Mado.verifyEvent(d[2])) events.set(d[2].id, d[2]);
@@ -518,7 +528,97 @@ Mado.t = lang => { const B = (window.MADO_I18N || {}).BLOG || {}; return B[lang]
 Mado.ta = lang => { const A = (window.MADO_I18N || {}).ADMIN || {}; return A[lang] || A.es; };
 
 /* Proyecto original (mención en el pie). Puedes cambiarlo, aunque se agradece que lo mantengas. */
-Mado.VERSION = '0.2.0';
+/* ---------- Interacciones (reacciones, respuestas, zaps, citas, reposts) ---------- */
+// Importe de un zap en sats: primero la petición firmada (tag amount, msats), si no la factura bolt11.
+Mado.zapSats = e => {
+  try {
+    const req = JSON.parse(Mado.tag(e, 'description') || '{}');
+    const a = +((req.tags || []).find(t => t[0] === 'amount') || [])[1];
+    if (a > 0) return Math.floor(a / 1000);
+  } catch {}
+  const m = /^ln(?:bc|tb|bcrt)(\d+)([munp]?)1/i.exec(Mado.tag(e, 'bolt11') || '');
+  if (!m) return 0;
+  const mult = { m: 1e-3, u: 1e-6, n: 1e-9, p: 1e-12, '': 1 }[m[2].toLowerCase()];
+  return Math.floor(+m[1] * mult * 1e8);
+};
+
+// Padre directo de una respuesta (NIP-10 / NIP-22): marca "reply", si no la última "e".
+Mado.replyParent = e => {
+  const es = e.tags.filter(t => t[0] === 'e' && t[1]);
+  if (e.kind === 1111) return (es[0] || [])[1] || '';
+  const r = es.find(t => t[3] === 'reply'), root = es.find(t => t[3] === 'root');
+  if (r) return r[1];
+  if (root) return root[1];
+  const plain = es.filter(t => !t[3] || t[3] === '');
+  return (plain[plain.length - 1] || [])[1] || '';
+};
+
+// Pide y clasifica las interacciones de varias publicaciones a la vez.
+// posts: [{ id, coord? }] (coord = "30023:pubkey:d" en artículos). opts = cfg.interactions.
+// Devuelve { [id]: { reactions, emojis, replies: [eventos], zaps, sats, quotes, reposts } }.
+Mado.fetchInteractions = async (relays, posts, opts, timeout = 7000) => {
+  const out = {}, ids = [], coords = [], byRef = {};
+  posts.forEach(p => {
+    out[p.id] = { reactions: 0, emojis: {}, replies: [], zaps: 0, sats: 0, quotes: 0, reposts: 0 };
+    ids.push(p.id); byRef[p.id] = p.id;
+    if (p.coord) { coords.push(p.coord); byRef[p.coord] = p.id; }
+  });
+  if (!ids.length) return out;
+  const kinds = [];
+  if (opts.reactions) kinds.push(7);
+  if (opts.replies || opts.replyList || opts.quotes) kinds.push(1);
+  if (opts.replies || opts.replyList) kinds.push(1111);
+  if (opts.reposts) kinds.push(6, 16);
+  if (opts.zaps) kinds.push(9735);
+  if (!kinds.length) return out;
+  const filters = [{ kinds, '#e': ids, limit: 1000 }];
+  if (coords.length) filters.push({ kinds, '#a': coords, limit: 1000 });
+  if (kinds.includes(1111)) {
+    filters.push({ kinds: [1111], '#E': ids, limit: 500 });
+    if (coords.length) filters.push({ kinds: [1111], '#A': coords, limit: 500 });
+  }
+  if (opts.quotes) filters.push({ kinds: [1], '#q': [...ids, ...coords], limit: 500 });
+  const events = await Mado.query(relays, filters, { timeout });
+  const seen = {}; // reacciones y reposts: uno por persona y publicación
+  for (const e of events) {
+    const refs = new Map(); // id de publicación -> etiquetas que la señalan
+    for (const t of e.tags) {
+      const id = byRef[t[1]];
+      if (id && 'eEaAq'.includes(t[0]) && t[0].length === 1) { if (!refs.has(id)) refs.set(id, []); refs.get(id).push(t); }
+    }
+    for (const [id, ts] of refs) {
+      const o = out[id];
+      if (e.kind === 7) {
+        const c = (e.content || '+').trim() || '+';
+        if (c === '-' || seen[`r${id}${e.pubkey}`]) continue;
+        seen[`r${id}${e.pubkey}`] = 1; o.reactions++;
+        const k = c === '+' ? '♥' : /^:[\w-]+:$/.test(c) ? '♥' : c.slice(0, 8);
+        o.emojis[k] = (o.emojis[k] || 0) + 1;
+      } else if (e.kind === 6 || e.kind === 16) {
+        if (seen[`p${id}${e.pubkey}`]) continue;
+        seen[`p${id}${e.pubkey}`] = 1; o.reposts++;
+      } else if (e.kind === 9735) {
+        o.zaps++; o.sats += Mado.zapSats(e);
+      } else if (e.kind === 1111) {
+        o.replies.push(e);
+      } else if (e.kind === 1) {
+        // Cita: etiqueta q, o mención antigua (marca "mention"). Si no, es una respuesta.
+        if (ts.some(t => t[0] === 'q' || t[3] === 'mention')) o.quotes++;
+        else o.replies.push(e);
+      }
+    }
+  }
+  for (const id in out) out[id].replies.sort((a, b) => a.created_at - b.created_at);
+  return out;
+};
+
+// Número corto: 1234 -> 1,2 k
+Mado.fmtCount = (n, lang) => {
+  const loc = ((window.MADO_I18N || {}).LOCALES || {})[lang] || 'es-ES';
+  try { return new Intl.NumberFormat(loc, { notation: 'compact', maximumFractionDigits: 1 }).format(n); } catch { return String(n); }
+};
+
+Mado.VERSION = '0.3.0';
 Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;

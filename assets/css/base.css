@@ -114,3 +114,28 @@ img, video { max-width: 100% }
 .mado-setup form { margin-top: 28px }
 .mado-ver{opacity:.7;font-size:.9em;text-decoration:none}
 .mado-ver:hover{opacity:1;text-decoration:underline}
+
+/* Interacciones: contadores discretos y respuestas */
+.mado-ix { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 10px; color: var(--muted); font-size: .8rem }
+.mado-ix-i { display: inline-flex; align-items: center; gap: 5px; color: inherit; text-decoration: none }
+.mado-ix-i svg { flex: none; opacity: .8 }
+a.mado-ix-i:hover { color: var(--accent) }
+.mado-ix-zaps svg { color: #e0a33a }
+.mado-post > .mado-ix { margin: 18px 0 0; font-size: .85rem }
+.mado-replies { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line) }
+.mado-replies-h { font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; margin: 0 0 16px }
+.mado-replies-h span { color: var(--muted); font-weight: 400; margin-left: 4px }
+.mado-replies .mado-status { padding: 4px 0 }
+.mado-reply-list { display: grid; gap: 18px }
+.mado-reply { min-width: 0 }
+.mado-reply-head { display: flex; align-items: center; gap: 8px; font-size: .85rem; flex-wrap: wrap }
+.mado-reply-av { width: 26px; height: 26px; flex: none; line-height: 0 }
+.mado-reply-av img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; background: var(--line) }
+.mado-reply-name { color: var(--fg); font-weight: 600; text-decoration: none }
+.mado-reply-date { color: var(--muted); text-decoration: none; font-size: .8rem }
+.mado-reply-date:hover, .mado-reply-name:hover { color: var(--accent) }
+.mado-reply-text { margin: 4px 0 0 34px; font-size: .93rem; overflow-wrap: anywhere }
+.mado-reply-text .mado-media { max-height: 360px }
+.mado-reply-kids { margin: 12px 0 0 12px; padding-left: 14px; border-left: 2px solid var(--line); display: grid; gap: 14px }
+.mado-reply-kids.is-flat { margin-left: 0; padding-left: 0; border-left: 0 }
+.mado-replies-foot { margin: 18px 0 0; font-size: .85rem }

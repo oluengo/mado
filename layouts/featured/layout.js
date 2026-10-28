@@ -11,7 +11,7 @@ Mado.registerLayout('featured', {
           <h2><a href="${ctx.href(h)}">${ctx.esc(h.title)}</a></h2>
           ${ctx.meta(h)}
           <p class="mado-excerpt">${ctx.esc(ctx.excerpt(h))}</p>
-          ${ctx.tags(h)}
+          ${ctx.tags(h)}${ctx.ix ? ctx.ix(h) : ''}
         </div></article>` : `<div class="mado-hero">${ctx.item(h)}</div>`;
     return hero + grid(rest);
   }

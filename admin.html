@@ -14,23 +14,39 @@
 :root[data-theme="dark"]{--bg:#111113;--fg:#ececef;--muted:#9a9aa2;--line:#2a2a2e;--card:#19191c;--accent:#b18cff;--accent-bg:#241c35;--ok:#4ade80;--err:#fb923c}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
-.wrap{max-width:820px;margin:0 auto;padding:24px 16px 80px}
+.wrap{max-width:900px;margin:0 auto;padding:24px 16px 80px}
 header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
 h1{font-size:20px;margin:0}
 .sub{color:var(--muted);font-size:13px;margin:0 0 18px}
-.bar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0;display:flex;flex-wrap:wrap;gap:8px;border-bottom:1px solid var(--line);margin-bottom:18px}
+.sticky{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);margin-bottom:16px}
+.bar{padding:10px 0 8px;display:flex;flex-wrap:wrap;gap:8px}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;margin-bottom:-1px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:9px 12px;white-space:nowrap;color:var(--muted);font-size:13.5px}
+.tabs button:hover{color:var(--fg);border-color:var(--line)}
+.tabs button[aria-selected=true]{color:var(--accent);border-color:var(--accent);font-weight:600}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 16px;display:grid;gap:16px}
+.panel[hidden]{display:none}
+.panel h3{font-size:13px;font-weight:600;margin:0;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.group{display:grid;gap:12px}
+.group+.group{border-top:1px solid var(--line);padding-top:16px}
+.ver{font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+.toggles{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.toggle{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-weight:400;cursor:pointer}
+.toggle:has(input:checked){border-color:var(--accent);background:var(--accent-bg)}
+.toggle input{width:16px;height:16px;margin:2px 0 0;accent-color:var(--accent);flex:none}
+.toggle b{font-size:13.5px;font-weight:600;display:block}
+.toggle .hint{display:block}
+.toggle svg{flex:none;color:var(--accent);margin-top:1px}
 button,.btn{font:inherit;font-size:13px;color:var(--fg);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
 button:hover,.btn:hover{border-color:var(--accent);color:var(--accent)}
 .primary{background:var(--accent);border-color:var(--accent);color:#fff}
 .primary:hover{color:#fff;opacity:.9}
-details.card{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:14px}
-details.card>summary{cursor:pointer;padding:14px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between}
-details.card>summary::after{content:"+";color:var(--muted)}
-details.card[open]>summary::after{content:"–"}
-details.card>summary small{font-weight:400;color:var(--muted);margin-left:8px}
 .body{padding:0 16px 16px;display:grid;gap:14px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:720px){.grid3{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.grid,.grid3{grid-template-columns:1fr}}
 label{display:grid;gap:5px;font-size:13px;font-weight:500}
 label small,.hint{font-weight:400;color:var(--muted);font-size:12px}
 input[type=text],input[type=number],input[type=url],select,textarea{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
@@ -38,8 +54,8 @@ textarea{min-height:90px;resize:vertical;font-family:ui-monospace,Menlo,monospac
 .check{display:flex;align-items:center;gap:8px;font-weight:400}
 .check input{width:16px;height:16px;accent-color:var(--accent)}
 .checks{display:flex;flex-wrap:wrap;gap:8px 20px}
-.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
-.theme-opt{position:relative;border:1px solid var(--line);border-radius:10px;padding:12px;cursor:pointer;display:grid;gap:4px;font-weight:400}
+.themes{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.theme-opt{position:relative;border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer;display:grid;gap:4px;font-weight:400}
 .theme-opt:has(input:checked){border-color:var(--accent);background:var(--accent-bg)}
 .theme-opt input{position:absolute;opacity:0}
 .theme-opt b{font-size:14px}
@@ -51,7 +67,8 @@ textarea{min-height:90px;resize:vertical;font-family:ui-monospace,Menlo,monospac
 .profile{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);min-height:20px}
 .profile img{width:32px;height:32px;border-radius:50%;object-fit:cover}
 .msg{font-size:13px;color:var(--muted);min-height:18px}
-.msg.ok{color:var(--ok)}.msg.err{color:var(--err)}
+.msg.ok{color:var(--ok)}
+#msg:empty{display:none}.msg.err{color:var(--err)}
 .result{border-top:1px solid var(--line);padding-top:14px;display:grid;gap:12px}
 .scroll{max-height:280px;overflow:auto;border:1px solid var(--line);border-radius:8px}
 table{width:100%;border-collapse:collapse;font-size:13px}
@@ -71,7 +88,7 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 <body>
 <div class="wrap">
 <header>
-  <h1 data-i18n="title">Configuración del blog</h1>
+  <h1><span data-i18n="title">Configuración del blog</span><span class="ver" id="ver"></span></h1>
   <div style="display:flex;gap:8px;align-items:center">
     <select id="ui-lang" data-i18n-title="uiLang" aria-label="Idioma" style="width:auto"></select>
     <button id="mode" data-i18n-title="mode">◐</button>
@@ -79,6 +96,7 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 </header>
 <p class="sub" data-i18n="sub"></p>
 
+<div class="sticky">
 <div class="bar">
   <button class="primary" id="b-preview" data-i18n="bPreview"></button>
   <button id="b-download" data-i18n="bDownload"></button>
@@ -86,82 +104,133 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
   <label class="btn" style="display:inline-flex"><span data-i18n="bImport"></span><input type="file" id="b-import" accept=".json,application/json" hidden></label>
   <button id="b-reload" data-i18n="bReload"></button>
 </div>
+<nav class="tabs" role="tablist" id="tabs">
+  <button type="button" role="tab" data-tab="author" data-i18n="tAuthor"></button>
+  <button type="button" role="tab" data-tab="content" data-i18n="tContent"></button>
+  <button type="button" role="tab" data-tab="look" data-i18n="tLook"></button>
+  <button type="button" role="tab" data-tab="site" data-i18n="tSite"></button>
+  <button type="button" role="tab" data-tab="ix" data-i18n="tIx"></button>
+  <button type="button" role="tab" data-tab="nav" data-i18n="tNav"></button>
+  <button type="button" role="tab" data-tab="verify" data-i18n="tVerify"></button>
+  <button type="button" role="tab" data-tab="adv" data-i18n="tAdv"></button>
+</nav>
+</div>
 <p class="msg" id="msg"></p>
 
 <form id="form" onsubmit="return false">
 
-<details class="card" open><summary data-i18n="s1"></summary><div class="body">
+<section class="panel" role="tabpanel" data-panel="author">
   <label><span data-i18n="npub"></span> <small data-i18n="npubH"></small>
     <input type="text" data-path="author.npub" placeholder="npub1…" autocomplete="off"></label>
   <div class="profile" id="profile"></div>
   <label><span data-i18n="relays"></span> <small data-i18n="relaysH"></small>
     <textarea data-path="relays" data-type="lines"></textarea></label>
-</div></details>
+</section>
 
-<details class="card" open><summary data-i18n="s2"></summary><div class="body">
-  <div><span class="hint" data-i18n="kinds"></span>
-    <div class="checks" style="margin-top:6px">
-      <label class="check"><input type="checkbox" data-path="content.kinds" data-type="kinds" value="30023"> <span data-i18n="kArticles"></span></label>
-      <label class="check"><input type="checkbox" data-path="content.kinds" data-type="kinds" value="1"> <span data-i18n="kNotes"></span></label>
-    </div></div>
-  <div class="grid">
-    <label><span data-i18n="inc"></span> <small data-i18n="incH"></small>
-      <input type="text" data-path="content.includeTags" data-type="list" placeholder="bitcoin, nostr"></label>
-    <label><span data-i18n="match"></span>
-      <select data-path="content.tagMode"><option value="any" data-i18n="any"></option><option value="all" data-i18n="all"></option></select></label>
-    <label><span data-i18n="exc"></span> <small data-i18n="excH"></small>
-      <input type="text" data-path="content.excludeTags" data-type="list"></label>
-    <label><span data-i18n="max"></span>
-      <input type="number" min="10" max="2000" step="10" data-path="content.maxPosts" data-type="number"></label>
+<section class="panel" role="tabpanel" data-panel="content" hidden>
+  <div class="group">
+    <div><span class="hint" data-i18n="kinds"></span>
+      <div class="checks" style="margin-top:6px">
+        <label class="check"><input type="checkbox" data-path="content.kinds" data-type="kinds" value="30023"> <span data-i18n="kArticles"></span></label>
+        <label class="check"><input type="checkbox" data-path="content.kinds" data-type="kinds" value="1"> <span data-i18n="kNotes"></span></label>
+        <label class="check"><input type="checkbox" data-path="content.hideReplies"> <span data-i18n="hideReplies"></span></label>
+      </div></div>
+    <div class="grid">
+      <label><span data-i18n="inc"></span> <small data-i18n="incH"></small>
+        <input type="text" data-path="content.includeTags" data-type="list" placeholder="bitcoin, nostr"></label>
+      <label><span data-i18n="match"></span>
+        <select data-path="content.tagMode"><option value="any" data-i18n="any"></option><option value="all" data-i18n="all"></option></select></label>
+      <label><span data-i18n="exc"></span> <small data-i18n="excH"></small>
+        <input type="text" data-path="content.excludeTags" data-type="list"></label>
+      <label><span data-i18n="max"></span>
+        <input type="number" min="10" max="2000" step="10" data-path="content.maxPosts" data-type="number"></label>
+    </div>
+    <label><span data-i18n="pinned"></span> <small data-i18n="pinnedH"></small>
+      <input type="text" data-path="content.pinned" data-type="list"></label>
   </div>
-  <label><span data-i18n="pinned"></span> <small data-i18n="pinnedH"></small>
-    <input type="text" data-path="content.pinned" data-type="list"></label>
-  <label class="check"><input type="checkbox" data-path="content.hideReplies"> <span data-i18n="hideReplies"></span></label>
-  <div><button type="button" id="b-analyze" data-i18n="bAnalyze"></button> <span class="msg" id="analyze-msg"></span></div>
-  <div class="result" id="analyze" hidden></div>
-</div></details>
+  <div class="group">
+    <div><button type="button" id="b-analyze" data-i18n="bAnalyze"></button> <span class="msg" id="analyze-msg"></span></div>
+    <div class="result" id="analyze" hidden></div>
+  </div>
+</section>
 
-<details class="card" open><summary data-i18n="s3"></summary><div class="body">
-  <div><span class="hint" data-i18n="layout"></span><div class="themes" id="layouts" style="margin-top:6px"></div></div>
-  <div><span class="hint" data-i18n="font"></span><div class="themes" id="fonts" style="margin-top:6px"></div></div>
-  <div><span class="hint" data-i18n="theme"></span><div class="themes" id="themes" style="margin-top:6px"></div></div>
-  <div class="grid">
-    <label><span data-i18n="siteTitle"></span> <small data-i18n="siteTitleH"></small><input type="text" data-path="site.title"></label>
-    <label><span data-i18n="desc"></span> <small data-i18n="descH"></small><input type="text" data-path="site.description"></label>
-    <label><span data-i18n="logo"></span> <small data-i18n="logoH"></small><input type="url" data-path="site.logo"></label>
-    <label><span data-i18n="fallback"></span> <small data-i18n="fallbackH"></small><input type="text" data-path="site.fallbackAvatar" placeholder="img/avatar.png"></label>
-    <label><span data-i18n="lang"></span> <small data-i18n="langH"></small><select data-path="site.lang" id="site-lang"></select></label>
-    <label><span data-i18n="colorMode"></span><select data-path="site.colorMode"><option value="auto" data-i18n="cmAuto"></option><option value="light" data-i18n="cmLight"></option><option value="dark" data-i18n="cmDark"></option></select></label>
-    <label><span data-i18n="dateFmt"></span><select data-path="site.dateFormat" id="date-fmt"><option value="long"></option><option value="short"></option><option value="relative"></option></select></label>
-    <label><span data-i18n="order"></span><select data-path="site.order"><option value="desc" data-i18n="newest"></option><option value="asc" data-i18n="oldest"></option></select></label>
-    <label><span data-i18n="perPage"></span><input type="number" min="1" max="100" data-path="site.perPage" data-type="number"></label>
-    <label><span data-i18n="excerpt"></span><input type="number" min="0" max="2000" step="10" data-path="site.excerptLength" data-type="number"></label>
+<section class="panel" role="tabpanel" data-panel="look" hidden>
+  <div class="group"><h3 data-i18n="layout"></h3><div class="themes" id="layouts"></div></div>
+  <div class="group"><h3 data-i18n="theme"></h3><div class="themes" id="themes"></div>
+    <div class="grid3">
+      <label><span data-i18n="colorMode"></span><select data-path="site.colorMode"><option value="auto" data-i18n="cmAuto"></option><option value="light" data-i18n="cmLight"></option><option value="dark" data-i18n="cmDark"></option></select></label>
+      <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="site.modeToggle"> <span data-i18n="modeToggle"></span></label>
+    </div></div>
+  <div class="group"><h3 data-i18n="font"></h3><div class="themes" id="fonts"></div></div>
+</section>
+
+<section class="panel" role="tabpanel" data-panel="site" hidden>
+  <div class="group"><h3 data-i18n="gIdentity"></h3>
+    <div class="grid">
+      <label><span data-i18n="siteTitle"></span> <small data-i18n="siteTitleH"></small><input type="text" data-path="site.title"></label>
+      <label><span data-i18n="desc"></span> <small data-i18n="descH"></small><input type="text" data-path="site.description"></label>
+      <label><span data-i18n="logo"></span> <small data-i18n="logoH"></small><input type="url" data-path="site.logo"></label>
+      <label><span data-i18n="fallback"></span> <small data-i18n="fallbackH"></small><input type="text" data-path="site.fallbackAvatar" placeholder="img/avatar.png"></label>
+    </div>
+    <label class="check"><input type="checkbox" data-path="site.useProfile"> <span data-i18n="useProfile"></span></label>
+  </div>
+  <div class="group"><h3 data-i18n="gLangDates"></h3>
+    <div class="grid3">
+      <label><span data-i18n="lang"></span> <small data-i18n="langH"></small><select data-path="site.lang" id="site-lang"></select></label>
+      <label><span data-i18n="dateFmt"></span><select data-path="site.dateFormat" id="date-fmt"><option value="long"></option><option value="short"></option><option value="relative"></option></select></label>
+      <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="site.langSwitch"> <span data-i18n="langSwitch"></span></label>
+    </div>
+  </div>
+  <div class="group"><h3 data-i18n="gListing"></h3>
+    <div class="grid3">
+      <label><span data-i18n="order"></span><select data-path="site.order"><option value="desc" data-i18n="newest"></option><option value="asc" data-i18n="oldest"></option></select></label>
+      <label><span data-i18n="perPage"></span><input type="number" min="1" max="100" data-path="site.perPage" data-type="number"></label>
+      <label><span data-i18n="excerpt"></span><input type="number" min="0" max="2000" step="10" data-path="site.excerptLength" data-type="number"></label>
+    </div>
+    <div class="checks">
+      <label class="check"><input type="checkbox" data-path="site.showSearch"> <span data-i18n="showSearch"></span></label>
+      <label class="check"><input type="checkbox" data-path="site.showTags"> <span data-i18n="showTags"></span></label>
+      <label class="check"><input type="checkbox" data-path="site.showReadingTime"> <span data-i18n="readingTime"></span></label>
+    </div>
+  </div>
+  <div class="group">
     <label><span data-i18n="footer"></span><input type="text" data-path="site.footer"></label>
   </div>
-  <div class="checks">
-    <label class="check"><input type="checkbox" data-path="site.useProfile"> <span data-i18n="useProfile"></span></label>
-    <label class="check"><input type="checkbox" data-path="site.modeToggle"> <span data-i18n="modeToggle"></span></label>
-    <label class="check"><input type="checkbox" data-path="site.langSwitch"> <span data-i18n="langSwitch"></span></label>
-    <label class="check"><input type="checkbox" data-path="site.showSearch"> <span data-i18n="showSearch"></span></label>
-    <label class="check"><input type="checkbox" data-path="site.showTags"> <span data-i18n="showTags"></span></label>
-    <label class="check"><input type="checkbox" data-path="site.showReadingTime"> <span data-i18n="readingTime"></span></label>
-  </div>
-</div></details>
+</section>
 
-<details class="card" open><summary data-i18n="s4"></summary><div class="body">
+<section class="panel" role="tabpanel" data-panel="ix" hidden>
+  <p class="hint" style="margin:0" data-i18n="ixIntro"></p>
+  <div class="group"><h3 data-i18n="gIxCounts"></h3>
+  <div class="toggles">
+    <label class="toggle"><input type="checkbox" data-path="interactions.reactions"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span><b data-i18n="ix_reactions"></b><span class="hint" data-i18n="ix_reactionsH"></span></span></label>
+    <label class="toggle"><input type="checkbox" data-path="interactions.replies"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14v10H9l-4 4z"/></svg><span><b data-i18n="ix_replies"></b><span class="hint" data-i18n="ix_repliesH"></span></span></label>
+    <label class="toggle"><input type="checkbox" data-path="interactions.zaps"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 3 6 13h5l-1 8 7-10h-5z"/></svg><span><b data-i18n="ix_zaps"></b><span class="hint" data-i18n="ix_zapsH"></span></span></label>
+    <label class="toggle"><input type="checkbox" data-path="interactions.quotes"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 17c2-1 3-3 3-6V7H5v4h4M15 17c2-1 3-3 3-6V7h-4v4h4"/></svg><span><b data-i18n="ix_quotes"></b><span class="hint" data-i18n="ix_quotesH"></span></span></label>
+    <label class="toggle"><input type="checkbox" data-path="interactions.reposts"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10l-3-3M17 17H7l3 3M17 7v5M7 17v-5"/></svg><span><b data-i18n="ix_reposts"></b><span class="hint" data-i18n="ix_repostsH"></span></span></label>
+  </div></div>
+  <div class="group"><h3 data-i18n="gIxShow"></h3>
+  <div class="toggles">
+    <label class="toggle"><input type="checkbox" data-path="interactions.replyList"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5h14v10H9l-4 4zM8 9h8M8 12h5"/></svg><span><b data-i18n="ix_replyList"></b><span class="hint" data-i18n="ix_replyListH"></span></span></label>
+    <label class="toggle"><input type="checkbox" data-path="interactions.inList"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M5 6h14M5 12h14M5 18h9"/></svg><span><b data-i18n="ix_inList"></b><span class="hint" data-i18n="ix_inListH"></span></span></label>
+  </div></div>
+</section>
+
+<section class="panel" role="tabpanel" data-panel="nav" hidden>
   <div class="checks">
     <label class="check"><input type="checkbox" data-path="nav.showAllTags"> <span data-i18n="showAllTags"></span></label>
     <label class="check"><input type="checkbox" data-path="nav.showAbout"> <span data-i18n="showAbout"></span></label>
   </div>
-  <div><span class="hint" data-i18n="sections"></span>
-    <div class="rep" id="sections" style="margin-top:6px"></div>
-    <button type="button" id="add-section" style="margin-top:8px" data-i18n="addSection"></button></div>
-  <div><span class="hint" data-i18n="links"></span>
-    <div class="rep" id="links" style="margin-top:6px"></div>
-    <button type="button" id="add-link" style="margin-top:8px" data-i18n="addLink"></button></div>
-</div></details>
+  <div class="grid">
+    <div><span class="hint" data-i18n="sections"></span>
+      <div class="rep" id="sections" style="margin-top:6px"></div>
+      <button type="button" id="add-section" style="margin-top:8px" data-i18n="addSection"></button></div>
+    <div><span class="hint" data-i18n="links"></span>
+      <div class="rep" id="links" style="margin-top:6px"></div>
+      <button type="button" id="add-link" style="margin-top:8px" data-i18n="addLink"></button></div>
+  </div>
+</section>
 
-<details class="card" open><summary data-i18n="s5"></summary><div class="body">
+<section class="panel" role="tabpanel" data-panel="verify" hidden>
   <p class="hint" style="margin:0" data-i18n="s5Intro"></p>
   <label><span data-i18n="siteUrl"></span> <small data-i18n="siteUrlH"></small>
     <input type="url" data-path="site.url" id="site-url" placeholder="https://…"></label>
@@ -184,26 +253,28 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
   </div>
   <div><button type="button" id="b-verify" data-i18n="bVerify"></button></div>
   <div class="msg" id="verify-msg" style="display:grid;gap:4px"></div>
-</div></details>
+</section>
 
-<details class="card"><summary><span data-i18n="s6"></span> <small data-i18n="s6H"></small></summary><div class="body">
-  <p class="hint" style="margin:0" data-i18n="s6Intro"></p>
-  <label class="check"><input type="checkbox" data-path="remoteConfig.enabled"> <span data-i18n="remoteOn"></span></label>
-  <label><span data-i18n="dTag"></span><input type="text" data-path="remoteConfig.d"></label>
-  <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="b-nostr-load" data-i18n="bNostrLoad"></button><button type="button" id="b-nostr-pub" data-i18n="bNostrPub"></button></div>
-  <p class="msg" id="nostr-msg"></p>
-</div></details>
-
-<details class="card"><summary data-i18n="s7"></summary><div class="body">
-  <label class="check"><input type="checkbox" data-path="advanced.verifySignatures"> <span data-i18n="verifySig"></span> <small data-i18n="verifySigH"></small></label>
-  <div class="grid">
-    <label><span data-i18n="cache"></span> <small data-i18n="cacheH"></small><input type="number" min="0" max="1440" data-path="advanced.cacheMinutes" data-type="number"></label>
-    <label><span data-i18n="timeout"></span><input type="number" min="1000" max="30000" step="500" data-path="advanced.timeoutMs" data-type="number"></label>
+<section class="panel" role="tabpanel" data-panel="adv" hidden>
+  <div class="group"><h3 data-i18n="gPerf"></h3>
+    <label class="check"><input type="checkbox" data-path="advanced.verifySignatures"> <span data-i18n="verifySig"></span> <small data-i18n="verifySigH"></small></label>
+    <div class="grid">
+      <label><span data-i18n="cache"></span> <small data-i18n="cacheH"></small><input type="number" min="0" max="1440" data-path="advanced.cacheMinutes" data-type="number"></label>
+      <label><span data-i18n="timeout"></span><input type="number" min="1000" max="30000" step="500" data-path="advanced.timeoutMs" data-type="number"></label>
+    </div>
+    <div><button type="button" id="b-clear" data-i18n="bClear"></button></div>
   </div>
-  <div><button type="button" id="b-clear" data-i18n="bClear"></button></div>
-</div></details>
-
-<details class="card"><summary data-i18n="jsonOut"></summary><div class="body"><pre id="json"></pre></div></details>
+  <div class="group"><h3><span data-i18n="s6"></span> · <span data-i18n="s6H"></span></h3>
+    <p class="hint" style="margin:0" data-i18n="s6Intro"></p>
+    <div class="grid">
+      <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="remoteConfig.enabled"> <span data-i18n="remoteOn"></span></label>
+      <label><span data-i18n="dTag"></span><input type="text" data-path="remoteConfig.d"></label>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="b-nostr-load" data-i18n="bNostrLoad"></button><button type="button" id="b-nostr-pub" data-i18n="bNostrPub"></button></div>
+    <p class="msg" id="nostr-msg"></p>
+  </div>
+  <div class="group"><h3 data-i18n="jsonOut"></h3><pre id="json"></pre></div>
+</section>
 </form>
 </div>
 <script src="assets/js/vendor/nostr-verify.js"></script>

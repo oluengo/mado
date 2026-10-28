@@ -67,6 +67,22 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 | `sections` | `[]` | Entradas del menú que muestran un hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | Enlaces externos: `{ "label": "GitHub", "url": "https://…" }`. |
 
+## `interactions`
+
+Lo que otras personas hacen con tus publicaciones en Nostr. Cada opción se activa por separado. Se lee de los relays de `relays`, así que los números pueden variar un poco respecto a otros clientes.
+
+| Campo | Por defecto | Descripción |
+|---|---|---|
+| `reactions` | `true` | Reacciones (kind 7): una por persona; el detalle de emojis sale al pasar el ratón. |
+| `replies` | `true` | Número de comentarios (notas kind 1 y comentarios NIP-22, kind 1111). |
+| `replyList` | `true` | Texto de los comentarios, en hilo, al final de cada publicación, con enlace para responder en Nostr. |
+| `zaps` | `true` | Zaps (kind 9735): total de sats. |
+| `quotes` | `true` | Citas: notas que la mencionan (etiqueta `q`). |
+| `reposts` | `true` | Reposts (kind 6 y 16), uno por persona. |
+| `inList` | `true` | Mostrar los contadores también en portada y listados. Si es `false`, solo dentro de la publicación. |
+
+Los contadores se guardan en la caché local (`advanced.cacheMinutes`). El diseño «Compacto» no los muestra en la lista.
+
 ## `advanced`
 
 | Campo | Por defecto | Descripción |

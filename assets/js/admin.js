@@ -344,6 +344,18 @@ $('#b-verify').onclick = async () => {
     (!res.verified && !cfg.remoteConfig.enabled ? `<span>${a('nip78Off')}</span>` : '');
 };
 
+/* ---------- Pestañas ---------- */
+// Cada grupo de opciones en su pestaña; se recuerda la última abierta.
+function showTab(id) {
+  if (!$(`[data-panel="${id}"]`)) id = 'author';
+  $$('#tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === id)));
+  $$('[data-panel]').forEach(p => { p.hidden = p.dataset.panel !== id; });
+  Mado.store.set('mado-admin-tab', id);
+}
+$$('#tabs [data-tab]').forEach(b => { b.onclick = () => showTab(b.dataset.tab); });
+showTab(Mado.store.get('mado-admin-tab') || 'author');
+$('#ver').textContent = 'Mado v' + Mado.VERSION;
+
 applyTexts();   // también busca el perfil si ya hay npub
 fill();
 if (draft) msg(a('draftLoaded'));

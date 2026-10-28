@@ -75,7 +75,7 @@ Each piece already carries its id; **include every piece exactly once** (you can
 | `ctx.defaultItem(post)` | Mado's default post card |
 | `ctx.href(post)`, `ctx.tagHref(tag)` | Links |
 | `ctx.date(post)`, `ctx.month(post)` | Formatted date, "Month Year" |
-| `ctx.meta(post)`, `ctx.tags(post)`, `ctx.cover(post)` | Ready-made HTML pieces |
+| `ctx.meta(post)`, `ctx.tags(post)`, `ctx.cover(post)`, `ctx.ix(post)` | Ready-made HTML pieces (`ix` = interaction counters, filled in after loading) |
 | `ctx.excerpt(post)` | Summary or excerpt text |
 | `ctx.esc(text)` | HTML-escaped text — use it for any text you insert |
 | `ctx.home`, `ctx.page`, `ctx.pages` | Is it the home page? Current page and total |
