@@ -411,6 +411,38 @@ Mado.mediaType = (url, media) => {
 const videoHtml = src => `<video class="mado-media mado-video" src="${src}${src.includes('#') ? '' : '#t=0.1'}" controls preload="metadata" playsinline></video>`;
 const imageHtml = src => `<img class="mado-media" src="${src}" alt="" loading="lazy">`;
 
+/* YouTube: se muestra la miniatura con un botón de play; el reproductor (youtube-nocookie)
+   solo se carga cuando el visitante lo pulsa. Así no se conecta con YouTube antes de tiempo. */
+Mado.youtube = url => {
+  let u; try { u = new URL(String(url).replace(/&amp;/g, '&')); } catch { return null; }
+  const host = u.hostname.replace(/^(www|m|music)\./, '');
+  let id = '', short = false;
+  if (host === 'youtu.be') id = u.pathname.slice(1);
+  else if (host === 'youtube.com' || host === 'youtube-nocookie.com') {
+    const p = u.pathname.split('/').filter(Boolean);
+    if (p[0] === 'watch') id = u.searchParams.get('v') || '';
+    else if (['shorts', 'embed', 'live', 'v'].includes(p[0])) { id = p[1] || ''; short = p[0] === 'shorts'; }
+  }
+  if (!/^[\w-]{11}$/.test(id)) return null;
+  const t = u.searchParams.get('t') || u.searchParams.get('start') || '';
+  const m = String(t).match(/^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?$/);
+  const start = m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0;
+  return { id, start, short };
+};
+Mado.playLabel = 'Play';
+const youtubeHtml = y => `<span class="mado-yt${y.short ? ' mado-yt-short' : ''}" data-yt="${y.id}" data-start="${y.start}" role="button" tabindex="0" aria-label="${Mado.esc(Mado.playLabel)} (YouTube)">` +
+  `<img src="https://i.ytimg.com/vi/${y.id}/hqdefault.jpg" alt="" loading="lazy"><span class="mado-yt-play" aria-hidden="true"></span></span>`;
+// Sustituye la miniatura por el reproductor. Se llama al pulsar (ver blog.js).
+Mado.playYoutube = el => {
+  const id = el.dataset.yt, start = +el.dataset.start || 0;
+  if (!/^[\w-]{11}$/.test(id)) return;
+  const f = document.createElement('iframe');
+  f.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0${start ? '&start=' + start : ''}`;
+  f.title = 'YouTube'; f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen'; f.allowFullscreen = true;
+  f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+  el.replaceChildren(f); el.classList.add('is-playing'); el.removeAttribute('role'); el.removeAttribute('tabindex');
+};
+
 Mado.md = (src, media) => {
   const s = String(src || '').replace(NOSTR_ID, (m, id) => `[${id.slice(0, 14)}…](https://njump.me/${id})`);
   if (!(window.marked && window.DOMPurify)) return `<div class="mado-text">${Mado.linkify(src, null, media)}</div>`;
@@ -426,7 +458,9 @@ Mado.md = (src, media) => {
       if (/^https?:/i.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
       return;
     }
-    if (type === 'video') a.replaceWith(video(href));
+    const yt = Mado.youtube(href);
+    if (yt) { const t = document.createElement('template'); t.innerHTML = youtubeHtml(yt); a.replaceWith(t.content); }
+    else if (type === 'video') a.replaceWith(video(href));
     else if (type === 'image') { const i = document.createElement('img'); i.className = 'mado-media'; i.alt = ''; i.loading = 'lazy'; i.src = href; a.replaceWith(i); }
     else { a.target = '_blank'; a.rel = 'noopener'; }
   });
@@ -438,6 +472,8 @@ Mado.linkify = (text, tagHref, media) => Mado.esc(text).replace(
   /(https?:\/\/[^\s<]*[^\s<.,;:!?)\]])|nostr:((?:npub|nprofile|note|nevent|naddr)1[02-9ac-hj-np-z]+)|(^|\s)#([\p{L}\p{N}_]+)/gu,
   (m, url, nid, pre, ht) => {
     if (url) {
+      const yt = Mado.youtube(url);
+      if (yt) return youtubeHtml(yt);
       const type = Mado.mediaType(url, media);
       if (type === 'image') return imageHtml(url);
       if (type === 'video') return videoHtml(url);

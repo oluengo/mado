@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Videos in notes and articles show as players, paused until the visitor starts them (by file extension or NIP-92 `imeta` type).
+- YouTube links (watch, youtu.be, shorts, live) show the thumbnail with a play button; the player (youtube-nocookie) only loads when the visitor clicks, keeping the start time.
 
 ## 0.1.0 — beta (2026-10-24)
 

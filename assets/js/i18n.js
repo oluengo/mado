@@ -21,7 +21,7 @@ const BLOG = {
     verified: 'Web verificada por el autor', checkOutside: 'compruébalo en su perfil Nostr',
     vNip05: id => `NIP-05 ${id}`, vWebsite: 'el perfil enlaza a esta web', vNip78: 'configuración firmada',
     unverified: 'Web no verificada por el autor · ver perfil original', pending: 'Perfil Nostr del autor',
-    footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Hecho con', license: 'Licencia MIT'
+    footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Hecho con', playVideo: 'Reproducir vídeo', license: 'Licencia MIT'
   },
   ca: {
     loading: 'Carregant publicacions…', empty: 'No hi ha publicacions.', error: "No s'ha pogut connectar amb els relays",
@@ -36,7 +36,7 @@ const BLOG = {
     verified: "Web verificada per l'autor", checkOutside: 'comprova-ho al seu perfil Nostr',
     vNip05: id => `NIP-05 ${id}`, vWebsite: 'el perfil enllaça a aquesta web', vNip78: 'configuració signada',
     unverified: "Web no verificada per l'autor · veure el perfil original", pending: "Perfil Nostr de l'autor",
-    footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Fet amb', license: 'Llicència MIT'
+    footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Fet amb', playVideo: 'Reproduir el vídeo', license: 'Llicència MIT'
   },
   en: {
     loading: 'Loading posts…', empty: 'No posts yet.', error: 'Could not reach the relays',
@@ -51,7 +51,7 @@ const BLOG = {
     verified: 'Site verified by the author', checkOutside: 'check it on their Nostr profile',
     vNip05: id => `NIP-05 ${id}`, vWebsite: 'profile links to this site', vNip78: 'signed settings',
     unverified: 'Site not verified by the author · see original profile', pending: "Author's Nostr profile",
-    footOk: 'Verified site', footNo: 'Unverified site', madeWith: 'Made with', license: 'MIT License'
+    footOk: 'Verified site', footNo: 'Unverified site', madeWith: 'Made with', playVideo: 'Play video', license: 'MIT License'
   },
   it: {
     loading: 'Caricamento dei post…', empty: 'Nessun post.', error: 'Impossibile connettersi ai relay',
@@ -66,7 +66,7 @@ const BLOG = {
     verified: "Sito verificato dall'autore", checkOutside: 'verificalo sul suo profilo Nostr',
     vNip05: id => `NIP-05 ${id}`, vWebsite: 'il profilo rimanda a questo sito', vNip78: 'configurazione firmata',
     unverified: "Sito non verificato dall'autore · vedi il profilo originale", pending: "Profilo Nostr dell'autore",
-    footOk: 'Sito verificato', footNo: 'Sito non verificato', madeWith: 'Creato con', license: 'Licenza MIT'
+    footOk: 'Sito verificato', footNo: 'Sito non verificato', madeWith: 'Creato con', playVideo: 'Riproduci video', license: 'Licenza MIT'
   },
   de: {
     loading: 'Beiträge werden geladen…', empty: 'Keine Beiträge.', error: 'Keine Verbindung zu den Relays',
@@ -81,7 +81,7 @@ const BLOG = {
     verified: 'Vom Autor verifizierte Website', checkOutside: 'prüfe es in seinem Nostr-Profil',
     vNip05: id => `NIP-05 ${id}`, vWebsite: 'Profil verlinkt auf diese Website', vNip78: 'signierte Einstellungen',
     unverified: 'Nicht vom Autor verifizierte Website · Originalprofil ansehen', pending: 'Nostr-Profil des Autors',
-    footOk: 'Verifizierte Website', footNo: 'Nicht verifizierte Website', madeWith: 'Erstellt mit', license: 'MIT-Lizenz'
+    footOk: 'Verifizierte Website', footNo: 'Nicht verifizierte Website', madeWith: 'Erstellt mit', playVideo: 'Video abspielen', license: 'MIT-Lizenz'
   }
 };
 

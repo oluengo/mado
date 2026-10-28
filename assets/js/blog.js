@@ -28,7 +28,15 @@ async function start() {
   if (!cfg.author.npub) return renderSetup();
   try { pk = Mado.npubToHex(cfg.author.npub); } catch { return renderSetup(T.badNpub); }
   renderShell();
-  if (!listening) { listening = true; window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); }); }
+  if (!listening) {
+    listening = true;
+    window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
+    // Vídeos de YouTube: se cargan solo al pulsar la miniatura (ratón o teclado).
+    const play = e => { const el = e.target.closest && e.target.closest('.mado-yt:not(.is-playing)'); if (!el) return; e.preventDefault(); Mado.playYoutube(el); };
+    document.addEventListener('click', play);
+    document.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') play(e); });
+  }
+  Mado.playLabel = T.playVideo;
   route();
   loadData();
 }
