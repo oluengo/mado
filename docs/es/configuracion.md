@@ -69,17 +69,17 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 
 ## `interactions`
 
-Lo que otras personas hacen con tus publicaciones en Nostr. Cada opción se activa por separado. Se lee de los relays de `relays`, así que los números pueden variar un poco respecto a otros clientes.
+Lo que otras personas hacen con tus publicaciones en Nostr. Cada opción se activa por separado; todas vienen desactivadas. Se lee de los relays de `relays`, así que los números pueden variar un poco respecto a otros clientes.
 
 | Campo | Por defecto | Descripción |
 |---|---|---|
-| `reactions` | `true` | Reacciones (kind 7): una por persona; el detalle de emojis sale al pasar el ratón. |
-| `replies` | `true` | Número de comentarios (notas kind 1 y comentarios NIP-22, kind 1111). |
-| `replyList` | `true` | Texto de los comentarios, en hilo, al final de cada publicación, con enlace para responder en Nostr. |
-| `zaps` | `true` | Zaps (kind 9735): total de sats. |
-| `quotes` | `true` | Citas: notas que la mencionan (etiqueta `q`). |
-| `reposts` | `true` | Reposts (kind 6 y 16), uno por persona. |
-| `inList` | `true` | Mostrar los contadores también en portada y listados. Si es `false`, solo dentro de la publicación. |
+| `reactions` | `false` | Reacciones (kind 7): una por persona; el detalle de emojis sale al pasar el ratón. |
+| `replies` | `false` | Número de comentarios (notas kind 1 y comentarios NIP-22, kind 1111). |
+| `replyList` | `false` | Texto de los comentarios, en hilo, al final de cada publicación, en un bloque plegable (plegado al abrir), con enlace para responder en Nostr. |
+| `zaps` | `false` | Zaps (kind 9735): total de sats. |
+| `quotes` | `false` | Citas: notas que la mencionan (etiqueta `q`). |
+| `reposts` | `false` | Reposts (kind 6 y 16), uno por persona. |
+| `inList` | `false` | Mostrar los contadores también en portada y listados. Si es `false`, solo dentro de la publicación. |
 
 Los contadores se guardan en la caché local (`advanced.cacheMinutes`). El diseño «Compacto» no los muestra en la lista.
 

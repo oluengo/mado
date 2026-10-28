@@ -40,15 +40,15 @@ Mado.DEFAULTS = {
     excerptLength: 220, footer: ''
   },
   nav: { showAllTags: true, showAbout: true, sections: [], links: [] },
-  // Interacciones de otras personas con cada publicación. Cada una se activa por separado.
+  // Interacciones de otras personas con cada publicación. Cada una se activa por separado (todas apagadas por defecto).
   interactions: {
-    reactions: true,         // reacciones (kind 7)
-    replies: true,           // número de respuestas
-    replyList: true,         // texto de las respuestas, en la página de la publicación
-    zaps: true,              // zaps (kind 9735): número y sats
-    quotes: true,            // citas (notas que la mencionan)
-    reposts: true,           // reposts (kind 6 / 16)
-    inList: true             // mostrar los contadores también en la portada y los listados
+    reactions: false,        // reacciones (kind 7)
+    replies: false,          // número de respuestas
+    replyList: false,        // texto de las respuestas (plegable), en la página de la publicación
+    zaps: false,             // zaps (kind 9735): número y sats
+    quotes: false,           // citas (notas que la mencionan)
+    reposts: false,          // reposts (kind 6 / 16)
+    inList: false            // mostrar los contadores también en la portada y los listados
   },
   advanced: { cacheMinutes: 10, timeoutMs: 7000, verifySignatures: true }
 };

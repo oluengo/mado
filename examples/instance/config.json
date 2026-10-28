@@ -54,6 +54,15 @@
     "sections": [],
     "links": []
   },
+  "interactions": {
+    "reactions": false,
+    "replies": false,
+    "replyList": false,
+    "zaps": false,
+    "quotes": false,
+    "reposts": false,
+    "inList": false
+  },
   "advanced": {
     "cacheMinutes": 10,
     "timeoutMs": 7000,

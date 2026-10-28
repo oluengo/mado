@@ -2,8 +2,8 @@
 
 ## 0.3.0 (2026-10-28)
 
-- Interactions, each one optional (`interactions` in config.json): reactions, comments (count and threaded text), zaps (sats), quotes and reposts. Counters on the home page/listings can be turned off with `inList`.
-- Comments include NIP-22 (kind 1111); threaded replies with author name and picture, plus a "Reply on Nostr" link.
+- Interactions, each one optional and off by default (`interactions` in config.json): reactions, comments (count and threaded text), zaps (sats), quotes and reposts. Counters on the home page/listings can be turned off with `inList`.
+- Comments include NIP-22 (kind 1111); threaded replies in a collapsible block (collapsed by default) with author name and picture, plus a "Reply on Nostr" link.
 - Settings page reorganised into tabs (Author, Content, Appearance, Site, Interactions, Menu, Verification, Advanced) to avoid long scrolling; the active tab is remembered. Shows the Mado version.
 - Layout API: `ctx.ix(post)` adds the counters to custom layouts.
 

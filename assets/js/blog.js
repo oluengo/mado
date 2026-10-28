@@ -36,7 +36,7 @@ async function start() {
     document.addEventListener('click', play);
     document.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') play(e); });
     // Ir a las respuestas sin cambiar la ruta (#/post/…).
-    document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('[data-ix-go]'); if (!a) return; e.preventDefault(); const r = $('#mado-replies'); if (r) r.scrollIntoView({ behavior: 'smooth' }); });
+    document.addEventListener('click', e => { const a = e.target.closest && e.target.closest('[data-ix-go]'); if (!a) return; e.preventDefault(); const r = $('#mado-replies'); if (r) { r.open = true; r.scrollIntoView({ behavior: 'smooth' }); } });
   }
   Mado.playLabel = T.playVideo;
   route();
@@ -366,7 +366,7 @@ async function viewPost(slug) {
       <a href="https://njump.me/${nostrId}" target="_blank" rel="noopener">${T.openNostr}</a>
       <button class="mado-btn" id="mado-copy">${T.copy}</button>
     </div>
-    ${ixOn().replyList ? `<section class="mado-replies" id="mado-replies" data-for="${p.id}"><h2 class="mado-replies-h">${T.ixReplies}</h2><p class="mado-status">${T.loading}</p></section>` : ''}
+    ${ixOn().replyList ? `<details class="mado-replies" id="mado-replies" data-for="${p.id}"><summary class="mado-replies-h">${T.ixReplies}</summary><div class="mado-replies-body"><p class="mado-status">${T.loading}</p></div></details>` : ''}
     </article>`);
   loadIx([p], true, nostrId);
   $('#mado-copy').onclick = async e => {
@@ -444,8 +444,10 @@ async function renderReplies(p, replies, nostrId) {
   const box = document.getElementById('mado-replies');
   if (!box || box.dataset.for !== p.id) return;
   const foot = `<p class="mado-replies-foot"><a href="https://njump.me/${nostrId}" target="_blank" rel="noopener">${T.ixReplyOn}</a></p>`;
-  const head = `<h2 class="mado-replies-h">${T.ixReplies}${replies.length ? ` <span>${replies.length}</span>` : ''}</h2>`;
-  if (!replies.length) { box.innerHTML = head + `<p class="mado-status">${T.ixNoReplies}</p>` + foot; return; }
+  // Plegable y plegado por defecto: el resumen muestra cuántas hay.
+  box.querySelector('summary').innerHTML = `${T.ixReplies}${replies.length ? ` <span>${replies.length}</span>` : ''}`;
+  const body = box.querySelector('.mado-replies-body');
+  if (!replies.length) { body.innerHTML = `<p class="mado-status">${T.ixNoReplies}</p>` + foot; return; }
   // Perfiles de quienes responden (nombre y foto).
   const want = [...new Set(replies.map(e => e.pubkey))].filter(k => !profMem[k]).slice(0, 150);
   if (want.length) {
@@ -472,7 +474,7 @@ async function renderReplies(p, replies, nostrId) {
       <div class="mado-text mado-reply-text">${Mado.linkify(e.content, tagHref, Mado.imeta(e))}</div>
       ${sub ? `<div class="mado-reply-kids${depth >= 3 ? ' is-flat' : ''}">${sub}</div>` : ''}</div>`;
   };
-  box.innerHTML = head + `<div class="mado-reply-list">${(kids[''] || []).map(e => one(e, 0)).join('')}</div>` + foot;
+  body.innerHTML = `<div class="mado-reply-list">${(kids[''] || []).map(e => one(e, 0)).join('')}</div>` + foot;
   box.querySelectorAll('img[data-fb]').forEach(i => Mado.avatarFallback(i, fallback));
 }
 
