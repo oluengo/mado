@@ -216,7 +216,7 @@ function toPost(e) {
     summary: Mado.tag(e, 'summary') || '', image: Mado.tag(e, 'image') || '',
     content: e.content || '', date: +Mado.tag(e, 'published_at') || e.created_at, tags,
     isReply: e.kind === 1 && e.tags.some(t => t[0] === 'e' && t[3] !== 'mention'),
-    pubkey: e.pubkey
+    pubkey: e.pubkey, media: Mado.imeta(e)
   };
 }
 
@@ -305,7 +305,7 @@ function excerpt(p) {
 function itemHtml(p) {
   if (!p.isArticle) {
     return `<article class="mado-item mado-note${p.pinned ? ' is-pinned' : ''}"><a class="mado-note-link" href="${postHref(p)}">${metaHtml(p)}</a>
-      <div class="mado-text">${Mado.linkify(p.content, tagHref)}</div>${tagsHtml(p)}</article>`;
+      <div class="mado-text">${Mado.linkify(p.content, tagHref, p.media)}</div>${tagsHtml(p)}</article>`;
   }
   const url = postHref(p);
   return `<article class="mado-item${p.pinned ? ' is-pinned' : ''}${p.image ? ' has-cover' : ''}">
@@ -347,7 +347,7 @@ async function viewPost(slug) {
     ${metaHtml(p)}
     ${p.image ? `<img class="mado-cover mado-post-cover" src="${Mado.esc(p.image)}" alt="">` : ''}
     ${p.isArticle && p.summary ? `<p class="mado-lead">${Mado.esc(p.summary)}</p>` : ''}
-    <div class="mado-body">${p.isArticle ? Mado.md(p.content) : `<div class="mado-text">${Mado.linkify(p.content, tagHref)}</div>`}</div>
+    <div class="mado-body">${p.isArticle ? Mado.md(p.content, p.media) : `<div class="mado-text">${Mado.linkify(p.content, tagHref, p.media)}</div>`}</div>
     ${tagsHtml(p)}
     <div class="mado-actions">
       <a href="#/" onclick="if(history.length>1){history.back();return false}">${T.back}</a>

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Videos in notes and articles show as players, paused until the visitor starts them (by file extension or NIP-92 `imeta` type).
+
 ## 0.1.0 — beta (2026-10-24)
 
 - First public beta · Primera beta pública.

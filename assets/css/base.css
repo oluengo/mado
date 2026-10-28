@@ -68,6 +68,8 @@ img, video { max-width: 100% }
 .mado-note-link { text-decoration: none; display: block; margin-bottom: 6px }
 .mado-text { white-space: pre-wrap; overflow-wrap: anywhere }
 .mado-media { display: block; max-width: 100%; border-radius: var(--radius); margin: 10px 0 }
+.mado-video { width: 100%; max-height: 70vh; background: #000 }
+.mado-text .mado-video { white-space: normal }
 .mado-hashtag { text-decoration: none }
 
 .mado-pager { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin: 40px 0 0; font-size: .9rem }

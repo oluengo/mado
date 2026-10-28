@@ -387,22 +387,60 @@ Mado.stripMd = s => String(s || '')
   .replace(/<[^>]+>/g, ' ').replace(NOSTR_ID, ' ').replace(/https?:\/\/\S+/g, ' ')
   .replace(/^#{1,6}\s+/gm, '').replace(/[*_~>#|-]+/g, ' ').replace(/\s+/g, ' ').trim();
 
-Mado.md = src => {
+/* ---------- Imágenes y vídeos ----------
+   Se reconocen por la extensión o por la etiqueta imeta (NIP-92), que da el tipo MIME
+   de enlaces sin extensión. Los vídeos se muestran parados: el visitante los activa. */
+const IMG_EXT = /\.(png|jpe?g|gif|webp|avif|svg)(?:[?#]\S*)?$/i;
+const VID_EXT = /\.(mp4|m4v|webm|mov|ogv|ogg)(?:[?#]\S*)?$/i;
+// imeta: [["imeta", "url https://…", "m video/mp4", …], …] → { url: mime }
+Mado.imeta = e => {
+  const out = {};
+  (e.tags || []).filter(t => t[0] === 'imeta').forEach(t => {
+    let url = '', mime = '';
+    t.slice(1).forEach(f => { const i = String(f).indexOf(' '); const k = f.slice(0, i), v = f.slice(i + 1); if (k === 'url') url = v; if (k === 'm') mime = v; });
+    if (url && mime) out[url] = mime.toLowerCase();
+  });
+  return out;
+};
+Mado.mediaType = (url, media) => {
+  const raw = String(url || '').replace(/&amp;/g, '&'), mime = media && media[raw];
+  if (mime) return mime.startsWith('video/') ? 'video' : mime.startsWith('image/') ? 'image' : '';
+  return VID_EXT.test(raw) ? 'video' : IMG_EXT.test(raw) ? 'image' : '';
+};
+// src ya escapado para HTML. "#t=0.1" hace que Safari muestre el primer fotograma.
+const videoHtml = src => `<video class="mado-media mado-video" src="${src}${src.includes('#') ? '' : '#t=0.1'}" controls preload="metadata" playsinline></video>`;
+const imageHtml = src => `<img class="mado-media" src="${src}" alt="" loading="lazy">`;
+
+Mado.md = (src, media) => {
   const s = String(src || '').replace(NOSTR_ID, (m, id) => `[${id.slice(0, 14)}…](https://njump.me/${id})`);
-  if (window.marked && window.DOMPurify) {
-    const html = DOMPurify.sanitize(marked.parse(s));
-    return html.replace(/<a href="http/g, '<a target="_blank" rel="noopener" href="http');
-  }
-  return `<div class="mado-text">${Mado.linkify(src)}</div>`;
+  if (!(window.marked && window.DOMPurify)) return `<div class="mado-text">${Mado.linkify(src, null, media)}</div>`;
+  const tpl = document.createElement('template');
+  tpl.innerHTML = DOMPurify.sanitize(marked.parse(s));
+  const video = url => { const v = document.createElement('video'); v.className = 'mado-media mado-video'; v.controls = true; v.preload = 'metadata'; v.playsInline = true; v.setAttribute('playsinline', ''); v.src = url.includes('#') ? url : url + '#t=0.1'; return v; };
+  // ![](video.mp4) → reproductor
+  tpl.content.querySelectorAll('img[src]').forEach(img => { if (Mado.mediaType(img.getAttribute('src'), media) === 'video') img.replaceWith(video(img.getAttribute('src'))); });
+  tpl.content.querySelectorAll('a[href]').forEach(a => {
+    const href = a.getAttribute('href'), type = Mado.mediaType(href, media), text = a.textContent.trim();
+    // Solo enlaces «desnudos» (el texto es la propia URL): un enlace con texto propio se respeta.
+    if (!/^https?:/i.test(href) || (text !== href && text !== href.replace(/^https?:\/\//, ''))) {
+      if (/^https?:/i.test(href)) { a.target = '_blank'; a.rel = 'noopener'; }
+      return;
+    }
+    if (type === 'video') a.replaceWith(video(href));
+    else if (type === 'image') { const i = document.createElement('img'); i.className = 'mado-media'; i.alt = ''; i.loading = 'lazy'; i.src = href; a.replaceWith(i); }
+    else { a.target = '_blank'; a.rel = 'noopener'; }
+  });
+  return tpl.innerHTML;
 };
 
 // Texto plano de notas: enlaces, imágenes, vídeos, referencias nostr: y hashtags.
-Mado.linkify = (text, tagHref) => Mado.esc(text).replace(
+Mado.linkify = (text, tagHref, media) => Mado.esc(text).replace(
   /(https?:\/\/[^\s<]*[^\s<.,;:!?)\]])|nostr:((?:npub|nprofile|note|nevent|naddr)1[02-9ac-hj-np-z]+)|(^|\s)#([\p{L}\p{N}_]+)/gu,
   (m, url, nid, pre, ht) => {
     if (url) {
-      if (/\.(png|jpe?g|gif|webp|avif)(\?\S*)?$/i.test(url)) return `<img class="mado-media" src="${url}" alt="" loading="lazy">`;
-      if (/\.(mp4|webm|mov)(\?\S*)?$/i.test(url)) return `<video class="mado-media" src="${url}" controls preload="metadata"></video>`;
+      const type = Mado.mediaType(url, media);
+      if (type === 'image') return imageHtml(url);
+      if (type === 'video') return videoHtml(url);
       return `<a href="${url}" target="_blank" rel="noopener">${url.replace(/^https?:\/\//, '').slice(0, 60)}</a>`;
     }
     if (nid) return `<a href="https://njump.me/${nid}" target="_blank" rel="noopener">${nid.slice(0, 14)}…</a>`;
