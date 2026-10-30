@@ -237,7 +237,7 @@ function route() {
   const s = $('#mado-search input'); if (s && parts[0] !== 'search') s.value = '';
   switch (parts[0]) {
     case 'post': return viewPost(parts.slice(1).join('/'));
-    case 'tag': return viewList({ tag: Mado.normTag(parts[1]), page: pageOf(parts, 2) });
+    case 'tag': return viewList({ tags: [...new Set(String(parts[1] || '').split(',').map(Mado.normTag).filter(Boolean))], page: pageOf(parts, 2) });
     case 'tags': return viewTags();
     case 'search': if (s) s.value = parts.slice(1).join('/'); return viewList({ q: parts.slice(1).join('/'), page: pageOf(parts, 2) });
     case 'about': return viewAbout();
@@ -257,10 +257,16 @@ function notReady() {
   return false;
 }
 
-function viewList({ tag, q, page }) {
+function viewList({ tags = [], q, page }) {
   if (notReady()) return;
   let list = state.posts, heading = '', base = '';
-  if (tag) { list = list.filter(p => p.tags.includes(tag)); heading = '#' + tag; base = '#/tag/' + enc(tag); setTitle('#' + tag); }
+  const tag = tags.length ? tags.join(',') : '';
+  if (tags.length) {
+    // Varias etiquetas (a,b): según el filtro, alguna o todas.
+    const all = cfg.filters.multiMode === 'all';
+    list = list.filter(p => all ? tags.every(t => p.tags.includes(t)) : tags.some(t => p.tags.includes(t)));
+    heading = tags.map(t => '#' + t).join(all ? ' + ' : ' · '); base = '#/tag/' + tags.map(enc).join(','); setTitle(heading);
+  }
   else if (q) {
     const s = q.toLowerCase();
     list = list.filter(p => (p.title + ' ' + p.summary + ' ' + p.content).toLowerCase().includes(s));
@@ -276,10 +282,48 @@ function viewList({ tag, q, page }) {
   const per = Math.max(1, +cfg.site.perPage || 10), pages = Math.max(1, Math.ceil(list.length / per));
   page = Math.min(page, pages);
   const items = list.slice((page - 1) * per, page * per);
-  view((heading ? `<h2 class="mado-heading">${Mado.esc(heading)}</h2>` : '') +
+  const bar = tagBar(tags, !!q);
+  view(bar + (heading && !bar ? `<h2 class="mado-heading">${Mado.esc(heading)}</h2>` : q && heading ? `<h2 class="mado-heading">${Mado.esc(heading)}</h2>` : '') +
     (items.length ? renderList(items, { page, pages, home: !tag && !q }) : `<p class="mado-status">${T.empty}</p>`) +
     pager(page, pages, base));
   if (items.length) loadIx(items, false);
+  bindTagSearch();
+}
+
+/* ---------- Filtro de etiquetas ---------- */
+function tagCounts() {
+  const c = {}; state.posts.forEach(p => p.tags.forEach(t => { c[t] = (c[t] || 0) + 1; })); return c;
+}
+// Etiquetas de la barra: propias, las de includeTags (si hay más de una) o las más usadas.
+function barTags() {
+  const f = cfg.filters, counts = tagCounts(), max = Math.max(1, +f.max || 12);
+  let list = f.source === 'custom' ? f.tags.map(Mado.normTag).filter(Boolean) : [];
+  if (!list.length) { const inc = cfg.content.includeTags.map(Mado.normTag).filter(Boolean); if (f.source !== 'custom' && inc.length > 1) list = inc; }
+  if (!list.length) list = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(e => e[0]);
+  return [...new Set(list)].filter(t => counts[t]).slice(0, max).map(t => [t, counts[t]]);
+}
+function tagBar(active, isSearch) {
+  const f = cfg.filters;
+  if (!f.tagBar || isSearch) return '';
+  const tags = barTags(); if (!tags.length) return '';
+  const set = new Set(active);
+  const href = t => {
+    if (!f.multi) return set.has(t) && set.size === 1 ? '#/' : tagHref(t);
+    const next = new Set(set); next.has(t) ? next.delete(t) : next.add(t);
+    return next.size ? '#/tag/' + [...next].map(enc).join(',') : '#/';
+  };
+  const chips = tags.map(([t, n]) => `<a class="mado-tag mado-chip${set.has(t) ? ' is-on' : ''}" href="${href(t)}" data-tag="${Mado.esc(t)}"${set.has(t) ? ' aria-current="true"' : ''}>#${Mado.esc(t)}${f.showCounts ? ` <span>${n}</span>` : ''}</a>`).join('');
+  const all = `<a class="mado-tag mado-chip mado-chip-all${set.size ? '' : ' is-on'}" href="#/">${T.allTags}</a>`;
+  const search = f.tagSearch ? `<input type="search" class="mado-tagsearch" placeholder="${T.tagSearchPh}" aria-label="${T.tagSearchPh}">` : '';
+  const mode = f.multi && set.size > 1 ? `<span class="mado-chip-mode">${f.multiMode === 'all' ? T.tagModeAll : T.tagModeAny}</span>` : '';
+  return `<div class="mado-tagbar" role="navigation" aria-label="${T.tags}">${search}<div class="mado-chips">${all}${chips}</div>${mode}</div>`;
+}
+// Escribir filtra las etiquetas visibles; Intro abre la primera que coincida.
+function bindTagSearch() {
+  const input = document.querySelector('.mado-tagsearch'); if (!input) return;
+  const chips = [...document.querySelectorAll('.mado-chips [data-tag], .mado-tagcloud [data-tag]')];
+  input.oninput = () => { const q = Mado.normTag(input.value); chips.forEach(c => { c.hidden = !!q && !c.dataset.tag.includes(q); }); };
+  input.onkeydown = e => { if (e.key !== 'Enter') return; e.preventDefault(); const c = chips.find(x => !x.hidden); if (c) location.hash = c.getAttribute('href'); };
 }
 
 // Lo que recibe un diseño para pintar: piezas ya hechas y utilidades.
@@ -484,9 +528,11 @@ function viewTags() {
   state.posts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
   const list = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
   setTitle(T.tags);
-  view(`<h2 class="mado-heading">${T.tags}</h2>` + (list.length
-    ? `<div class="mado-tagcloud">${list.map(([t, n]) => `<a class="mado-tag" href="${tagHref(t)}">#${Mado.esc(t)} <span>${n}</span></a>`).join('')}</div>`
+  const search = cfg.filters.tagSearch && list.length ? `<input type="search" class="mado-tagsearch" placeholder="${T.tagSearchPh}" aria-label="${T.tagSearchPh}">` : '';
+  view(`<h2 class="mado-heading">${T.tags}</h2>` + search + (list.length
+    ? `<div class="mado-tagcloud">${list.map(([t, n]) => `<a class="mado-tag" href="${tagHref(t)}" data-tag="${Mado.esc(t)}">#${Mado.esc(t)} <span>${n}</span></a>`).join('')}</div>`
     : `<p class="mado-status">${T.empty}</p>`));
+  bindTagSearch();
 }
 
 function viewAbout() {

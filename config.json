@@ -54,6 +54,16 @@
     "sections": [],
     "links": []
   },
+  "filters": {
+    "tagBar": false,
+    "source": "auto",
+    "tags": [],
+    "max": 12,
+    "showCounts": true,
+    "multi": false,
+    "multiMode": "any",
+    "tagSearch": false
+  },
   "interactions": {
     "reactions": false,
     "replies": false,

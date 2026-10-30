@@ -67,6 +67,21 @@ List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `rel
 | `sections` | `[]` | Menu entries that show a hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | External links: `{ "label": "GitHub", "url": "https://…" }`. |
 
+## `filters`
+
+Tag filter for visitors. Everything is optional and off by default.
+
+| Field | Default | Description |
+|---|---|---|
+| `tagBar` | `false` | Tag bar above the listings: clicking a tag shows only those posts. |
+| `source` | `"auto"` | `"auto"` = the `content.includeTags` tags if there are several; otherwise the most used. `"custom"` = the ones in `tags`. |
+| `tags` | `[]` | Your own tags for the bar (with `source: "custom"`), in that order. |
+| `max` | `12` | Maximum tags in the bar. |
+| `showCounts` | `true` | Number of posts next to each tag. |
+| `multi` | `false` | Choose several tags at once (route `#/tag/a,b`). |
+| `multiMode` | `"any"` | With several: `"any"` = posts with any of them, `"all"` = with all of them. |
+| `tagSearch` | `false` | Tag search box in the bar and on the tags page. Enter opens the first match. |
+
 ## `interactions`
 
 What other people do with your posts on Nostr. Each option is independent; all are off by default. Data is read from the relays in `relays`, so numbers may differ slightly from other clients.
@@ -97,7 +112,7 @@ Counters are kept in the local cache (`advanced.cacheMinutes`). The "Compact" la
 |---|---|
 | `#/` · `#/page/2` | Home |
 | `#/post/<id>` | Article (by `d` tag) or note (by id) |
-| `#/tag/<hashtag>` | Posts with a hashtag |
+| `#/tag/<hashtag>` · `#/tag/a,b` | Posts with a hashtag |
 | `#/tags` | All tags |
 | `#/search/<text>` | Search |
 | `#/about` | About |

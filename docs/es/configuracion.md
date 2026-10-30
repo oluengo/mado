@@ -67,6 +67,21 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 | `sections` | `[]` | Entradas del menú que muestran un hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | Enlaces externos: `{ "label": "GitHub", "url": "https://…" }`. |
 
+## `filters`
+
+Filtro de etiquetas para quien visita la web. Todo opcional y desactivado por defecto.
+
+| Campo | Por defecto | Descripción |
+|---|---|---|
+| `tagBar` | `false` | Barra de etiquetas encima de los listados: al pulsar una se ven solo esas publicaciones. |
+| `source` | `"auto"` | `"auto"` = las de `content.includeTags` si hay más de una; si no, las más usadas. `"custom"` = las de `tags`. |
+| `tags` | `[]` | Etiquetas propias para la barra (con `source: "custom"`), en ese orden. |
+| `max` | `12` | Máximo de etiquetas en la barra. |
+| `showCounts` | `true` | Número de publicaciones junto a cada etiqueta. |
+| `multi` | `false` | Elegir varias etiquetas a la vez (ruta `#/tag/a,b`). |
+| `multiMode` | `"any"` | Con varias: `"any"` = publicaciones con alguna, `"all"` = con todas. |
+| `tagSearch` | `false` | Buscador de etiquetas en la barra y en la página de etiquetas. Intro abre la primera coincidencia. |
+
 ## `interactions`
 
 Lo que otras personas hacen con tus publicaciones en Nostr. Cada opción se activa por separado; todas vienen desactivadas. Se lee de los relays de `relays`, así que los números pueden variar un poco respecto a otros clientes.
@@ -97,7 +112,7 @@ Los contadores se guardan en la caché local (`advanced.cacheMinutes`). El dise�
 |---|---|
 | `#/` · `#/page/2` | Portada |
 | `#/post/<id>` | Artículo (por etiqueta `d`) o nota (por id) |
-| `#/tag/<hashtag>` | Publicaciones de un hashtag |
+| `#/tag/<hashtag>` · `#/tag/a,b` | Publicaciones de un hashtag |
 | `#/tags` | Todas las etiquetas |
 | `#/search/<texto>` | Búsqueda |
 | `#/about` | Sobre mí |

@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 (2026-10-30)
+
+- Optional tag filter for visitors (`filters` in config.json, off by default): tag bar above the listings (automatic from `includeTags` / most used, or your own list), single or multiple choice (any/all), post counts, and a tag search box in the bar and on the tags page.
+- Route `#/tag/a,b` shows posts with several tags.
+
 ## 0.3.0 (2026-10-28)
 
 - Interactions, each one optional and off by default (`interactions` in config.json): reactions, comments (count and threaded text), zaps (sats), quotes and reposts. Counters on the home page/listings can be turned off with `inList`.

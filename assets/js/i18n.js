@@ -25,6 +25,7 @@ const BLOG = {
     ixReactionsN: n => `${n} ${n === 1 ? 'reacción' : 'reacciones'}`, ixRepliesN: n => `${n} ${n === 1 ? 'respuesta' : 'respuestas'}`,
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'citas'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
+    allTags: 'Todas', tagSearchPh: 'Buscar etiqueta…', tagModeAny: 'Con alguna de las etiquetas', tagModeAll: 'Con todas las etiquetas',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Hecho con', playVideo: 'Reproducir vídeo', license: 'Licencia MIT'
   },
   ca: {
@@ -44,6 +45,7 @@ const BLOG = {
     ixReactionsN: n => `${n} ${n === 1 ? 'reacció' : 'reaccions'}`, ixRepliesN: n => `${n} ${n === 1 ? 'resposta' : 'respostes'}`,
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'cites'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
+    allTags: 'Totes', tagSearchPh: 'Cerca una etiqueta…', tagModeAny: 'Amb alguna de les etiquetes', tagModeAll: 'Amb totes les etiquetes',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Fet amb', playVideo: 'Reproduir el vídeo', license: 'Llicència MIT'
   },
   en: {
@@ -63,6 +65,7 @@ const BLOG = {
     ixReactionsN: n => `${n} ${n === 1 ? 'reaction' : 'reactions'}`, ixRepliesN: n => `${n} ${n === 1 ? 'reply' : 'replies'}`,
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'quote' : 'quotes'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
+    allTags: 'All', tagSearchPh: 'Find a tag…', tagModeAny: 'With any of the tags', tagModeAll: 'With all the tags',
     footOk: 'Verified site', footNo: 'Unverified site', madeWith: 'Made with', playVideo: 'Play video', license: 'MIT License'
   },
   it: {
@@ -82,6 +85,7 @@ const BLOG = {
     ixReactionsN: n => `${n} ${n === 1 ? 'reazione' : 'reazioni'}`, ixRepliesN: n => `${n} ${n === 1 ? 'risposta' : 'risposte'}`,
     ixRepostsN: n => `${n} repost`, ixQuotesN: n => `${n} ${n === 1 ? 'citazione' : 'citazioni'}`,
     ixZapsN: (n, s) => `${n} zap · ${s} sats`,
+    allTags: 'Tutte', tagSearchPh: 'Cerca un tag…', tagModeAny: 'Con almeno uno dei tag', tagModeAll: 'Con tutti i tag',
     footOk: 'Sito verificato', footNo: 'Sito non verificato', madeWith: 'Creato con', playVideo: 'Riproduci video', license: 'Licenza MIT'
   },
   de: {
@@ -101,6 +105,7 @@ const BLOG = {
     ixReactionsN: n => `${n} ${n === 1 ? 'Reaktion' : 'Reaktionen'}`, ixRepliesN: n => `${n} ${n === 1 ? 'Antwort' : 'Antworten'}`,
     ixRepostsN: n => `${n} ${n === 1 ? 'Repost' : 'Reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'Zitat' : 'Zitate'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'Zap' : 'Zaps'} · ${s} Sats`,
+    allTags: 'Alle', tagSearchPh: 'Schlagwort suchen…', tagModeAny: 'Mit einem der Schlagwörter', tagModeAll: 'Mit allen Schlagwörtern',
     footOk: 'Verifizierte Website', footNo: 'Nicht verifizierte Website', madeWith: 'Erstellt mit', playVideo: 'Video abspielen', license: 'MIT-Lizenz'
   }
 };
@@ -108,6 +113,11 @@ const BLOG = {
 /* ---------- Admin ---------- */
 const ADMIN = {
   es: {
+    gFilter: 'Filtro de etiquetas', tagBar: 'Barra de etiquetas para filtrar', tagBarH: 'Encima de los listados. El visitante pulsa una etiqueta para ver solo esas publicaciones.',
+    fSource: 'Etiquetas de la barra', fsAuto: 'Automático: las de «Mostrar solo» (si hay varias) o las más usadas', fsCustom: 'Elegidas por mí',
+    fTags: 'Mis etiquetas', fTagsH: 'Separadas por comas, en el orden de la barra.', fMax: 'Máximo en la barra',
+    fCounts: 'Mostrar el número de publicaciones', fMulti: 'Permitir elegir varias a la vez', fMode: 'Con varias elegidas, mostrar',
+    fAny: 'Las que tengan alguna', fAll: 'Las que tengan todas', fSearch: 'Buscador de etiquetas', fSearchH: '(en la barra y en la página de etiquetas)',
     tAuthor: 'Autor', tContent: 'Contenido', tLook: 'Aspecto', tSite: 'Web', tIx: 'Interacciones', tNav: 'Menú', tVerify: 'Verificación', tAdv: 'Avanzado',
     gIdentity: 'Identidad', gLangDates: 'Idioma y fechas', gListing: 'Listados', gPerf: 'Relays y caché',
     ixIntro: 'Muestra lo que otras personas hacen con tus publicaciones en Nostr. Se lee de tus relays, así que los números pueden variar un poco respecto a otros clientes. Cada opción es independiente.',
@@ -191,6 +201,11 @@ const ADMIN = {
     r_nip78Other: s => `la configuración firmada apunta a ${s}`, r_noNip78: 'sin URL en la configuración firmada'
   },
   ca: {
+    gFilter: "Filtre d'etiquetes", tagBar: "Barra d'etiquetes per filtrar", tagBarH: "A sobre dels llistats. El visitant prem una etiqueta per veure només aquestes publicacions.",
+    fSource: 'Etiquetes de la barra', fsAuto: 'Automàtic: les de «Mostrar només» (si n\'hi ha diverses) o les més usades', fsCustom: 'Triades per mi',
+    fTags: 'Les meves etiquetes', fTagsH: "Separades per comes, en l'ordre de la barra.", fMax: 'Màxim a la barra',
+    fCounts: 'Mostrar el nombre de publicacions', fMulti: 'Permetre triar-ne diverses alhora', fMode: 'Amb diverses triades, mostrar',
+    fAny: 'Les que en tinguin alguna', fAll: 'Les que les tinguin totes', fSearch: "Cercador d'etiquetes", fSearchH: "(a la barra i a la pàgina d'etiquetes)",
     tAuthor: 'Autor', tContent: 'Contingut', tLook: 'Aparença', tSite: 'Web', tIx: 'Interaccions', tNav: 'Menú', tVerify: 'Verificació', tAdv: 'Avançat',
     gIdentity: 'Identitat', gLangDates: 'Idioma i dates', gListing: 'Llistats', gPerf: 'Relays i memòria cau',
     ixIntro: 'Mostra el que altres persones fan amb les teves publicacions a Nostr. Es llegeix dels teus relays, així que els números poden variar una mica respecte a altres clients. Cada opció és independent.',
@@ -273,6 +288,11 @@ const ADMIN = {
     r_nip78Other: s => `la configuració signada apunta a ${s}`, r_noNip78: 'sense URL a la configuració signada'
   },
   en: {
+    gFilter: 'Tag filter', tagBar: 'Tag bar to filter posts', tagBarH: 'Above the listings. Visitors click a tag to see only those posts.',
+    fSource: 'Tags in the bar', fsAuto: 'Automatic: the “Only show” tags (if several) or the most used', fsCustom: 'Chosen by me',
+    fTags: 'My tags', fTagsH: 'Comma-separated, in bar order.', fMax: 'Maximum in the bar',
+    fCounts: 'Show the number of posts', fMulti: 'Allow choosing several at once', fMode: 'With several chosen, show',
+    fAny: 'Posts with any of them', fAll: 'Posts with all of them', fSearch: 'Tag search', fSearchH: '(in the bar and on the tags page)',
     tAuthor: 'Author', tContent: 'Content', tLook: 'Appearance', tSite: 'Site', tIx: 'Interactions', tNav: 'Menu', tVerify: 'Verification', tAdv: 'Advanced',
     gIdentity: 'Identity', gLangDates: 'Language and dates', gListing: 'Listings', gPerf: 'Relays and cache',
     ixIntro: 'Show what other people do with your posts on Nostr. It is read from your relays, so numbers may differ slightly from other clients. Each option is independent.',
@@ -355,6 +375,11 @@ const ADMIN = {
     r_nip78Other: s => `the signed settings point to ${s}`, r_noNip78: 'no URL in the signed settings'
   },
   it: {
+    gFilter: 'Filtro dei tag', tagBar: 'Barra dei tag per filtrare', tagBarH: 'Sopra gli elenchi. Il visitatore tocca un tag per vedere solo quei post.',
+    fSource: 'Tag della barra', fsAuto: 'Automatico: quelli di «Mostra solo» (se più di uno) o i più usati', fsCustom: 'Scelti da me',
+    fTags: 'I miei tag', fTagsH: "Separati da virgole, nell'ordine della barra.", fMax: 'Massimo nella barra',
+    fCounts: 'Mostra il numero di post', fMulti: 'Consenti di sceglierne più di uno', fMode: 'Con più tag scelti, mostra',
+    fAny: 'I post con almeno uno', fAll: 'I post con tutti', fSearch: 'Ricerca dei tag', fSearchH: '(nella barra e nella pagina dei tag)',
     tAuthor: 'Autore', tContent: 'Contenuti', tLook: 'Aspetto', tSite: 'Sito', tIx: 'Interazioni', tNav: 'Menu', tVerify: 'Verifica', tAdv: 'Avanzate',
     gIdentity: 'Identità', gLangDates: 'Lingua e date', gListing: 'Elenchi', gPerf: 'Relay e cache',
     ixIntro: 'Mostra cosa fanno le altre persone con i tuoi post su Nostr. Si legge dai tuoi relay, quindi i numeri possono variare un po’ rispetto ad altri client. Ogni opzione è indipendente.',
@@ -437,6 +462,11 @@ const ADMIN = {
     r_nip78Other: s => `la configurazione firmata punta a ${s}`, r_noNip78: 'nessun URL nella configurazione firmata'
   },
   de: {
+    gFilter: 'Schlagwort-Filter', tagBar: 'Schlagwortleiste zum Filtern', tagBarH: 'Über den Listen. Besucher klicken ein Schlagwort, um nur diese Beiträge zu sehen.',
+    fSource: 'Schlagwörter der Leiste', fsAuto: 'Automatisch: die aus „Nur zeigen“ (wenn mehrere) oder die häufigsten', fsCustom: 'Von mir gewählt',
+    fTags: 'Meine Schlagwörter', fTagsH: 'Durch Kommas getrennt, in Reihenfolge der Leiste.', fMax: 'Maximum in der Leiste',
+    fCounts: 'Anzahl der Beiträge zeigen', fMulti: 'Mehrere gleichzeitig wählen', fMode: 'Bei mehreren zeigen',
+    fAny: 'Beiträge mit einem davon', fAll: 'Beiträge mit allen', fSearch: 'Schlagwortsuche', fSearchH: '(in der Leiste und auf der Schlagwortseite)',
     tAuthor: 'Autor', tContent: 'Inhalt', tLook: 'Darstellung', tSite: 'Website', tIx: 'Interaktionen', tNav: 'Menü', tVerify: 'Verifizierung', tAdv: 'Erweitert',
     gIdentity: 'Identität', gLangDates: 'Sprache und Datum', gListing: 'Listen', gPerf: 'Relays und Cache',
     ixIntro: 'Zeigt, was andere mit deinen Beiträgen auf Nostr machen. Die Daten kommen von deinen Relays, daher können die Zahlen leicht von anderen Clients abweichen. Jede Option ist unabhängig.',

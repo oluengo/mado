@@ -40,6 +40,17 @@ Mado.DEFAULTS = {
     excerptLength: 220, footer: ''
   },
   nav: { showAllTags: true, showAbout: true, sections: [], links: [] },
+  // Filtro de etiquetas para el visitante (todo opcional, apagado por defecto).
+  filters: {
+    tagBar: false,           // barra de etiquetas sobre los listados para filtrar
+    source: 'auto',          // 'auto' = las de content.includeTags (si hay varias) o las más usadas; 'custom' = las de "tags"
+    tags: [],                // etiquetas propias (source: 'custom')
+    max: 12,                 // máximo de etiquetas en la barra
+    showCounts: true,        // número de publicaciones de cada etiqueta
+    multi: false,            // permitir elegir varias a la vez
+    multiMode: 'any',        // con varias: 'any' = alguna, 'all' = todas
+    tagSearch: false         // buscador de etiquetas (en la barra y en la página de etiquetas)
+  },
   // Interacciones de otras personas con cada publicación. Cada una se activa por separado (todas apagadas por defecto).
   interactions: {
     reactions: false,        // reacciones (kind 7)
@@ -618,7 +629,7 @@ Mado.fmtCount = (n, lang) => {
   try { return new Intl.NumberFormat(loc, { notation: 'compact', maximumFractionDigits: 1 }).format(n); } catch { return String(n); }
 };
 
-Mado.VERSION = '0.3.0';
+Mado.VERSION = '0.4.0';
 Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;

@@ -144,3 +144,13 @@ a.mado-ix-i:hover { color: var(--accent) }
 .mado-reply-kids { margin: 12px 0 0 12px; padding-left: 14px; border-left: 2px solid var(--line); display: grid; gap: 14px }
 .mado-reply-kids.is-flat { margin-left: 0; padding-left: 0; border-left: 0 }
 .mado-replies-foot { margin: 18px 0 0; font-size: .85rem }
+
+/* Filtro de etiquetas (opcional) */
+.mado-tagbar { display: grid; gap: 10px; margin: 0 0 24px }
+.mado-chips { display: flex; flex-wrap: wrap; gap: 6px }
+.mado-chip { font-size: .8rem; padding: 4px 12px; background: none; border: 1px solid var(--line); color: var(--muted) }
+.mado-chip:hover { border-color: var(--accent); color: var(--accent) }
+.mado-chip.is-on { background: var(--accent-bg); border-color: var(--accent); color: var(--accent) }
+.mado-chip-mode { font-size: .75rem; color: var(--muted) }
+.mado-tagsearch { width: 100%; max-width: 280px; font: inherit; font-size: .85rem; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 10px; margin-bottom: 12px }
+.mado-tagbar .mado-tagsearch { margin: 0 }

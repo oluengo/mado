@@ -193,6 +193,20 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
       <label class="check"><input type="checkbox" data-path="site.showReadingTime"> <span data-i18n="readingTime"></span></label>
     </div>
   </div>
+  <div class="group"><h3 data-i18n="gFilter"></h3>
+    <label class="check"><input type="checkbox" data-path="filters.tagBar"> <span data-i18n="tagBar"></span> <small data-i18n="tagBarH"></small></label>
+    <div class="grid3">
+      <label><span data-i18n="fSource"></span><select data-path="filters.source"><option value="auto" data-i18n="fsAuto"></option><option value="custom" data-i18n="fsCustom"></option></select></label>
+      <label><span data-i18n="fTags"></span> <small data-i18n="fTagsH"></small><input type="text" data-path="filters.tags" data-type="list" placeholder="bitcoin, nostr"></label>
+      <label><span data-i18n="fMax"></span><input type="number" min="1" max="100" data-path="filters.max" data-type="number"></label>
+    </div>
+    <div class="grid3">
+      <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="filters.multi"> <span data-i18n="fMulti"></span></label>
+      <label><span data-i18n="fMode"></span><select data-path="filters.multiMode"><option value="any" data-i18n="fAny"></option><option value="all" data-i18n="fAll"></option></select></label>
+      <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="filters.showCounts"> <span data-i18n="fCounts"></span></label>
+    </div>
+    <label class="check"><input type="checkbox" data-path="filters.tagSearch"> <span data-i18n="fSearch"></span> <small data-i18n="fSearchH"></small></label>
+  </div>
   <div class="group">
     <label><span data-i18n="footer"></span><input type="text" data-path="site.footer"></label>
   </div>

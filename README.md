@@ -11,6 +11,7 @@ Mado turns your Nostr articles (NIP-23) and notes into a website you host yourse
 - Paginated home page, permanent links, hashtag sections, tag cloud, search and an "About" page.
 - Hashtag filters (include/exclude, any/all), pinned posts, hidden replies.
 - Look built from three independent pieces: 6 layouts (structure), 6 colour themes with light and dark mode, and 3 typographies. Mix them freely and add your own.
+- Optional tag bar and tag search for visitors (one or several tags).
 - Nostr interactions, each optional: reactions, comments (count and threaded text), zaps, quotes and reposts.
 - Five languages: Castellano, Català, English, Italiano, Deutsch.
 - Settings page (`admin.html`) that generates `config.json` — no JSON editing by hand.
