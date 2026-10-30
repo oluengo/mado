@@ -135,7 +135,6 @@ function renderNav() {
   const cur = location.hash || '#/';
   const links = [[T.home, '#/']];
   cfg.nav.sections.forEach(s => s.tag && links.push([s.label || '#' + s.tag, '#/tag/' + enc(Mado.normTag(s.tag))]));
-  if (cfg.nav.showAllTags) links.push([T.tags, '#/tags']);
   if (cfg.nav.showAbout && state.profile && state.profile.about) links.push([T.about, '#/about']);
   nav.innerHTML = links.map(([l, h]) => `<a href="${h}"${(h === '#/' ? cur === '#/' || cur === '#' || /^#\/page\//.test(cur) : cur.startsWith(h)) ? ' class="active"' : ''}>${Mado.esc(l)}</a>`).join('') +
     cfg.nav.links.filter(l => l.url).map(l => `<a href="${Mado.esc(l.url)}" target="_blank" rel="noopener">${Mado.esc(l.label || l.url)} ↗</a>`).join('');
@@ -238,7 +237,7 @@ function route() {
   switch (parts[0]) {
     case 'post': return viewPost(parts.slice(1).join('/'));
     case 'tag': return viewList({ tags: [...new Set(String(parts[1] || '').split(',').map(Mado.normTag).filter(Boolean))], page: pageOf(parts, 2) });
-    case 'tags': return viewTags();
+    case 'tags': location.replace('#/'); return; // la página de etiquetas ya no existe
     case 'search': if (s) s.value = parts.slice(1).join('/'); return viewList({ q: parts.slice(1).join('/'), page: pageOf(parts, 2) });
     case 'about': return viewAbout();
     default: return viewList({ page: pageOf(parts, 0) });
@@ -321,7 +320,7 @@ function tagBar(active, isSearch) {
 // Escribir filtra las etiquetas visibles; Intro abre la primera que coincida.
 function bindTagSearch() {
   const input = document.querySelector('.mado-tagsearch'); if (!input) return;
-  const chips = [...document.querySelectorAll('.mado-chips [data-tag], .mado-tagcloud [data-tag]')];
+  const chips = [...document.querySelectorAll('.mado-chips [data-tag]')];
   input.oninput = () => { const q = Mado.normTag(input.value); chips.forEach(c => { c.hidden = !!q && !c.dataset.tag.includes(q); }); };
   input.onkeydown = e => { if (e.key !== 'Enter') return; e.preventDefault(); const c = chips.find(x => !x.hidden); if (c) location.hash = c.getAttribute('href'); };
 }
@@ -520,19 +519,6 @@ async function renderReplies(p, replies, nostrId) {
   };
   body.innerHTML = `<div class="mado-reply-list">${(kids[''] || []).map(e => one(e, 0)).join('')}</div>` + foot;
   box.querySelectorAll('img[data-fb]').forEach(i => Mado.avatarFallback(i, fallback));
-}
-
-function viewTags() {
-  if (notReady()) return;
-  const counts = {};
-  state.posts.forEach(p => p.tags.forEach(t => { counts[t] = (counts[t] || 0) + 1; }));
-  const list = Object.entries(counts).sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
-  setTitle(T.tags);
-  const search = cfg.filters.tagSearch && list.length ? `<input type="search" class="mado-tagsearch" placeholder="${T.tagSearchPh}" aria-label="${T.tagSearchPh}">` : '';
-  view(`<h2 class="mado-heading">${T.tags}</h2>` + search + (list.length
-    ? `<div class="mado-tagcloud">${list.map(([t, n]) => `<a class="mado-tag" href="${tagHref(t)}" data-tag="${Mado.esc(t)}">#${Mado.esc(t)} <span>${n}</span></a>`).join('')}</div>`
-    : `<p class="mado-status">${T.empty}</p>`));
-  bindTagSearch();
 }
 
 function viewAbout() {

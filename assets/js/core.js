@@ -39,7 +39,7 @@ Mado.DEFAULTS = {
     showTags: true, showReadingTime: true, showSearch: true,
     excerptLength: 220, footer: ''
   },
-  nav: { showAllTags: true, showAbout: true, sections: [], links: [] },
+  nav: { showAbout: true, sections: [], links: [] },
   // Filtro de etiquetas para el visitante (todo opcional, apagado por defecto).
   filters: {
     tagBar: false,           // barra de etiquetas sobre los listados para filtrar
@@ -49,7 +49,7 @@ Mado.DEFAULTS = {
     showCounts: true,        // número de publicaciones de cada etiqueta
     multi: false,            // permitir elegir varias a la vez
     multiMode: 'any',        // con varias: 'any' = alguna, 'all' = todas
-    tagSearch: false         // buscador de etiquetas (en la barra y en la página de etiquetas)
+    tagSearch: false         // buscador de etiquetas (en la barra)
   },
   // Interacciones de otras personas con cada publicación. Cada una se activa por separado (todas apagadas por defecto).
   interactions: {

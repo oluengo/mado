@@ -2,7 +2,8 @@
 
 ## 0.4.0 (2026-10-30)
 
-- Optional tag filter for visitors (`filters` in config.json, off by default): tag bar above the listings (automatic from `includeTags` / most used, or your own list), single or multiple choice (any/all), post counts, and a tag search box in the bar and on the tags page.
+- Optional tag filter for visitors (`filters` in config.json, off by default): tag bar above the listings (automatic from `includeTags` / most used, or your own list), single or multiple choice (any/all), post counts, and a tag search box in the bar.
+- The separate tags page (`#/tags`, `nav.showAllTags`) is removed: the tag bar and its search replace it. Old `#/tags` links go to the home page.
 - Route `#/tag/a,b` shows posts with several tags.
 
 ## 0.3.0 (2026-10-28)

@@ -62,7 +62,6 @@ List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `rel
 
 | Field | Default | Description |
 |---|---|---|
-| `showAllTags` | `true` | "Tags" page. |
 | `showAbout` | `true` | "About" page with the profile bio. |
 | `sections` | `[]` | Menu entries that show a hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | External links: `{ "label": "GitHub", "url": "https://…" }`. |
@@ -80,7 +79,7 @@ Tag filter for visitors. Everything is optional and off by default.
 | `showCounts` | `true` | Number of posts next to each tag. |
 | `multi` | `false` | Choose several tags at once (route `#/tag/a,b`). |
 | `multiMode` | `"any"` | With several: `"any"` = posts with any of them, `"all"` = with all of them. |
-| `tagSearch` | `false` | Tag search box in the bar and on the tags page. Enter opens the first match. |
+| `tagSearch` | `false` | Tag search box inside the tag bar. Enter opens the first match. |
 
 ## `interactions`
 
@@ -113,8 +112,7 @@ Counters are kept in the local cache (`advanced.cacheMinutes`). The "Compact" la
 | `#/` · `#/page/2` | Home |
 | `#/post/<id>` | Article (by `d` tag) or note (by id) |
 | `#/tag/<hashtag>` · `#/tag/a,b` | Posts with a hashtag |
-| `#/tags` | All tags |
 | `#/search/<text>` | Search |
 | `#/about` | About |
 
-Add `?lang=xx` before the `#` to force a language, e.g. `…/mado/?lang=en#/tags`.
+Add `?lang=xx` before the `#` to force a language, e.g. `…/mado/?lang=en#/about`.

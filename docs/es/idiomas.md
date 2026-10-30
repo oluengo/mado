@@ -15,7 +15,7 @@ La web y la página de configuración están disponibles en:
 ## Elegir el idioma
 
 - **Configuración:** `site.lang`, un idioma fijo o `"auto"` para seguir el del navegador del visitante.
-- **URL:** cualquier enlace puede forzarlo con `?lang=`: `…/mado/?lang=ca`, `?lang=de#/tags`. Útil para compartir.
+- **URL:** cualquier enlace puede forzarlo con `?lang=`: `…/mado/?lang=ca`, `?lang=de#/about`. Útil para compartir.
 - **Selector:** `site.langSwitch: true` añade un selector de idioma en la cabecera.
 
 La página de configuración tiene su propio selector (arriba a la derecha) y recuerda tu elección.

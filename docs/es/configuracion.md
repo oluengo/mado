@@ -62,7 +62,6 @@ Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lo
 
 | Campo | Por defecto | Descripción |
 |---|---|---|
-| `showAllTags` | `true` | Página de etiquetas. |
 | `showAbout` | `true` | Página «Sobre mí» con la biografía del perfil. |
 | `sections` | `[]` | Entradas del menú que muestran un hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | Enlaces externos: `{ "label": "GitHub", "url": "https://…" }`. |
@@ -80,7 +79,7 @@ Filtro de etiquetas para quien visita la web. Todo opcional y desactivado por de
 | `showCounts` | `true` | Número de publicaciones junto a cada etiqueta. |
 | `multi` | `false` | Elegir varias etiquetas a la vez (ruta `#/tag/a,b`). |
 | `multiMode` | `"any"` | Con varias: `"any"` = publicaciones con alguna, `"all"` = con todas. |
-| `tagSearch` | `false` | Buscador de etiquetas en la barra y en la página de etiquetas. Intro abre la primera coincidencia. |
+| `tagSearch` | `false` | Buscador de etiquetas dentro de la barra. Intro abre la primera coincidencia. |
 
 ## `interactions`
 
@@ -113,8 +112,7 @@ Los contadores se guardan en la caché local (`advanced.cacheMinutes`). El dise�
 | `#/` · `#/page/2` | Portada |
 | `#/post/<id>` | Artículo (por etiqueta `d`) o nota (por id) |
 | `#/tag/<hashtag>` · `#/tag/a,b` | Publicaciones de un hashtag |
-| `#/tags` | Todas las etiquetas |
 | `#/search/<texto>` | Búsqueda |
 | `#/about` | Sobre mí |
 
-Añade `?lang=xx` antes del `#` para forzar un idioma, por ejemplo `…/mado/?lang=en#/tags`.
+Añade `?lang=xx` antes del `#` para forzar un idioma, por ejemplo `…/mado/?lang=en#/about`.

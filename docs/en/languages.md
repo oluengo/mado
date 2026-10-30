@@ -15,7 +15,7 @@ The site and the settings page are available in:
 ## Choosing the language
 
 - **Settings:** `site.lang` — a fixed language, or `"auto"` to follow the visitor's browser.
-- **URL:** any link can force it with `?lang=`: `…/mado/?lang=ca`, `?lang=de#/tags`. Handy for sharing.
+- **URL:** any link can force it with `?lang=`: `…/mado/?lang=ca`, `?lang=de#/about`. Handy for sharing.
 - **Selector:** `site.langSwitch: true` adds a language selector to the header.
 
 The settings page has its own selector (top right) and remembers your choice.
