@@ -27,3 +27,6 @@ Si falta el archivo, Mado usa un pequeño avestruz dibujado en su propio código
 
 The *serif* and *sans* typographies load Fraunces, Source Serif 4 and Inter from Google Fonts (SIL Open Font License).
 Las tipografías *serif* y *sans* cargan Fraunces, Source Serif 4 e Inter desde Google Fonts (SIL Open Font License).
+
+The project website (`site/`) includes Fraunces and Inter (`site/fonts/`, SIL Open Font License; licence texts alongside).
+La web del proyecto (`site/`) incluye Fraunces e Inter (`site/fonts/`, SIL Open Font License; licencias junto a los archivos).

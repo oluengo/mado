@@ -6,6 +6,8 @@
 
 [Español](README.es.md) · English
 
+**Website:** <https://oluengo.github.io/mado/>
+
 Mado turns your Nostr articles (NIP-23) and notes into a website you host yourself — on GitHub Pages or any static host. No server, no build step, nothing to install.
 
 - Paginated home page, permanent links, hashtag sections, tag cloud, search and an "About" page.
@@ -65,6 +67,7 @@ themes/
   <id>/theme.css
 fonts/fonts.json        typographies
 examples/instance/       lightweight instance (index.html + config.json)
+site/                   project website (oluengo.github.io/mado), not needed in forks
 docs/en, docs/es        documentation
 ```
 

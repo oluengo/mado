@@ -1,0 +1,43 @@
+# Publica oluengo.github.io/mado/: la web del proyecto (site/index.html) en la raíz
+# y el resto del repositorio tal cual (assets/, admin.html, layouts/, themes/, fonts/…),
+# que usan las instancias ligeras como oluengo.github.io/blog/.
+# Solo se ejecuta en oluengo/mado: en un fork, Pages se publica desde la rama (README).
+# Requiere Settings → Pages → Source: «GitHub Actions».
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    if: github.repository == 'oluengo/mado'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Montar el sitio
+        run: |
+          mkdir _site
+          tar --exclude=./.git --exclude=./.github --exclude=./_site -cf - . | tar -xf - -C _site
+          cp site/index.html _site/index.html
+          touch _site/.nojekyll
+          ls -la _site
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

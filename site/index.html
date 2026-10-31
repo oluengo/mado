@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mado · Your Nostr posts on your own website</title>
+<meta name="description" content="Mado turns your Nostr articles and notes into a website you host yourself, on GitHub Pages or any static host. No server, no build step.">
+<link rel="icon" href="assets/img/logo.svg" type="image/svg+xml">
+<link rel="icon" href="assets/img/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/img/logo-180.png">
+<style>
+@font-face { font-family: "Fraunces"; font-weight: 500; font-display: swap; src: url(site/fonts/fraunces-500.woff2) format("woff2"); }
+@font-face { font-family: "Fraunces"; font-weight: 700; font-display: swap; src: url(site/fonts/fraunces-700.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 400; font-display: swap; src: url(site/fonts/inter-400.woff2) format("woff2"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-display: swap; src: url(site/fonts/inter-600.woff2) format("woff2"); }
+
+:root {
+	color-scheme: light dark;
+	--bg: light-dark(#FAF8FD, #121214);
+	--card: light-dark(#FFFFFF, #1B1B20);
+	--fg: light-dark(#1D1D1F, #ECECEF);
+	--muted: light-dark(#6E6E73, #9C9CA6);
+	--line: light-dark(#E7E3EE, #2A2A31);
+	--accent: light-dark(#7B3FE4, #B18CFF);
+	--accent-ink: light-dark(#FFFFFF, #18122A);
+	--accent-bg: light-dark(#F1EBFD, #241B38);
+	--head: "Fraunces", Georgia, "Times New Roman", serif;
+	--body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+	--mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 var(--body); -webkit-text-size-adjust: 100%; }
+a { color: var(--accent); }
+img { max-width: 100%; height: auto; display: block; }
+.wrap { max-width: 70rem; margin: 0 auto; padding: 0 1.25rem; }
+h1, h2, h3 { font-family: var(--head); font-weight: 600; line-height: 1.12; letter-spacing: -.01em; margin: 0; }
+h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); margin-bottom: .6rem; }
+.lead { color: var(--muted); font-size: 1.08rem; max-width: 42rem; margin: 0 0 2.2rem; }
+section { padding: 5rem 0; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+code { font: .86em var(--mono); background: var(--accent-bg); padding: .1rem .35rem; border-radius: 6px; overflow-wrap: anywhere; }
+
+.top { border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 85%, transparent); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 10; }
+.top .wrap { display: flex; align-items: center; gap: 1rem; height: 3.6rem; }
+.top a { color: inherit; text-decoration: none; }
+.brand { display: flex; align-items: center; gap: .55rem; font: 600 1.2rem var(--head); }
+.brand img { width: 1.6rem; height: 1.6rem; }
+.top nav { margin-left: auto; display: flex; align-items: center; gap: 1.1rem; font-size: .92rem; }
+.navlink { color: var(--muted) !important; }
+.navlink:hover { color: var(--fg) !important; }
+.lang { display: flex; gap: .15rem; font-size: .8rem; }
+.lang button, .theme { font: inherit; background: none; border: 0; color: var(--muted); cursor: pointer; padding: .25rem .35rem; border-radius: 6px; }
+.lang button[aria-pressed="true"] { color: var(--accent); font-weight: 600; background: var(--accent-bg); }
+.theme { display: grid; place-items: center; }
+.theme svg { width: 1.1rem; height: 1.1rem; }
+.i-sun { display: none; }
+:root[data-theme="dark"] .i-sun { display: block; } :root[data-theme="dark"] .i-moon { display: none; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .i-sun { display: block; } :root:not([data-theme="light"]) .i-moon { display: none; } }
+
+.hero { padding: 5rem 0 3rem; text-align: center; position: relative; overflow: hidden; }
+.hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 34rem; background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 18%, transparent), transparent); pointer-events: none; }
+.hero .wrap { position: relative; }
+.hero .logo { width: 5.5rem; height: 5.5rem; margin: 0 auto 1.4rem; }
+.hero .jp { font: 500 .95rem var(--head); color: var(--accent); letter-spacing: .08em; }
+.hero h1 { font-size: clamp(2.5rem, 7vw, 4.6rem); margin: .4rem auto 1.1rem; max-width: 15ch; }
+.hero p { color: var(--muted); font-size: 1.15rem; max-width: 38rem; margin: 0 auto 2rem; }
+.cta { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+.btn { display: inline-flex; align-items: center; gap: .5rem; padding: .8rem 1.3rem; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1px solid var(--line); color: var(--fg); background: var(--card); min-height: 48px; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn svg { width: 1.1rem; height: 1.1rem; }
+.meta { display: flex; flex-wrap: wrap; justify-content: center; gap: .4rem 1.3rem; margin: 1.6rem 0 0; padding: 0; list-style: none; font-size: .9rem; color: var(--muted); }
+.meta li::before { content: "◇ "; color: var(--accent); }
+
+.window { background: var(--card); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 60px -30px rgba(40, 20, 80, .35); }
+.window .bar { display: flex; align-items: center; gap: .4rem; padding: .6rem .8rem; border-bottom: 1px solid var(--line); }
+.window .bar i { width: .65rem; height: .65rem; border-radius: 50%; background: var(--line); }
+.window .bar span { margin-left: .6rem; font: .78rem var(--mono); color: var(--muted); background: var(--bg); border-radius: 6px; padding: .15rem .6rem; flex: 1; text-align: center; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.showcase { margin-top: 3.5rem; }
+.showcase .main { max-width: 60rem; margin: 0 auto; }
+
+.looks { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+.looks figure { margin: 0; }
+.looks figcaption { margin-top: .7rem; font-size: .92rem; color: var(--muted); }
+.looks figcaption b { color: var(--fg); font-weight: 600; }
+
+.features { display: grid; gap: 2rem 2.5rem; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+.feature h3 { font-size: 1.25rem; margin-bottom: .4rem; display: flex; gap: .6rem; align-items: baseline; }
+.feature h3::before { content: ""; flex: 0 0 .7rem; height: .7rem; border: 2px solid var(--accent); border-radius: 3px; transform: translateY(-.05rem); }
+.feature p { margin: 0; color: var(--muted); font-size: .97rem; }
+
+.steps { counter-reset: s; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); padding: 0; list-style: none; margin: 0 0 1.5rem; }
+.steps li { counter-increment: s; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.3rem; }
+.steps li::before { content: counter(s); display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--accent-bg); color: var(--accent); font: 700 1rem var(--head); margin-bottom: .8rem; }
+.steps b { display: block; margin-bottom: .3rem; }
+.steps span { color: var(--muted); font-size: .95rem; }
+.split { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); align-items: start; }
+.box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 1.5rem; }
+.box h3 { font-size: 1.2rem; margin-bottom: .6rem; }
+.box p { margin: 0 0 1rem; color: var(--muted); font-size: .97rem; }
+
+.trust { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); padding: 0; margin: 0; list-style: none; }
+.trust li { border-top: 2px solid var(--accent); padding-top: 1rem; }
+.trust b { display: block; font: 600 1.1rem var(--head); margin-bottom: .3rem; }
+.trust span { color: var(--muted); font-size: .95rem; }
+
+.faq details { border-bottom: 1px solid var(--line); padding: 1rem 0; }
+.faq summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 1rem; }
+.faq summary::after { content: "+"; color: var(--accent); font-size: 1.3rem; line-height: 1; }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { color: var(--muted); margin: .6rem 0 0; }
+
+footer { border-top: 1px solid var(--line); padding: 2.5rem 0 3rem; color: var(--muted); font-size: .9rem; }
+footer .wrap { display: grid; gap: 1rem; }
+footer .links { display: flex; flex-wrap: wrap; gap: .4rem 1.4rem; }
+footer .links a { color: var(--fg); text-decoration: none; }
+footer .links a:hover { color: var(--accent); }
+.donate { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.donate button { font: inherit; font-size: .85rem; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 999px; padding: .3rem .8rem; cursor: pointer; }
+.donate button:hover { border-color: var(--accent); }
+#copied { color: var(--accent); }
+
+@media (max-width: 40rem) {
+	body { font-size: 16px; }
+	section { padding: 3.5rem 0; }
+	.navlink { display: none; }
+	.hero { padding-top: 3rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+	<div class="wrap">
+		<a class="brand" href="./"><img src="assets/img/logo.svg" alt="">Mado</a>
+		<nav>
+			<a class="navlink" href="#features" data-i="navFeatures"></a>
+			<a class="navlink" href="#start" data-i="navStart"></a>
+			<a class="navlink" href="https://oluengo.github.io/">oluengo</a>
+			<div class="lang" role="group" aria-label="Language">
+				<button data-lang="ca">CA</button><button data-lang="es">ES</button><button data-lang="en">EN</button>
+			</div>
+			<button class="theme" id="theme" type="button" data-i-aria="theme">
+				<svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+				<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+			</button>
+		</nav>
+	</div>
+</header>
+
+<main>
+	<div class="hero">
+		<div class="wrap">
+			<img class="logo" src="assets/img/logo.svg" alt="">
+			<div class="jp" data-i="jp"></div>
+			<h1 data-i="title"></h1>
+			<p data-i="intro"></p>
+			<div class="cta">
+				<a class="btn primary" href="#start" data-i="start"></a>
+				<a class="btn" href="https://oluengo.github.io/blog/" data-i="demo"></a>
+				<a class="btn" href="https://github.com/oluengo/mado">
+					<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.5 1 0-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2 0-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17.3 4.6 18.3 5 18.3 5c.7 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.9 1.1.9 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3"/></svg>
+					GitHub
+				</a>
+			</div>
+			<ul class="meta" data-list="meta"></ul>
+			<div class="showcase">
+				<div class="window main">
+					<div class="bar"><i></i><i></i><i></i><span>tu-usuario.github.io/blog</span></div>
+					<img src="site/img/list-violeta.webp" width="1280" height="820" data-i-alt="shotAlt" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<section id="looks" style="padding-top:2rem">
+		<div class="wrap">
+			<h2 data-i="looksTitle"></h2>
+			<p class="lead" data-i="looksLead"></p>
+			<div class="looks" id="looks-list"></div>
+		</div>
+	</section>
+
+	<section id="features" style="padding-top:1rem">
+		<div class="wrap">
+			<h2 data-i="featTitle"></h2>
+			<p class="lead" data-i="featLead"></p>
+			<div class="features" id="features-list"></div>
+		</div>
+	</section>
+
+	<section id="start" style="padding-top:1rem">
+		<div class="wrap">
+			<h2 data-i="startTitle"></h2>
+			<p class="lead" data-i="startLead"></p>
+			<ol class="steps" id="steps"></ol>
+			<div class="split">
+				<div class="box">
+					<h3 data-i="adminTitle"></h3>
+					<p data-i="adminText"></p>
+					<a class="btn primary" href="admin.html" data-i="adminBtn"></a>
+				</div>
+				<div class="box">
+					<h3 data-i="liteTitle"></h3>
+					<p data-i="liteText"></p>
+					<a class="btn" href="https://github.com/oluengo/mado/blob/main/docs/es/alojamiento-propio.md" id="docs-link" data-i="docsBtn"></a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="trust" style="padding-top:1rem">
+		<div class="wrap">
+			<h2 data-i="trustTitle"></h2>
+			<p class="lead" data-i="trustLead"></p>
+			<ul class="trust" id="trust-list"></ul>
+		</div>
+	</section>
+
+	<section id="faq" style="padding-top:1rem">
+		<div class="wrap faq">
+			<h2 data-i="faqTitle"></h2>
+			<div id="faq-list"></div>
+		</div>
+	</section>
+</main>
+
+<footer>
+	<div class="wrap">
+		<div class="links">
+			<a href="https://github.com/oluengo/mado/releases" data-i="releases"></a>
+			<a href="https://github.com/oluengo/mado/blob/main/CHANGELOG.md" data-i="changelog"></a>
+			<a href="https://github.com/oluengo/mado" id="readme">GitHub</a>
+			<a href="https://github.com/oluengo/mado/issues" data-i="issues"></a>
+			<a href="https://github.com/oluengo/mado/blob/main/CREDITS.md" data-i="credits"></a>
+			<a href="https://github.com/oluengo/mado/blob/main/LICENSE" data-i="license"></a>
+		</div>
+		<div class="donate">
+			<span data-i="support"></span>
+			<button data-copy="bc1pnvdct6hfnh67p7dcg2e5mdveyz8jlxuzv4yflkxqccc72qkuc8ls8raspa">Bitcoin</button>
+			<button data-copy="oluengo@rizful.com">Lightning · zap</button>
+			<span id="copied" role="status"></span>
+		</div>
+		<div><span data-i="made"></span> · <a href="https://oluengo.github.io/" style="color:inherit">oluengo.github.io</a></div>
+	</div>
+</footer>
+
+<script>
+const I = {
+	es: {
+		navFeatures: "Funciones", navStart: "Empezar", theme: "Cambiar tema",
+		jp: "窓 · mado · ventana",
+		title: "Tus publicaciones de Nostr, en tu propia web",
+		intro: "Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por ti, en GitHub Pages o en cualquier alojamiento estático. Sin servidor, sin compilar y sin nada que instalar.",
+		start: "Crear mi web", demo: "Ver un blog real",
+		meta: ["Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
+		shotAlt: "Un blog hecho con Mado, diseño Lista y tema Violeta",
+		looksTitle: "Tu web, a tu manera",
+		looksLead: "El aspecto va en tres piezas independientes: 6 diseños, 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos o crea los tuyos.",
+		looks: [["featured-arena", "Destacado", "tema Arena, serif"], ["grid-oceano", "Rejilla", "tema Océano, modo oscuro"], ["timeline-sakura", "Cronología", "tema Sakura, serif"]],
+		looksNote: "Capturas con un blog de ejemplo.",
+		featTitle: "Todo lo que necesita un blog",
+		featLead: "Publicas con tu cliente de Nostr de siempre (Habla, Yakihonne, Primal…). Mado solo lee y muestra.",
+		features: [
+			["Portada y enlaces permanentes", "Portada paginada, una página para cada publicación, secciones por hashtag, nube de etiquetas, buscador y página «Sobre mí»."],
+			["Filtros por hashtag", "Incluye o excluye etiquetas, fija publicaciones y oculta respuestas. Opcional: barra y buscador de etiquetas para quien visita."],
+			["Interacciones de Nostr", "Reacciones, comentarios en hilo, zaps, citas y reposts. Cada una se activa por separado."],
+			["Cinco idiomas", "Castellano, català, English, italiano y Deutsch, en la web y en la página de configuración."],
+			["Sin tocar JSON", "La página de configuración genera tu config.json. También puedes guardar la configuración en Nostr (NIP-78)."],
+			["Tu web es tuya", "Cada evento se comprueba con su firma, y la web puede demostrar que es tuya con NIP-05 o un enlace firmado."]
+		],
+		startTitle: "Ponla en marcha en cuatro pasos",
+		startLead: "Con GitHub Pages, en unos minutos. También funciona en cualquier alojamiento estático.",
+		steps: [["Haz fork", "Copia el repositorio oluengo/mado en tu cuenta de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Configúrala", "Abre admin.html en tu web, pon tu npub y elige el aspecto. Descarga config.json."], ["Súbela", "Sustituye config.json en tu repositorio. En uno o dos minutos está publicada."]],
+		adminTitle: "Prueba la configuración", adminText: "Elige diseño, tema, tipografía, filtros e idioma, y mira el resultado antes de publicar. No necesitas cuenta: solo genera un archivo en tu navegador.", adminBtn: "Abrir la configuración",
+		liteTitle: "Dentro de otra web", liteText: "¿Ya tienes web? Una instancia ligera de Mado necesita solo index.html y config.json en una carpeta. Así funciona oluengo.github.io/blog.", docsBtn: "Alojamiento propio",
+		trustTitle: "Seguro por diseño", trustLead: "Mado es una web estática: no guarda datos de nadie ni tiene acceso a tus claves.",
+		trust: [["Nunca pide tu nsec", "Para firmar (configuración en Nostr) usa una extensión NIP-07 del navegador."], ["Firmas comprobadas", "Cada publicación se verifica antes de mostrarse: nadie puede colar textos en tu nombre."], ["Sin rastreadores", "Ni analítica ni cookies. Solo se conecta a los relays de Nostr que elijas."], ["admin.html no toca nada", "Solo genera un archivo. Puedes dejarlo publicado o borrarlo cuando termines."]],
+		faqTitle: "Preguntas frecuentes",
+		faq: [
+			["¿Necesito saber programar?", "No. Haces fork, activas Pages y configuras desde una página web. Lo único que se edita es un archivo, y lo genera Mado."],
+			["¿Dónde escribo los artículos?", "En tu cliente de Nostr habitual (Habla, Yakihonne, Primal, Damus…). Mado lee lo que publicas y lo muestra."],
+			["¿Puedo usar mi propio dominio?", "Sí. GitHub Pages admite dominio propio, y Mado funciona en cualquier alojamiento estático (Netlify, nginx…)."],
+			["¿Cuesta algo?", "No. Mado es gratis y de código abierto (MIT). GitHub Pages también es gratis."],
+			["¿Qué pasa si un relay cae?", "Mado consulta varios relays a la vez y guarda una copia temporal en el navegador de quien visita."],
+			["Está en beta, ¿qué significa?", "Que funciona y se usa a diario, pero todavía cambia. Mira el historial de cambios antes de actualizar tu fork."]
+		],
+		releases: "Versiones", changelog: "Historial de cambios", issues: "Informar de un problema", credits: "Créditos", license: "Licencia MIT",
+		support: "Apoya el proyecto (toca para copiar):", copied: "copiado",
+		made: "Hecho con IA · probado por humanos", docs: "es/alojamiento-propio.md"
+	},
+	ca: {
+		navFeatures: "Funcions", navStart: "Començar", theme: "Canvia el tema",
+		jp: "窓 · mado · finestra",
+		title: "Les teves publicacions de Nostr, a la teva web",
+		intro: "Mado converteix els teus articles (NIP-23) i notes de Nostr en una web allotjada per tu, a GitHub Pages o a qualsevol allotjament estàtic. Sense servidor, sense compilar i sense res a instal·lar.",
+		start: "Crear la meva web", demo: "Veure un blog real",
+		meta: ["Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
+		shotAlt: "Un blog fet amb Mado, disseny Llista i tema Violeta",
+		looksTitle: "La teva web, a la teva manera",
+		looksLead: "L'aspecte va en tres peces independents: 6 dissenys, 6 temes de color amb mode clar i fosc, i 3 tipografies. Combina'ls o crea els teus.",
+		looks: [["featured-arena", "Destacat", "tema Arena, serif"], ["grid-oceano", "Graella", "tema Oceà, mode fosc"], ["timeline-sakura", "Cronologia", "tema Sakura, serif"]],
+		looksNote: "Captures amb un blog d'exemple.",
+		featTitle: "Tot el que necessita un blog",
+		featLead: "Publiques amb el teu client de Nostr de sempre (Habla, Yakihonne, Primal…). Mado només llegeix i mostra.",
+		features: [
+			["Portada i enllaços permanents", "Portada paginada, una pàgina per a cada publicació, seccions per hashtag, núvol d'etiquetes, cercador i pàgina «Sobre mi»."],
+			["Filtres per hashtag", "Inclou o exclou etiquetes, fixa publicacions i amaga respostes. Opcional: barra i cercador d'etiquetes per a qui visita."],
+			["Interaccions de Nostr", "Reaccions, comentaris en fil, zaps, cites i reposts. Cadascuna s'activa per separat."],
+			["Cinc idiomes", "Castellano, català, English, italiano i Deutsch, a la web i a la pàgina de configuració."],
+			["Sense tocar JSON", "La pàgina de configuració genera el teu config.json. També pots desar la configuració a Nostr (NIP-78)."],
+			["La teva web és teva", "Cada esdeveniment es comprova amb la seva signatura, i la web pot demostrar que és teva amb NIP-05 o un enllaç signat."]
+		],
+		startTitle: "Posa-la en marxa en quatre passos",
+		startLead: "Amb GitHub Pages, en uns minuts. També funciona a qualsevol allotjament estàtic.",
+		steps: [["Fes fork", "Copia el repositori oluengo/mado al teu compte de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Configura-la", "Obre admin.html a la teva web, posa el teu npub i tria l'aspecte. Descarrega config.json."], ["Puja-la", "Substitueix config.json al teu repositori. En un o dos minuts està publicada."]],
+		adminTitle: "Prova la configuració", adminText: "Tria disseny, tema, tipografia, filtres i idioma, i mira el resultat abans de publicar. No cal compte: només genera un fitxer al teu navegador.", adminBtn: "Obre la configuració",
+		liteTitle: "Dins d'una altra web", liteText: "Ja tens web? Una instància lleugera de Mado només necessita index.html i config.json en una carpeta. Així funciona oluengo.github.io/blog.", docsBtn: "Allotjament propi",
+		trustTitle: "Segur per disseny", trustLead: "Mado és una web estàtica: no desa dades de ningú ni té accés a les teves claus.",
+		trust: [["Mai demana el teu nsec", "Per signar (configuració a Nostr) fa servir una extensió NIP-07 del navegador."], ["Signatures comprovades", "Cada publicació es verifica abans de mostrar-se: ningú pot colar textos en nom teu."], ["Sense rastrejadors", "Ni analítica ni galetes. Només es connecta als relays de Nostr que triïs."], ["admin.html no toca res", "Només genera un fitxer. El pots deixar publicat o esborrar-lo quan acabis."]],
+		faqTitle: "Preguntes freqüents",
+		faq: [
+			["Cal saber programar?", "No. Fas fork, actives Pages i configures des d'una pàgina web. L'únic que s'edita és un fitxer, i el genera Mado."],
+			["On escric els articles?", "Al teu client de Nostr habitual (Habla, Yakihonne, Primal, Damus…). Mado llegeix el que publiques i ho mostra."],
+			["Puc fer servir el meu domini?", "Sí. GitHub Pages admet domini propi, i Mado funciona a qualsevol allotjament estàtic (Netlify, nginx…)."],
+			["Costa alguna cosa?", "No. Mado és gratuït i de codi obert (MIT). GitHub Pages també és gratuït."],
+			["Què passa si un relay cau?", "Mado consulta diversos relays alhora i desa una còpia temporal al navegador de qui visita."],
+			["És en beta, què vol dir?", "Que funciona i s'utilitza cada dia, però encara canvia. Mira l'historial de canvis abans d'actualitzar el teu fork."]
+		],
+		releases: "Versions", changelog: "Historial de canvis", issues: "Informa d'un problema", credits: "Crèdits", license: "Llicència MIT",
+		support: "Dona suport al projecte (toca per copiar):", copied: "copiat",
+		made: "Fet amb IA · provat per humans", docs: "es/alojamiento-propio.md"
+	},
+	en: {
+		navFeatures: "Features", navStart: "Get started", theme: "Toggle theme",
+		jp: "窓 · mado · window",
+		title: "Your Nostr posts, on your own website",
+		intro: "Mado turns your Nostr articles (NIP-23) and notes into a website you host yourself, on GitHub Pages or any static host. No server, no build step, nothing to install.",
+		start: "Create my site", demo: "See a real blog",
+		meta: ["Free and open source", "No server", "Five languages", "Verified signatures"],
+		shotAlt: "A blog made with Mado, List layout and Violet theme",
+		looksTitle: "Your site, your way",
+		looksLead: "The look comes in three independent pieces: 6 layouts, 6 colour themes with light and dark mode, and 3 typefaces. Mix them or make your own.",
+		looks: [["featured-arena", "Featured", "Arena theme, serif"], ["grid-oceano", "Grid", "Ocean theme, dark mode"], ["timeline-sakura", "Timeline", "Sakura theme, serif"]],
+		looksNote: "Screenshots with a sample blog.",
+		featTitle: "Everything a blog needs",
+		featLead: "Publish with your usual Nostr client (Habla, Yakihonne, Primal…). Mado only reads and shows.",
+		features: [
+			["Home page and permalinks", "Paginated home, a page for each post, hashtag sections, tag cloud, search and an About page."],
+			["Hashtag filters", "Include or exclude tags, pin posts and hide replies. Optional: a tag bar and tag search for visitors."],
+			["Nostr interactions", "Reactions, threaded comments, zaps, quotes and reposts. Each one can be turned on separately."],
+			["Five languages", "Castellano, català, English, italiano and Deutsch, on the site and on the settings page."],
+			["No JSON editing", "The settings page generates your config.json. You can also store the settings on Nostr (NIP-78)."],
+			["Your site is yours", "Every event is checked against its signature, and the site can prove it's yours with NIP-05 or a signed link."]
+		],
+		startTitle: "Up and running in four steps",
+		startLead: "With GitHub Pages, in a few minutes. It also works on any static host.",
+		steps: [["Fork it", "Copy the oluengo/mado repository to your GitHub account."], ["Enable Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Configure it", "Open admin.html on your site, enter your npub and pick the look. Download config.json."], ["Upload it", "Replace config.json in your repository. It's live in a minute or two."]],
+		adminTitle: "Try the settings", adminText: "Pick layout, theme, typeface, filters and language, and preview the result before publishing. No account needed: it only generates a file in your browser.", adminBtn: "Open the settings",
+		liteTitle: "Inside another site", liteText: "Already have a website? A lightweight Mado instance needs just index.html and config.json in a folder. That's how oluengo.github.io/blog works.", docsBtn: "Self-hosting",
+		trustTitle: "Safe by design", trustLead: "Mado is a static website: it stores nobody's data and never touches your keys.",
+		trust: [["Never asks for your nsec", "To sign (settings on Nostr) it uses a NIP-07 browser extension."], ["Verified signatures", "Every post is verified before it's shown: nobody can slip in text under your name."], ["No trackers", "No analytics, no cookies. It only connects to the Nostr relays you choose."], ["admin.html changes nothing", "It only generates a file. Keep it published or delete it when you're done."]],
+		faqTitle: "FAQ",
+		faq: [
+			["Do I need to know how to code?", "No. Fork, enable Pages and configure from a web page. The only thing you edit is one file, and Mado generates it."],
+			["Where do I write my articles?", "In your usual Nostr client (Habla, Yakihonne, Primal, Damus…). Mado reads what you publish and shows it."],
+			["Can I use my own domain?", "Yes. GitHub Pages supports custom domains, and Mado works on any static host (Netlify, nginx…)."],
+			["Does it cost anything?", "No. Mado is free and open source (MIT). GitHub Pages is free too."],
+			["What if a relay goes down?", "Mado queries several relays at once and keeps a temporary copy in the visitor's browser."],
+			["It's in beta. What does that mean?", "It works and is used every day, but it still changes. Check the changelog before updating your fork."]
+		],
+		releases: "Releases", changelog: "Changelog", issues: "Report a problem", credits: "Credits", license: "MIT License",
+		support: "Support the project (tap to copy):", copied: "copied",
+		made: "Built with AI · tested by humans", docs: "en/self-hosting.md"
+	}
+};
+const LANGS = ["ca", "es", "en"], root = document.documentElement;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+function pickLang() {
+	const q = new URLSearchParams(location.search).get("lang");
+	if (LANGS.includes(q)) return q;
+	try { const s = localStorage.getItem("lang"); if (LANGS.includes(s)) return s; } catch (e) {}
+	const n = (navigator.languages || [navigator.language || ""]).map(x => String(x).slice(0, 2));
+	return n.find(x => LANGS.includes(x)) || "en";
+}
+let L;
+function render(lang) {
+	L = lang; const t = I[lang]; root.lang = lang;
+	document.querySelectorAll("[data-i]").forEach(el => { el.textContent = t[el.dataset.i]; });
+	document.querySelectorAll("[data-i-aria]").forEach(el => { el.setAttribute("aria-label", t[el.dataset.iAria]); el.title = t[el.dataset.iAria]; });
+	document.querySelectorAll("[data-i-alt]").forEach(el => { el.alt = t[el.dataset.iAlt]; });
+	document.querySelectorAll("[data-list]").forEach(el => { el.innerHTML = t[el.dataset.list].map(x => "<li>" + esc(x) + "</li>").join(""); });
+	document.getElementById("looks-list").innerHTML = t.looks.map(([f, n, d]) =>
+		`<figure><div class="window"><div class="bar"><i></i><i></i><i></i></div><img src="site/img/${f}.webp" width="1280" height="820" loading="lazy" alt="${esc(n)}"></div><figcaption><b>${esc(n)}</b> · ${esc(d)}</figcaption></figure>`).join("") +
+		`<p style="grid-column:1/-1;margin:0;color:var(--muted);font-size:.85rem">${esc(t.looksNote)}</p>`;
+	document.getElementById("features-list").innerHTML = t.features.map(([h, p]) => `<div class="feature"><h3>${esc(h)}</h3><p>${esc(p)}</p></div>`).join("");
+	document.getElementById("steps").innerHTML = t.steps.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
+	document.getElementById("trust-list").innerHTML = t.trust.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
+	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
+	document.getElementById("docs-link").href = "https://github.com/oluengo/mado/blob/main/docs/" + t.docs;
+	document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "" : "/blob/main/README.es.md");
+	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+}
+document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
+	try { localStorage.setItem("lang", b.dataset.lang); } catch (e) {}
+	render(b.dataset.lang);
+}));
+try { const th = localStorage.getItem("theme"); if (th) root.dataset.theme = th; } catch (e) {}
+document.getElementById("theme").addEventListener("click", () => {
+	const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+	root.dataset.theme = cur === "dark" ? "light" : "dark";
+	try { localStorage.setItem("theme", root.dataset.theme); } catch (e) {}
+});
+const copied = document.getElementById("copied"); let ct;
+document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click", async () => {
+	let ok = false;
+	try { await navigator.clipboard.writeText(b.dataset.copy); ok = true; } catch (e) {}
+	copied.textContent = ok ? b.textContent + " " + I[L].copied : b.dataset.copy;
+	clearTimeout(ct); ct = setTimeout(() => { copied.textContent = ""; }, ok ? 1800 : 8000);
+}));
+render(pickLang());
+</script>
+</body>
+</html>
