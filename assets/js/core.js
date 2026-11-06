@@ -18,10 +18,11 @@ Mado.url = p => /^(https?:|data:|\/)/.test(p) ? p : Mado.BASE + p;
 
 /* ---------- Configuración por defecto ---------- */
 Mado.DEFAULTS = {
-  version: 1,
+  version: 2,
   author: { npub: '' },
   relays: ['wss://relay.damus.io', 'wss://nos.lol', 'wss://relay.primal.net', 'wss://relay.snort.social'],
-  remoteConfig: { enabled: false, d: 'mado-config' },
+  // La configuración vive en Nostr (NIP-78). d vacío = automático: «mado:dominio/carpeta/».
+  remoteConfig: { enabled: true, d: '' },
   content: {
     kinds: [30023, 1],       // 30023 = artículos (NIP-23), 1 = notas
     includeTags: [],         // solo publicaciones con estos hashtags
@@ -218,38 +219,96 @@ Mado.migrate = raw => {
     if (!site.layout || site.layout === 'auto') site.layout = l;
   }
   if (site.layout === 'auto') site.layout = 'list';
+  // v1 -> v2: la configuración en Nostr pasa a ser la principal.
+  if (!(c.version >= 2)) {
+    if (c.remoteConfig) { c.remoteConfig.enabled = true; if (c.remoteConfig.d === 'mado-config') c.remoteConfig.d = ''; }
+    if (c.nav) delete c.nav.showAllTags;
+    c.version = 2;
+  }
   return c;
 };
-Mado.fetchRemoteConfig = async cfg => {
-  const pk = Mado.npubToHex(cfg.author.npub);
-  const ev = await Mado.query(cfg.relays, { authors: [pk], kinds: [30078], '#d': [cfg.remoteConfig.d], limit: 5 },
-    { timeout: Math.min(cfg.advanced.timeoutMs, 5000) });
-  const latest = ev.filter(e => e.pubkey === pk).sort((a, b) => b.created_at - a.created_at)[0];
-  if (!latest) return null;
-  try { return { data: JSON.parse(latest.content), event: latest }; } catch { return null; }
+/* ---------- Configuración en Nostr (NIP-78) ----------
+   La web se identifica por su dominio y carpeta. Su npub sale de config.json, de
+   <meta name="mado-npub"> o del NIP-05 «_» del dominio; sus relays, además, de la lista NIP-65. */
+Mado.siteKey = href => { const u = new URL('./', href); return (u.host + u.pathname).toLowerCase(); };
+// Identificadores (etiqueta d) que se buscan, por orden de preferencia.
+Mado.configD = (cfg, href) => {
+  const d = String(cfg.remoteConfig.d || '').trim();
+  return d && d !== 'mado-config' ? [d] : ['mado:' + Mado.siteKey(href), 'mado-config'];
+};
+Mado.mergeRelays = (...lists) => [...new Set(lists.flat().filter(r => /^wss?:\/\//i.test(r || '')).map(r => r.trim().replace(/\/+$/, '')))].slice(0, 8);
+// npub sin config.json: <meta name="mado-npub"> en la página, o el NIP-05 «_» del dominio.
+Mado.findNpub = async (href, doc = document) => {
+  const m = doc && doc.querySelector('meta[name="mado-npub"]');
+  if (m && m.content.trim()) return m.content.trim();
+  try {
+    const r = await fetch(new URL('/.well-known/nostr.json?name=_', href), { cache: 'no-store' });
+    if (!r.ok) return '';
+    const pk = ((await r.json()).names || {})._;
+    return /^[0-9a-f]{64}$/i.test(pk || '') ? pk.toLowerCase() : '';
+  } catch { return ''; }
+};
+const writeRelays = ev => ev ? ev.tags.filter(t => t[0] === 'r' && /^wss?:\/\//i.test(t[1] || '') && t[2] !== 'read').map(t => t[1]) : [];
+const latestOf = list => list.sort((a, b) => b.created_at - a.created_at)[0];
+
+// Busca la lista de relays (NIP-65) y la configuración de esta web en una sola consulta.
+Mado.fetchRemoteConfig = async (cfg, href = location.href) => {
+  const pk = Mado.npubToHex(cfg.author.npub), ds = Mado.configD(cfg, href);
+  const timeout = Math.min(cfg.advanced.timeoutMs, 5000);
+  const ask = relays => Mado.query(relays, [{ authors: [pk], kinds: [30078], '#d': ds, limit: 10 }, { authors: [pk], kinds: [10002], limit: 2 }], { timeout })
+    .then(ev => ev.filter(e => e.pubkey === pk));
+  const pick = ev => {
+    for (const d of ds) {
+      const e = latestOf(ev.filter(x => x.kind === 30078 && Mado.tag(x, 'd') === d));
+      if (e) try { return { data: JSON.parse(e.content), event: e, d }; } catch {}
+    }
+    return null;
+  };
+  const known = (Mado.store.get('mado-relays:' + pk) || {}).data || [];
+  let relays = Mado.mergeRelays(cfg.relays, known), ev = await ask(relays);
+  const listed = writeRelays(latestOf(ev.filter(e => e.kind === 10002)));
+  if (listed.length) Mado.store.set('mado-relays:' + pk, { ts: Date.now(), data: listed });
+  let found = pick(ev);
+  const extra = listed.filter(r => !relays.includes(r.replace(/\/+$/, '')));
+  if (!found && extra.length) { ev = ev.concat(await ask(extra)); found = pick(ev); }
+  return found ? { ...found, relays: Mado.mergeRelays(relays, listed) } : { data: null, relays: Mado.mergeRelays(relays, listed) };
 };
 
-// Orden: borrador del admin (?preview) > window.MADO_CONFIG > config.json; luego NIP-78 si está activo.
+// Aplica la configuración publicada en Nostr sobre cfg (gana a config.json). Devuelve info para mostrar.
+Mado.applyRemote = (cfg, r) => {
+  if (r.data) {
+    const remote = Mado.migrate(r.data);
+    Mado.signedSiteUrl = remote.site && remote.site.url || ''; // viene de un evento firmado por el autor
+    delete remote.author; delete remote.remoteConfig;
+    cfg = Mado.merge(cfg, remote);
+  }
+  if (!r.data || !(r.data.relays || []).length) cfg.relays = r.relays;
+  return cfg;
+};
+
+// Orden: borrador del admin (?preview) > window.MADO_CONFIG > config.json (opcional); luego Nostr.
 Mado.loadConfig = async ({ preview = false } = {}) => {
   let cfg = preview ? Mado.store.get(Mado.draftKey(location.href)) : null;
   if (!cfg && window.MADO_CONFIG) cfg = window.MADO_CONFIG;
-  if (!cfg) { const r = await fetch(window.MADO_CONFIG_URL || 'config.json', { cache: 'no-store' }); if (!r.ok) throw Error('config.json'); cfg = await r.json(); }
-  cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(cfg));
-  if (cfg.remoteConfig.enabled && cfg.author.npub && !preview) {
-    const key = 'mado-remote:' + cfg.author.npub + ':' + cfg.remoteConfig.d;
-    const cached = Mado.store.get(key);
-    let remote = cached && Date.now() - cached.ts < cfg.advanced.cacheMinutes * 60000 ? cached.data : null;
-    if (!remote) {
-      try { const r = await Mado.fetchRemoteConfig(cfg); remote = r ? r.data : null; } catch {}
-      if (remote) Mado.store.set(key, { ts: Date.now(), data: remote });
-      else if (cached) remote = cached.data;
-    }
-    if (remote) {
-      remote = Mado.migrate(remote);
-      Mado.signedSiteUrl = remote.site && remote.site.url || ''; // viene de un evento firmado por el autor
-      const r = { ...remote }; delete r.author; delete r.remoteConfig; cfg = Mado.merge(cfg, r);
-    }
+  if (!cfg) {
+    try { const r = await fetch(window.MADO_CONFIG_URL || 'config.json', { cache: 'no-store' }); cfg = r.ok ? await r.json() : {}; }
+    catch { cfg = {}; }
   }
+  cfg = Mado.merge(Mado.DEFAULTS, Mado.migrate(cfg));
+  Mado.verifySignatures = cfg.advanced.verifySignatures !== false;
+  if (preview) return cfg;
+  if (!cfg.author.npub) cfg.author.npub = await Mado.findNpub(location.href);
+  let pk; try { pk = Mado.npubToHex(cfg.author.npub); } catch { return cfg; }
+  if (cfg.remoteConfig.enabled === false) return cfg;
+  const key = 'mado-remote:' + pk + ':' + Mado.siteKey(location.href);
+  const cached = Mado.store.get(key);
+  let r = cached && Date.now() - cached.ts < cfg.advanced.cacheMinutes * 60000 ? cached.data : null;
+  if (!r) {
+    try { r = await Mado.fetchRemoteConfig(cfg); } catch {}
+    if (r) Mado.store.set(key, { ts: Date.now(), data: { data: r.data, relays: r.relays } });
+    else if (cached) r = cached.data;
+  }
+  if (r) cfg = Mado.applyRemote(cfg, r);
   Mado.verifySignatures = cfg.advanced.verifySignatures !== false;
   return cfg;
 };
@@ -629,7 +688,7 @@ Mado.fmtCount = (n, lang) => {
   try { return new Intl.NumberFormat(loc, { notation: 'compact', maximumFractionDigits: 1 }).format(n); } catch { return String(n); }
 };
 
-Mado.VERSION = '0.4.0';
+Mado.VERSION = '0.5.0';
 Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;

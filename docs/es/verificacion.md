@@ -12,7 +12,7 @@ Basta con una de las dos opciones.
 
 Funciona cuando la web está en la raíz de un dominio: `usuario.github.io` o un dominio propio.
 
-1. En la página de configuración (bloque 5), elige un nombre (`_` significa «solo el dominio») y pulsa **Descargar nostr.json**.
+1. En la página de configuración (pestaña «Verificación»), elige un nombre (`_` significa «solo el dominio») y pulsa **Descargar nostr.json**.
 2. Súbelo a `.well-known/nostr.json` en la raíz del dominio. En GitHub Pages va en el repositorio que sirve la raíz (`usuario.github.io`), junto con el archivo `.nojekyll` (ya incluido en Mado).
 3. En tu cliente Nostr, pon como NIP-05 `_@usuario.github.io` (se muestra como `usuario.github.io`) o `nombre@usuario.github.io`.
 
@@ -23,7 +23,7 @@ Extra: los clientes de Nostr también mostrarán tu NIP-05 como verificado.
 Funciona en cualquier sitio, también en subcarpetas como `usuario.github.io/mado/`.
 
 - En tu cliente Nostr, pon la URL de la web en el campo **Web** de tu perfil, **o**
-- Rellena **URL pública del blog** (bloque 5) y publica la configuración en Nostr (bloque 6). Ese evento va firmado por ti.
+- Rellena **URL pública del blog** (pestaña «Verificación») y publica la configuración en Nostr (**Publicar en Nostr**). Ese evento va firmado por ti.
 
 Un enlace a una carpeta cubre todo lo que contiene: `usuario.github.io` también cubre `usuario.github.io/mado/`.
 

@@ -2,26 +2,26 @@
 
 [Español](../es/configuracion.md)
 
-All settings live in `config.json`. The settings page (`admin.html`) edits every field; this page is for reference. Missing fields use the defaults shown.
+Settings are published to Nostr from the settings page (`admin.html`), signed with your npub (NIP-78, kind 30078). `config.json` has the same format and is optional: if both exist, what is published on Nostr wins. This page is for reference; missing fields use the defaults shown.
 
 ## `author`
 
 | Field | Default | Description |
 |---|---|---|
-| `npub` | `""` | Author's npub (or hex public key). Required. |
+| `npub` | `""` | Author's npub (or hex key). If empty, it is looked up in `<meta name="mado-npub">` in `index.html` and in the domain NIP-05 `_`. |
 
 ## `relays`
 
-List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `relay.primal.net`, `relay.snort.social`. Use the relays you publish to.
+List of `wss://` relays to read from. Default: `relay.damus.io`, `nos.lol`, `relay.primal.net`, `relay.snort.social`. Relays from your published relay list (NIP-65) are added.
 
 ## `remoteConfig` (NIP-78)
 
 | Field | Default | Description |
 |---|---|---|
-| `enabled` | `false` | Read the rest of the settings from a signed Nostr event (kind 30078). |
-| `d` | `"mado-config"` | Identifier (`d` tag) of that event. |
+| `enabled` | `true` | Read the settings from the signed Nostr event (kind 30078). |
+| `d` | `""` | Identifier (`d` tag). Empty = automatic, one per site: `mado:domain/folder/`. |
 
-`author` and `relays` always come from `config.json`: they are needed to find the remote settings.
+The site first finds the npub (`config.json`, `<meta>` or NIP-05), then looks for the settings on its relays. They are kept in the visitor's cache (`advanced.cacheMinutes`).
 
 ## `content`
 

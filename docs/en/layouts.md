@@ -13,7 +13,7 @@ Mado separates **layouts** (structure), **themes** (colours) and **typography**.
 | `timeline` | Timeline | Posts grouped by month on a timeline. Pinned posts are not moved to the top. |
 | `compact` | Compact | One line per post: date, title and tags. |
 
-Choose it in the settings page (block 3) or in `config.json`:
+Choose it in the settings page (“Appearance” tab) :
 
 ```json
 "site": { "layout": "sidebar", "theme": "bosque", "font": "serif" }

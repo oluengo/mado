@@ -6,19 +6,18 @@ Mado son archivos estáticos con rutas relativas, así que funciona en cualquier
 
 ## Instancia ligera (recomendada para tu propio blog)
 
-Mantén Mado como plantilla limpia y ejecuta tu blog desde otra carpeta con solo dos archivos:
+Mantén Mado como plantilla limpia y ejecuta tu blog desde otra carpeta con un solo archivo:
 
 ```
 tu-web/
   mado/            ← Mado (fork o copia), sin tocar
   blog/
-    index.html     ← copia de examples/instance/index.html
-    config.json    ← tu configuración
+    index.html     ← copia de examples/instance/index.html, con tu npub
 ```
 
-`index.html` carga el código, los diseños, los temas y las tipografías desde `/mado/`; solo `config.json` es tuyo. Al actualizar Mado (sincronizando tu fork) se actualizan todas las instancias, y nadie que haga fork de Mado hereda tu configuración.
+`index.html` carga el código, los diseños, los temas y las tipografías desde `/mado/`, y la configuración desde Nostr. Al actualizar Mado (sincronizando tu fork) se actualizan todas las instancias, y nadie que haga fork de Mado hereda tu configuración.
 
-Para editar la configuración de la instancia, abre `/mado/admin.html?site=/blog/`: carga `/blog/config.json`, guarda su propio borrador y **Vista previa** abre `/blog/`.
+Para editar la configuración de la instancia, abre `/mado/admin.html?site=/blog/`: carga la configuración publicada para `/blog/`, guarda su propio borrador, **Vista previa** abre `/blog/` y **Publicar en Nostr** la firma para esa carpeta. Un `config.json` en `/blog/` es opcional (copia o alternativa sin Nostr).
 
 La URL `/mado/` de `index.html` también puede apuntar a otra web (`https://usuario.github.io/mado/`), pero mejor tu propio fork, para controlar las actualizaciones.
 
@@ -54,7 +53,7 @@ Los clientes de Nostr leen este archivo desde otros dominios, así que necesita 
 
 ## Lista de comprobación
 
-- `config.json` al mismo nivel que `index.html`.
+- Tu npub en `index.html` (`<meta name="mado-npub">`), en `config.json` o en el NIP-05 `_` del dominio.
 - `assets/`, `layouts/`, `themes/` y `fonts/` junto a ellos.
 - HTTPS (necesario para la verificación y para la mayoría de relays).
 - Opcional: quita `admin.html` y `assets/js/admin.js` de producción una vez configurado.

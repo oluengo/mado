@@ -12,7 +12,7 @@ One of the two options is enough.
 
 Works when the site is at the root of a domain: `user.github.io` or your own domain.
 
-1. In the settings page (block 5), choose a name (`_` means "just the domain") and click **Download nostr.json**.
+1. In the settings page (“Verification” tab), choose a name (`_` means "just the domain") and click **Download nostr.json**.
 2. Upload it to `.well-known/nostr.json` at the root of the domain. On GitHub Pages it goes in the repository that serves the root (`user.github.io`), together with the `.nojekyll` file (already included in Mado).
 3. In your Nostr client, set your NIP-05 to `_@user.github.io` (shown as `user.github.io`) or `name@user.github.io`.
 
@@ -23,7 +23,7 @@ Bonus: Nostr clients will also show your NIP-05 as verified.
 Works anywhere, including subfolders like `user.github.io/mado/`.
 
 - In your Nostr client, put the site URL in your profile's **Website** field, **or**
-- Fill in **Public blog URL** (block 5) and publish the settings on Nostr (block 6). That event is signed by you.
+- Fill in **Public blog URL** (“Verification” tab) and publish the settings on Nostr (**Publish to Nostr**). That event is signed by you.
 
 A link to a folder covers everything inside it: `user.github.io` also covers `user.github.io/mado/`.
 

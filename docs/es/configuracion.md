@@ -2,26 +2,26 @@
 
 [English](../en/configuration.md)
 
-Toda la configuración está en `config.json`. La página de configuración (`admin.html`) edita todos los campos; esta página es de consulta. Los campos que falten usan los valores por defecto indicados.
+La configuración se publica en Nostr desde la página de configuración (`admin.html`), firmada con tu npub (NIP-78, kind 30078). `config.json` tiene el mismo formato y es opcional: si existen los dos, gana lo publicado en Nostr. Esta página es de consulta; los campos que falten usan los valores por defecto indicados.
 
 ## `author`
 
 | Campo | Por defecto | Descripción |
 |---|---|---|
-| `npub` | `""` | npub del autor (o clave pública en hex). Obligatorio. |
+| `npub` | `""` | npub del autor (o clave en hex). Si está vacío, se busca en `<meta name="mado-npub">` de `index.html` y en el NIP-05 `_` del dominio. |
 
 ## `relays`
 
-Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lol`, `relay.primal.net`, `relay.snort.social`. Usa los relays donde publicas.
+Lista de relays `wss://` de los que leer. Por defecto: `relay.damus.io`, `nos.lol`, `relay.primal.net`, `relay.snort.social`. Se suman los de tu lista de relays publicada (NIP-65).
 
 ## `remoteConfig` (NIP-78)
 
 | Campo | Por defecto | Descripción |
 |---|---|---|
-| `enabled` | `false` | Leer el resto de la configuración de un evento firmado en Nostr (kind 30078). |
-| `d` | `"mado-config"` | Identificador (etiqueta `d`) de ese evento. |
+| `enabled` | `true` | Leer la configuración del evento firmado en Nostr (kind 30078). |
+| `d` | `""` | Identificador (etiqueta `d`). Vacío = automático, uno por web: `mado:dominio/carpeta/`. |
 
-`author` y `relays` salen siempre de `config.json`: hacen falta para encontrar la configuración remota.
+La web primero averigua el npub (`config.json`, `<meta>` o NIP-05) y luego busca la configuración en sus relays. Se guarda en la caché del visitante (`advanced.cacheMinutes`).
 
 ## `content`
 

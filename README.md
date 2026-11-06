@@ -10,26 +10,23 @@
 
 Mado turns your Nostr articles (NIP-23) and notes into a website you host yourself — on GitHub Pages or any static host. No server, no build step, nothing to install.
 
-- Paginated home page, permanent links, hashtag sections, tag cloud, search and an "About" page.
+- Paginated home page, permanent links, hashtag sections, search and an "About" page.
 - Hashtag filters (include/exclude, any/all), pinned posts, hidden replies.
 - Look built from three independent pieces: 6 layouts (structure), 6 colour themes with light and dark mode, and 3 typographies. Mix them freely and add your own.
 - Optional tag bar and tag search for visitors (one or several tags).
 - Nostr interactions, each optional: reactions, comments (count and threaded text), zaps, quotes and reposts.
 - Five languages: Castellano, Català, English, Italiano, Deutsch.
-- Settings page (`admin.html`) that generates `config.json` — no JSON editing by hand.
+- Settings stored on Nostr (NIP-78), signed with your extension from `admin.html`: change the site without touching the repository.
 - Every event is checked against its signature, and your site can prove it belongs to you (NIP-05 or a signed link).
-- Optional: store the settings on Nostr (NIP-78) and change the site without touching the repo.
 
 ## Quick start (GitHub Pages)
 
 1. **Fork** this repository.
 2. **Enable Pages**: *Settings → Pages → Deploy from a branch → `main` / root*.
-3. Open `https://YOUR-USER.github.io/mado/admin.html`, set your npub and options, and click **Download config.json**.
-4. Upload that file to the root of the repo, replacing the existing one. Your site updates in a minute or two.
+3. Put your npub in `index.html` (`<meta name="mado-npub" …>`, already there as a comment) or in `config.json`. Not needed if your domain has NIP-05 `_@domain`.
+4. Open `https://YOUR-USER.github.io/mado/admin.html`, click **Connect with extension** (NIP-07), choose your options and click **Publish to Nostr**. The site applies them right away.
 
-> Shortcut: open `config.json` on GitHub, click the pencil and paste the JSON from **Copy JSON**.
-
-This repository is a **template**: its `config.json` is empty on purpose. To run your blog inside another site with only `index.html` + `config.json`, use a [lightweight instance](docs/en/self-hosting.md#lightweight-instance-recommended-for-your-own-blog). Other options (own domain, subfolder): [Self-hosting](docs/en/self-hosting.md).
+This repository is a **template**: its `config.json` is empty on purpose. To run your blog inside another site with a single `index.html`, use a [lightweight instance](docs/en/self-hosting.md#lightweight-instance-recommended-for-your-own-blog). Other options (own domain, subfolder): [Self-hosting](docs/en/self-hosting.md).
 
 ## Documentation
 
@@ -47,8 +44,8 @@ This repository is a **template**: its `config.json` is empty on purpose. To run
 
 ```
 index.html              the site
-admin.html              settings page (generates config.json)
-config.json             site settings
+admin.html              settings page (publishes to Nostr)
+config.json             optional: npub and settings without Nostr
 .nojekyll               lets GitHub Pages publish .well-known/
 assets/
   css/base.css          shared layout
@@ -66,14 +63,14 @@ themes/
   themes.json           colour themes
   <id>/theme.css
 fonts/fonts.json        typographies
-examples/instance/       lightweight instance (index.html + config.json)
+examples/instance/      lightweight instance (index.html only)
 site/                   project website (oluengo.github.io/mado), not needed in forks
 docs/en, docs/es        documentation
 ```
 
 ## Is it safe to keep `admin.html` online?
 
-Yes. It only builds a file in your browser; it cannot change your repository. Settings published on Nostr are only accepted when signed by the author's npub. You can delete `admin.html` and `assets/js/admin.js` once you are done.
+Yes. It cannot change your repository, and settings published on Nostr are only accepted when signed by the author's npub (with your extension). You can delete `admin.html` and `assets/js/admin.js` once you are done.
 
 **Never type your nsec into any website.** To sign, use a NIP-07 browser extension.
 

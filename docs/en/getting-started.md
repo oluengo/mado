@@ -17,20 +17,25 @@
 
 After a minute your site is at `https://YOUR-USER.github.io/mado/`. Without settings it shows a setup screen where you can try any npub.
 
-## 3. Configure
+## 3. Tell the site who you are
 
-Open `https://YOUR-USER.github.io/mado/admin.html`:
+The site needs your npub to find your settings. Any of these three:
 
-1. **Author and relays** — paste your npub; your profile appears below to confirm it.
-2. **Content** — articles, notes or both. Click **Analyze the author's posts** to see your hashtags and pin articles with one click.
-3. **Appearance**, **Navigation** — theme, title, language, menu sections…
-4. **Preview** opens the site with your draft (only in your browser).
+- **Domain NIP-05** (nothing to edit): if `https://YOUR-DOMAIN/.well-known/nostr.json` has the name `_` with your key, Mado uses it. See [Verification](verification.md).
+- **`index.html`**: uncomment `<meta name="mado-npub" content="npub1…">` and put your npub.
+- **`config.json`**: write your npub in `author.npub`.
 
-Everything is saved as a draft in your browser until you export it.
+## 4. Configure and publish to Nostr
 
-## 4. Publish the settings
+Open `https://YOUR-USER.github.io/mado/admin.html`. You need a NIP-07 browser extension (Alby, nos2x…); **never type your nsec into a website**.
 
-Click **Download config.json** and upload it to the root of the repo, replacing the existing one (*Add file → Upload files*, or edit `config.json` and paste the JSON from **Copy JSON**). GitHub Pages republishes in a minute or two.
+1. **Author** → **Connect with extension**: fills in your npub and loads any settings you already published.
+2. Adjust the tabs (Content, Appearance, Site, Interactions…). **Preview** opens the site with your draft, only in your browser.
+3. Click **Publish to Nostr**: the extension signs the settings (NIP-78, kind 30078) and they are published to your relays. The site reads them from there; nothing to upload to the repository.
+
+Each site has its own settings, identified by its domain and folder (`mado:user.github.io/mado/`), so you can run several with the same npub.
+
+**Export backup (JSON)** downloads the settings: a backup, or a `config.json` if you prefer not to depend on relays. If both exist, the one published on Nostr wins.
 
 ## 5. Verify your site (recommended)
 
@@ -38,4 +43,4 @@ So visitors know the site really is yours — see [Site verification](verificati
 
 ## Updating
 
-Your settings live in `config.json` and your posts live on Nostr, so updating Mado is just syncing your fork (*Sync fork* on GitHub). Keep your `config.json` if GitHub asks about conflicts.
+Your settings and your posts live on Nostr, so updating Mado is just syncing your fork (*Sync fork* on GitHub). Keep your `index.html` or `config.json` if GitHub asks about conflicts.

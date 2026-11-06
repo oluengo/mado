@@ -13,7 +13,7 @@ Mado separa los **diseños** (estructura), los **temas** (colores) y la **tipogr
 | `timeline` | Cronología | Publicaciones agrupadas por mes sobre una línea de tiempo. Las fijadas no se adelantan. |
 | `compact` | Compacto | Una línea por publicación: fecha, título y etiquetas. |
 
-Se elige en la página de configuración (bloque 3) o en `config.json`:
+Se elige en la página de configuración (pestaña «Aspecto») :
 
 ```json
 "site": { "layout": "sidebar", "theme": "bosque", "font": "serif" }

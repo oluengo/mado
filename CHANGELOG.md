@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.5.0 (2026-11-06)
+
+- Settings live on Nostr: the settings page signs them with a NIP-07 extension (**Connect with extension**, **Publish to Nostr**) and the site reads them from the relays (NIP-78, kind 30078). No need to upload `config.json`.
+- One settings event per site, identified automatically by domain and folder (`d` = `mado:host/path/`); the old shared `mado-config` identifier is still read.
+- The site finds its npub in `config.json`, in `<meta name="mado-npub">` in `index.html`, or in the domain NIP-05 (`_`). Relays from the author's NIP-65 list are added.
+- `config.json` is optional (backup or an alternative without Nostr); if both exist, Nostr wins. Lightweight instances need only `index.html`.
+- Settings page: publish, preview, discard and export in the top bar; loads the published settings on open.
+- Config format version 2: old files are migrated (remote settings enabled).
+
 ## 0.4.0 (2026-10-30)
 
 - Optional tag filter for visitors (`filters` in config.json, off by default): tag bar above the listings (automatic from `includeTags` / most used, or your own list), single or multiple choice (any/all), post counts, and a tag search box in the bar.

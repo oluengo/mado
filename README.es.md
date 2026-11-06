@@ -10,25 +10,22 @@ Español · [English](README.md)
 
 Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por ti, en GitHub Pages o en cualquier alojamiento estático. Sin servidor, sin compilar y sin nada que instalar.
 
-- Portada paginada, enlaces permanentes, secciones por hashtag, nube de etiquetas, buscador y página «Sobre mí».
+- Portada paginada, enlaces permanentes, secciones por hashtag, buscador y página «Sobre mí».
 - Filtros por hashtag (incluir/excluir, alguno/todos), publicaciones fijadas y respuestas ocultas. Opcional: barra y buscador de etiquetas para el visitante.
 - Aspecto en tres piezas independientes: 6 diseños (estructura), 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos libremente y crea los tuyos.
 - Interacciones de Nostr, cada una opcional: reacciones, comentarios (número y texto en hilo), zaps, citas y reposts.
 - Cinco idiomas: castellano, català, English, italiano y Deutsch.
-- Página de configuración (`admin.html`) que genera `config.json`: no hace falta editar JSON a mano.
+- Configuración guardada en Nostr (NIP-78), firmada con tu extensión desde `admin.html`: cambias la web sin tocar el repositorio.
 - Cada evento se comprueba con su firma, y tu web puede demostrar que es tuya (NIP-05 o enlace firmado).
-- Opcional: guardar la configuración en Nostr (NIP-78) y cambiar la web sin tocar el repositorio.
 
 ## Puesta en marcha (GitHub Pages)
 
 1. Haz **fork** de este repositorio.
 2. **Activa Pages**: *Settings → Pages → Deploy from a branch → `main` / root*.
-3. Abre `https://TU-USUARIO.github.io/mado/admin.html`, pon tu npub y las opciones, y pulsa **Descargar config.json**.
-4. Sube ese archivo a la raíz del repo, sustituyendo el existente. La web se actualiza en uno o dos minutos.
+3. Pon tu npub en `index.html` (`<meta name="mado-npub" …>`, ya está comentado) o en `config.json`. Si tu dominio tiene NIP-05 `_@dominio`, no hace falta.
+4. Abre `https://TU-USUARIO.github.io/mado/admin.html`, pulsa **Conectar con extensión** (NIP-07), elige las opciones y pulsa **Publicar en Nostr**. La web lo aplica al momento.
 
-> Atajo: abre `config.json` en GitHub, pulsa el lápiz y pega el JSON de **Copiar JSON**.
-
-Este repositorio es una **plantilla**: su `config.json` está vacío a propósito. Para tener tu blog dentro de otra web con solo `index.html` + `config.json`, usa una [instancia ligera](docs/es/alojamiento-propio.md#instancia-ligera-recomendada-para-tu-propio-blog). Otras opciones (dominio propio, subcarpeta): [Alojamiento propio](docs/es/alojamiento-propio.md).
+Este repositorio es una **plantilla**: su `config.json` está vacío a propósito. Para tener tu blog dentro de otra web con solo un `index.html`, usa una [instancia ligera](docs/es/alojamiento-propio.md#instancia-ligera-recomendada-para-tu-propio-blog). Otras opciones (dominio propio, subcarpeta): [Alojamiento propio](docs/es/alojamiento-propio.md).
 
 ## Documentación
 
@@ -46,8 +43,8 @@ Este repositorio es una **plantilla**: su `config.json` está vacío a propósit
 
 ```
 index.html              la web
-admin.html              página de configuración (genera config.json)
-config.json             configuración de la web
+admin.html              página de configuración (publica en Nostr)
+config.json             opcional: npub y configuración sin Nostr
 .nojekyll               permite a GitHub Pages publicar .well-known/
 assets/
   css/base.css          estructura común
@@ -65,14 +62,14 @@ themes/
   themes.json           temas de color
   <id>/theme.css
 fonts/fonts.json        tipografías
-examples/instance/       instancia ligera (index.html + config.json)
+examples/instance/      instancia ligera (solo index.html)
 site/                   web del proyecto (oluengo.github.io/mado), no hace falta en los forks
 docs/es, docs/en        documentación
 ```
 
 ## ¿Es seguro dejar `admin.html` publicado?
 
-Sí. Solo genera un archivo en tu navegador; no puede cambiar el repositorio. La configuración publicada en Nostr solo se acepta si la firma el npub del autor. Puedes borrar `admin.html` y `assets/js/admin.js` cuando termines.
+Sí. No puede cambiar el repositorio, y la configuración publicada en Nostr solo se acepta si la firma el npub del autor (con tu extensión). Puedes borrar `admin.html` y `assets/js/admin.js` cuando termines.
 
 **Nunca escribas tu nsec en ninguna web.** Para firmar, usa una extensión NIP-07 del navegador.
 

@@ -98,11 +98,11 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 
 <div class="sticky">
 <div class="bar">
-  <button class="primary" id="b-preview" data-i18n="bPreview"></button>
-  <button id="b-download" data-i18n="bDownload"></button>
-  <button id="b-copy" data-i18n="bCopy"></button>
-  <label class="btn" style="display:inline-flex"><span data-i18n="bImport"></span><input type="file" id="b-import" accept=".json,application/json" hidden></label>
+  <button class="primary" id="b-nostr-pub" data-i18n="bNostrPub"></button>
+  <button id="b-preview" data-i18n="bPreview"></button>
   <button id="b-reload" data-i18n="bReload"></button>
+  <button id="b-download" data-i18n="bDownload"></button>
+  <label class="btn" style="display:inline-flex"><span data-i18n="bImport"></span><input type="file" id="b-import" accept=".json,application/json" hidden></label>
 </div>
 <nav class="tabs" role="tablist" id="tabs">
   <button type="button" role="tab" data-tab="author" data-i18n="tAuthor"></button>
@@ -120,6 +120,7 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 <form id="form" onsubmit="return false">
 
 <section class="panel" role="tabpanel" data-panel="author">
+  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button type="button" class="primary" id="b-connect" data-i18n="bConnect"></button> <span class="hint" data-i18n="connectH"></span></div>
   <label><span data-i18n="npub"></span> <small data-i18n="npubH"></small>
     <input type="text" data-path="author.npub" placeholder="npub1…" autocomplete="off"></label>
   <div class="profile" id="profile"></div>
@@ -281,12 +282,10 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
     <p class="hint" style="margin:0" data-i18n="s6Intro"></p>
     <div class="grid">
       <label class="check" style="align-self:end;padding-bottom:9px"><input type="checkbox" data-path="remoteConfig.enabled"> <span data-i18n="remoteOn"></span></label>
-      <label><span data-i18n="dTag"></span><input type="text" data-path="remoteConfig.d"></label>
+      <label><span data-i18n="dTag"></span> <small data-i18n="dTagH"></small><input type="text" data-path="remoteConfig.d" id="d-tag"></label>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" id="b-nostr-load" data-i18n="bNostrLoad"></button><button type="button" id="b-nostr-pub" data-i18n="bNostrPub"></button></div>
-    <p class="msg" id="nostr-msg"></p>
   </div>
-  <div class="group"><h3 data-i18n="jsonOut"></h3><pre id="json"></pre></div>
+  <div class="group"><h3 data-i18n="jsonOut"></h3><div><button type="button" id="b-copy" data-i18n="bCopy"></button></div><pre id="json"></pre></div>
 </section>
 </form>
 </div>
