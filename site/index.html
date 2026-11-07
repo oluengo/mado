@@ -408,7 +408,7 @@ function render(lang) {
 	document.getElementById("trust-list").innerHTML = t.trust.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
 	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
 	document.getElementById("docs-link").href = "https://github.com/oluengo/mado/blob/main/docs/" + t.docs;
-	document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "" : "/blob/main/README.es.md");
+		document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "#english" : "");
 	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
 }
 document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
