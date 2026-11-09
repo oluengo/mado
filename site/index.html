@@ -263,7 +263,7 @@ const I = {
 		title: "Tus publicaciones de Nostr, en tu propia web",
 		intro: "Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por ti, en GitHub Pages o en cualquier alojamiento estático. Sin servidor, sin compilar y sin nada que instalar.",
 		start: "Crear mi web", demo: "Ver un blog real",
-		meta: ["Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
+		meta: ["Hecho sobre Nostr", "Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
 		shotAlt: "Un blog hecho con Mado, diseño Lista y tema Violeta",
 		looksTitle: "Tu web, a tu manera",
 		looksLead: "El aspecto va en tres piezas independientes: 6 diseños, 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos o crea los tuyos.",
@@ -305,7 +305,7 @@ const I = {
 		title: "Les teves publicacions de Nostr, a la teva web",
 		intro: "Mado converteix els teus articles (NIP-23) i notes de Nostr en una web allotjada per tu, a GitHub Pages o a qualsevol allotjament estàtic. Sense servidor, sense compilar i sense res a instal·lar.",
 		start: "Crear la meva web", demo: "Veure un blog real",
-		meta: ["Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
+		meta: ["Fet sobre Nostr", "Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
 		shotAlt: "Un blog fet amb Mado, disseny Llista i tema Violeta",
 		looksTitle: "La teva web, a la teva manera",
 		looksLead: "L'aspecte va en tres peces independents: 6 dissenys, 6 temes de color amb mode clar i fosc, i 3 tipografies. Combina'ls o crea els teus.",
@@ -347,7 +347,7 @@ const I = {
 		title: "Your Nostr posts, on your own website",
 		intro: "Mado turns your Nostr articles (NIP-23) and notes into a website you host yourself, on GitHub Pages or any static host. No server, no build step, nothing to install.",
 		start: "Create my site", demo: "See a real blog",
-		meta: ["Free and open source", "No server", "Five languages", "Verified signatures"],
+		meta: ["Built on Nostr", "Free and open source", "No server", "Five languages", "Verified signatures"],
 		shotAlt: "A blog made with Mado, List layout and Violet theme",
 		looksTitle: "Your site, your way",
 		looksLead: "The look comes in three independent pieces: 6 layouts, 6 colour themes with light and dark mode, and 3 typefaces. Mix them or make your own.",
@@ -408,7 +408,7 @@ function render(lang) {
 	document.getElementById("trust-list").innerHTML = t.trust.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
 	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
 	document.getElementById("docs-link").href = "https://github.com/oluengo/mado/blob/main/docs/" + t.docs;
-	document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "" : "/blob/main/README.es.md");
+		document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "#english" : "");
 	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
 }
 document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
