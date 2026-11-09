@@ -205,7 +205,7 @@ footer .links a:hover { color: var(--accent); }
 				<div class="box">
 					<h3 data-i="adminTitle"></h3>
 					<p data-i="adminText"></p>
-					<a class="btn primary" href="admin.html" data-i="adminBtn"></a>
+					<a class="btn primary" href="admin/" data-i="adminBtn"></a>
 				</div>
 				<div class="box">
 					<h3 data-i="liteTitle"></h3>
@@ -263,7 +263,7 @@ const I = {
 		title: "Tus publicaciones de Nostr, en tu propia web",
 		intro: "Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por ti, en GitHub Pages o en cualquier alojamiento estático. Sin servidor, sin compilar y sin nada que instalar.",
 		start: "Crear mi web", demo: "Ver un blog real",
-		meta: ["Hecho sobre Nostr", "Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
+		meta: ["Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
 		shotAlt: "Un blog hecho con Mado, diseño Lista y tema Violeta",
 		looksTitle: "Tu web, a tu manera",
 		looksLead: "El aspecto va en tres piezas independientes: 6 diseños, 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos o crea los tuyos.",
@@ -276,16 +276,16 @@ const I = {
 			["Filtros por hashtag", "Incluye o excluye etiquetas, fija publicaciones y oculta respuestas. Opcional: barra y buscador de etiquetas para quien visita."],
 			["Interacciones de Nostr", "Reacciones, comentarios en hilo, zaps, citas y reposts. Cada una se activa por separado."],
 			["Cinco idiomas", "Castellano, català, English, italiano y Deutsch, en la web y en la página de configuración."],
-			["Configuración en Nostr", "Se firma con tu extensión y se guarda en tus relays (NIP-78). Cambias la web sin tocar el repositorio."],
+			["Configuración en Nostr", "Se firma con tu extensión, Amber o bunker y se guarda en tus relays (NIP-78). Cambias la web sin tocar el repositorio."],
 			["Tu web es tuya", "Cada evento se comprueba con su firma, y la web puede demostrar que es tuya con NIP-05 o un enlace firmado."]
 		],
 		startTitle: "Ponla en marcha en cuatro pasos",
 		startLead: "Con GitHub Pages, en unos minutos. También funciona en cualquier alojamiento estático.",
-		steps: [["Haz fork", "Copia el repositorio oluengo/mado en tu cuenta de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Pon tu npub", "En index.html (una línea ya preparada) o en config.json. Si tu dominio tiene NIP-05, ni eso."], ["Configura y publica", "Abre admin.html, conecta tu extensión, elige el aspecto y pulsa «Publicar en Nostr». Se aplica al momento."]],
-		adminTitle: "Prueba la configuración", adminText: "Elige diseño, tema, tipografía, filtros e idioma, y mira el resultado antes de publicar. Para publicar necesitas una extensión NIP-07; para probar, nada.", adminBtn: "Abrir la configuración",
+		steps: [["Haz fork", "Copia el repositorio oluengo/mado en tu cuenta de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Pon tu npub", "En index.html (una línea ya preparada) o en config.json. Si tu dominio tiene NIP-05, ni eso."], ["Configura y publica", "Abre admin/, entra con tu extensión, Amber o bunker, elige el aspecto y pulsa «Guardar». Se aplica al momento."]],
+		adminTitle: "Prueba la configuración", adminText: "Elige diseño, tema, tipografía, filtros e idioma, y mira el resultado antes de publicar. Para guardar entras con tu extensión, Amber o un bunker; para probar, nada.", adminBtn: "Abrir la configuración",
 		liteTitle: "Dentro de otra web", liteText: "¿Ya tienes web? Una instancia ligera de Mado necesita solo un index.html en una carpeta; la configuración va en Nostr. Así funciona oluengo.github.io/blog.", docsBtn: "Alojamiento propio",
 		trustTitle: "Seguro por diseño", trustLead: "Mado es una web estática: no guarda datos de nadie ni tiene acceso a tus claves.",
-		trust: [["Nunca pide tu nsec", "Para firmar (configuración en Nostr) usa una extensión NIP-07 del navegador."], ["Firmas comprobadas", "Cada publicación se verifica antes de mostrarse: nadie puede colar textos en tu nombre."], ["Sin rastreadores", "Ni analítica ni cookies. Solo se conecta a los relays de Nostr que elijas."], ["admin.html no toca el repo", "Solo firma con tu extensión, y la web acepta únicamente lo firmado por tu npub."]],
+		trust: [["Nunca pide tu nsec", "Para guardar la configuración entras con un firmante: extensión, Amber o bunker."], ["Firmas comprobadas", "Cada publicación se verifica antes de mostrarse: nadie puede colar textos en tu nombre."], ["Sin rastreadores", "Ni analítica ni cookies. Solo se conecta a los relays de Nostr que elijas."], ["admin.html no toca el repo", "Solo firma con tu firmante, y la web acepta únicamente lo firmado por tu npub."]],
 		faqTitle: "Preguntas frecuentes",
 		faq: [
 			["¿Necesito saber programar?", "No. Haces fork, activas Pages y configuras desde una página web. Como mucho, pegas tu npub en una línea de index.html."],
@@ -305,7 +305,7 @@ const I = {
 		title: "Les teves publicacions de Nostr, a la teva web",
 		intro: "Mado converteix els teus articles (NIP-23) i notes de Nostr en una web allotjada per tu, a GitHub Pages o a qualsevol allotjament estàtic. Sense servidor, sense compilar i sense res a instal·lar.",
 		start: "Crear la meva web", demo: "Veure un blog real",
-		meta: ["Fet sobre Nostr", "Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
+		meta: ["Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
 		shotAlt: "Un blog fet amb Mado, disseny Llista i tema Violeta",
 		looksTitle: "La teva web, a la teva manera",
 		looksLead: "L'aspecte va en tres peces independents: 6 dissenys, 6 temes de color amb mode clar i fosc, i 3 tipografies. Combina'ls o crea els teus.",
@@ -318,16 +318,16 @@ const I = {
 			["Filtres per hashtag", "Inclou o exclou etiquetes, fixa publicacions i amaga respostes. Opcional: barra i cercador d'etiquetes per a qui visita."],
 			["Interaccions de Nostr", "Reaccions, comentaris en fil, zaps, cites i reposts. Cadascuna s'activa per separat."],
 			["Cinc idiomes", "Castellano, català, English, italiano i Deutsch, a la web i a la pàgina de configuració."],
-			["Configuració a Nostr", "Se signa amb la teva extensió i es desa als teus relays (NIP-78). Canvies la web sense tocar el repositori."],
+			["Configuració a Nostr", "Se signa amb la teva extensió, Amber o bunker i es desa als teus relays (NIP-78). Canvies la web sense tocar el repositori."],
 			["La teva web és teva", "Cada esdeveniment es comprova amb la seva signatura, i la web pot demostrar que és teva amb NIP-05 o un enllaç signat."]
 		],
 		startTitle: "Posa-la en marxa en quatre passos",
 		startLead: "Amb GitHub Pages, en uns minuts. També funciona a qualsevol allotjament estàtic.",
-		steps: [["Fes fork", "Copia el repositori oluengo/mado al teu compte de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Posa el teu npub", "A index.html (una línia ja preparada) o a config.json. Si el teu domini té NIP-05, ni això."], ["Configura i publica", "Obre admin.html, connecta la teva extensió, tria l'aspecte i prem «Publicar a Nostr». S'aplica a l'instant."]],
-		adminTitle: "Prova la configuració", adminText: "Tria disseny, tema, tipografia, filtres i idioma, i mira el resultat abans de publicar. Per publicar cal una extensió NIP-07; per provar, res.", adminBtn: "Obre la configuració",
+		steps: [["Fes fork", "Copia el repositori oluengo/mado al teu compte de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Posa el teu npub", "A index.html (una línia ja preparada) o a config.json. Si el teu domini té NIP-05, ni això."], ["Configura i publica", "Obre admin/, entra amb la teva extensió, Amber o bunker, tria l'aspecte i prem «Desar». S'aplica a l'instant."]],
+		adminTitle: "Prova la configuració", adminText: "Tria disseny, tema, tipografia, filtres i idioma, i mira el resultat abans de publicar. Per desar entres amb la teva extensió, Amber o un bunker; per provar, res.", adminBtn: "Obre la configuració",
 		liteTitle: "Dins d'una altra web", liteText: "Ja tens web? Una instància lleugera de Mado només necessita un index.html en una carpeta; la configuració va a Nostr. Així funciona oluengo.github.io/blog.", docsBtn: "Allotjament propi",
 		trustTitle: "Segur per disseny", trustLead: "Mado és una web estàtica: no desa dades de ningú ni té accés a les teves claus.",
-		trust: [["Mai demana el teu nsec", "Per signar (configuració a Nostr) fa servir una extensió NIP-07 del navegador."], ["Signatures comprovades", "Cada publicació es verifica abans de mostrar-se: ningú pot colar textos en nom teu."], ["Sense rastrejadors", "Ni analítica ni galetes. Només es connecta als relays de Nostr que triïs."], ["admin.html no toca el repo", "Només signa amb la teva extensió, i la web només accepta el que signa el teu npub."]],
+		trust: [["Mai demana el teu nsec", "Per desar la configuració entres amb un signant: extensió, Amber o bunker."], ["Signatures comprovades", "Cada publicació es verifica abans de mostrar-se: ningú pot colar textos en nom teu."], ["Sense rastrejadors", "Ni analítica ni galetes. Només es connecta als relays de Nostr que triïs."], ["admin.html no toca el repo", "Només signa amb el teu signant, i la web només accepta el que signa el teu npub."]],
 		faqTitle: "Preguntes freqüents",
 		faq: [
 			["Cal saber programar?", "No. Fas fork, actives Pages i configures des d'una pàgina web. Com a molt, enganxes el teu npub en una línia d'index.html."],
@@ -347,7 +347,7 @@ const I = {
 		title: "Your Nostr posts, on your own website",
 		intro: "Mado turns your Nostr articles (NIP-23) and notes into a website you host yourself, on GitHub Pages or any static host. No server, no build step, nothing to install.",
 		start: "Create my site", demo: "See a real blog",
-		meta: ["Built on Nostr", "Free and open source", "No server", "Five languages", "Verified signatures"],
+		meta: ["Free and open source", "No server", "Five languages", "Verified signatures"],
 		shotAlt: "A blog made with Mado, List layout and Violet theme",
 		looksTitle: "Your site, your way",
 		looksLead: "The look comes in three independent pieces: 6 layouts, 6 colour themes with light and dark mode, and 3 typefaces. Mix them or make your own.",
@@ -360,16 +360,16 @@ const I = {
 			["Hashtag filters", "Include or exclude tags, pin posts and hide replies. Optional: a tag bar and tag search for visitors."],
 			["Nostr interactions", "Reactions, threaded comments, zaps, quotes and reposts. Each one can be turned on separately."],
 			["Five languages", "Castellano, català, English, italiano and Deutsch, on the site and on the settings page."],
-			["Settings on Nostr", "Signed with your extension and stored on your relays (NIP-78). Change the site without touching the repository."],
+			["Settings on Nostr", "Signed with your extension, Amber or a bunker and stored on your relays (NIP-78). Change the site without touching the repository."],
 			["Your site is yours", "Every event is checked against its signature, and the site can prove it's yours with NIP-05 or a signed link."]
 		],
 		startTitle: "Up and running in four steps",
 		startLead: "With GitHub Pages, in a few minutes. It also works on any static host.",
-		steps: [["Fork it", "Copy the oluengo/mado repository to your GitHub account."], ["Enable Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Add your npub", "In index.html (one line ready for it) or in config.json. Not even that if your domain has NIP-05."], ["Configure and publish", "Open admin.html, connect your extension, pick the look and click “Publish to Nostr”. It applies right away."]],
-		adminTitle: "Try the settings", adminText: "Pick layout, theme, typeface, filters and language, and preview the result before publishing. Publishing needs a NIP-07 extension; trying it needs nothing.", adminBtn: "Open the settings",
+		steps: [["Fork it", "Copy the oluengo/mado repository to your GitHub account."], ["Enable Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Add your npub", "In index.html (one line ready for it) or in config.json. Not even that if your domain has NIP-05."], ["Configure and publish", "Open admin/, sign in with your extension, Amber or a bunker, pick the look and click “Save”. It applies right away."]],
+		adminTitle: "Try the settings", adminText: "Pick layout, theme, typeface, filters and language, and preview the result before publishing. To save, sign in with your extension, Amber or a bunker; to try it, nothing.", adminBtn: "Open the settings",
 		liteTitle: "Inside another site", liteText: "Already have a website? A lightweight Mado instance needs just an index.html in a folder; the settings live on Nostr. That's how oluengo.github.io/blog works.", docsBtn: "Self-hosting",
 		trustTitle: "Safe by design", trustLead: "Mado is a static website: it stores nobody's data and never touches your keys.",
-		trust: [["Never asks for your nsec", "To sign (settings on Nostr) it uses a NIP-07 browser extension."], ["Verified signatures", "Every post is verified before it's shown: nobody can slip in text under your name."], ["No trackers", "No analytics, no cookies. It only connects to the Nostr relays you choose."], ["admin.html can't touch your repo", "It only signs with your extension, and the site accepts only what your npub signed."]],
+		trust: [["Never asks for your nsec", "To save your settings you sign in with a signer: extension, Amber or a bunker."], ["Verified signatures", "Every post is verified before it's shown: nobody can slip in text under your name."], ["No trackers", "No analytics, no cookies. It only connects to the Nostr relays you choose."], ["admin.html can't touch your repo", "It only signs with your signer, and the site accepts only what your npub signed."]],
 		faqTitle: "FAQ",
 		faq: [
 			["Do I need to know how to code?", "No. Fork, enable Pages and configure from a web page. At most, you paste your npub into one line of index.html."],
@@ -408,7 +408,7 @@ function render(lang) {
 	document.getElementById("trust-list").innerHTML = t.trust.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
 	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
 	document.getElementById("docs-link").href = "https://github.com/oluengo/mado/blob/main/docs/" + t.docs;
-		document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "#english" : "");
+	document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "" : "/blob/main/README.es.md");
 	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
 }
 document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {

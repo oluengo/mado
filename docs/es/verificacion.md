@@ -23,7 +23,7 @@ Extra: los clientes de Nostr también mostrarán tu NIP-05 como verificado.
 Funciona en cualquier sitio, también en subcarpetas como `usuario.github.io/mado/`.
 
 - En tu cliente Nostr, pon la URL de la web en el campo **Web** de tu perfil, **o**
-- Rellena **URL pública del blog** (pestaña «Verificación») y publica la configuración en Nostr (**Publicar en Nostr**). Ese evento va firmado por ti.
+- Rellena **URL pública del blog** (pestaña «Verificación») y publica la configuración en Nostr (**Guardar**). Ese evento va firmado por ti.
 
 Un enlace a una carpeta cubre todo lo que contiene: `usuario.github.io` también cubre `usuario.github.io/mado/`.
 

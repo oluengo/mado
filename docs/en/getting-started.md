@@ -27,15 +27,17 @@ The site needs your npub to find your settings. Any of these three:
 
 ## 4. Configure and publish to Nostr
 
-Open `https://YOUR-USER.github.io/mado/admin.html`. You need a NIP-07 browser extension (Alby, nos2x…); **never type your nsec into a website**.
+Open `https://YOUR-USER.github.io/mado/admin/`. **Mado never asks for your nsec**: you sign in with a signer.
 
-1. **Author** → **Connect with extension**: fills in your npub and loads any settings you already published.
-2. Adjust the tabs (Content, Appearance, Site, Interactions…). **Preview** opens the site with your draft, only in your browser.
-3. Click **Publish to Nostr**: the extension signs the settings (NIP-78, kind 30078) and they are published to your relays. The site reads them from there; nothing to upload to the repository.
+1. **Sign in** with your browser extension (NIP-07: Alby, nos2x…), with **Amber** (on Android) or with a **bunker** (NIP-46: paste your `bunker://` link, e.g. from nsec.app or Amber). The session is remembered in that browser and your settings load automatically.
+2. Adjust the tabs (Content, Appearance, Site, Interactions…). **Preview** opens the site with your changes, only in your browser. The top bar shows "Unsaved changes".
+3. Click **Save** (or Ctrl+S): the settings are signed (NIP-78, kind 30078) and published to your relays. The site reads them from there; nothing to upload to the repository.
 
-Each site has its own settings, identified by its domain and folder (`mado:user.github.io/mado/`), so you can run several with the same npub.
+**Try without an account** lets you change everything and preview it, but not save.
 
-**Export backup (JSON)** downloads the settings: a backup, or a `config.json` if you prefer not to depend on relays. If both exist, the one published on Nostr wins.
+Each site has its own settings, identified by its domain and folder (`mado:user.github.io/mado/`), so you can run several with the same npub. It is a public event (your visitors read it): any app that shows Nostr app data (kind 30078), such as Tansu, will see it.
+
+In *Advanced → Backup*, **Export backup (JSON)** downloads the settings: a backup, or a `config.json` if you prefer not to depend on relays. If both exist, the one published on Nostr wins.
 
 ## 5. Verify your site (recommended)
 

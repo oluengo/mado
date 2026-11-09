@@ -27,15 +27,17 @@ La web necesita tu npub para encontrar tu configuración. Una de estas tres opci
 
 ## 4. Configura y publica en Nostr
 
-Abre `https://TU-USUARIO.github.io/mado/admin.html`. Necesitas una extensión NIP-07 en el navegador (Alby, nos2x…); **nunca escribas tu nsec en una web**.
+Abre `https://TU-USUARIO.github.io/mado/admin/`. **Mado nunca te pide la nsec**: entras con un firmante.
 
-1. **Autor** → **Conectar con extensión**: rellena tu npub y carga la configuración que ya tengas publicada.
-2. Ajusta las pestañas (Contenido, Aspecto, Web, Interacciones…). **Vista previa** abre la web con tu borrador, solo en tu navegador.
-3. Pulsa **Publicar en Nostr**: la extensión firma la configuración (NIP-78, kind 30078) y se publica en tus relays. La web la lee de ahí; no hay que subir nada al repositorio.
+1. **Entra** con la extensión del navegador (NIP-07: Alby, nos2x…), con **Amber** (en Android) o con un **bunker** (NIP-46: pega tu enlace `bunker://`, por ejemplo de nsec.app o de Amber). La sesión se recuerda en ese navegador y tu configuración se carga sola.
+2. Ajusta las pestañas (Contenido, Aspecto, Web, Interacciones…). **Vista previa** abre la web con tus cambios, solo en tu navegador. Arriba verás «Cambios sin guardar».
+3. Pulsa **Guardar** (o Ctrl+S): se firma la configuración (NIP-78, kind 30078) y se publica en tus relays. La web la lee de ahí; no hay que subir nada al repositorio.
 
-Cada web tiene su propia configuración, identificada por su dominio y carpeta (`mado:usuario.github.io/mado/`), así que puedes tener varias con el mismo npub.
+**Probar sin cuenta** deja cambiarlo todo y ver la vista previa, pero no guardar.
 
-**Exportar copia (JSON)** descarga la configuración: sirve de copia de seguridad o para usarla como `config.json` si prefieres no depender de los relays. Si existen las dos, gana la publicada en Nostr.
+Cada web tiene su propia configuración, identificada por su dominio y carpeta (`mado:usuario.github.io/mado/`), así que puedes tener varias con el mismo npub. Es un evento público (lo leen tus visitantes): cualquier app que muestre datos de apps de Nostr (kind 30078), como Tansu, lo verá.
+
+En *Avanzado → Copia de seguridad*, **Exportar copia (JSON)** descarga la configuración: sirve de copia de seguridad o para usarla como `config.json` si prefieres no depender de los relays. Si existen las dos, gana la publicada en Nostr.
 
 ## 5. Verifica tu web (recomendado)
 

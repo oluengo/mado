@@ -83,13 +83,49 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 .nip05-row input[type=text]{border:0;background:none;width:auto;flex:0 0 72px;text-align:right;padding-right:2px}
 .nip05-row span{color:var(--muted);padding:8px 10px 8px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .banner{background:var(--accent-bg);border:1px solid var(--accent);border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+/* Entrar y cuenta */
+.login{position:fixed;inset:0;z-index:20;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:16px;overflow:auto}
+.login[hidden],.login-box [hidden]{display:none}
+.login-box{width:100%;max-width:400px;display:grid;gap:14px;text-align:center}
+.login-box img{width:64px;height:64px;margin:0 auto}
+.login-box h1{font-size:22px;margin:0}
+.login-box .btn,.login-box button{width:100%;justify-content:center;padding:11px 14px;font-size:14px}
+.login-box .or{color:var(--muted);font-size:12px;display:flex;align-items:center;gap:10px}
+.login-box .or::before,.login-box .or::after{content:"";flex:1;height:1px;background:var(--line)}
+.login-box .bunker{display:grid;gap:8px;text-align:left}
+.login-box .linkish{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;font-size:13px;padding:4px}
+.account{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted)}
+.account img{width:26px;height:26px;border-radius:50%;object-fit:cover;background:var(--line)}
+.account b{color:var(--fg);font-weight:600}
+.state{font-size:12.5px;color:var(--muted);align-self:center;margin-left:auto}
+.state.dirty{color:var(--err)}
+.state.saved{color:var(--ok)}
 </style>
 </head>
 <body>
+<div class="login" id="login" hidden>
+  <div class="login-box">
+    <img src="assets/img/logo.svg" alt="">
+    <h1 data-i18n="loginTitle"></h1>
+    <p class="hint" style="margin:0" data-i18n="loginText"></p>
+    <p class="msg" id="login-msg"></p>
+    <button class="primary" id="l-nip07" data-i18n="loginNip07"></button>
+    <button id="l-amber" data-i18n="loginAmber" hidden></button>
+    <div class="or" data-i18n="loginOr"></div>
+    <div class="bunker">
+      <input type="text" id="l-bunker-uri" placeholder="bunker://… · name@nsec.app" autocomplete="off" spellcheck="false" aria-label="Bunker">
+      <button id="l-bunker" data-i18n="loginBunker"></button>
+      <span class="hint" data-i18n="loginBunkerH"></span>
+    </div>
+    <button class="linkish" id="l-guest" data-i18n="loginGuest"></button>
+    <p class="hint" style="margin:0" data-i18n="loginNever"></p>
+  </div>
+</div>
 <div class="wrap">
 <header>
   <h1><span data-i18n="title">Configuración del blog</span><span class="ver" id="ver"></span></h1>
   <div style="display:flex;gap:8px;align-items:center">
+    <div class="account" id="account"></div>
     <select id="ui-lang" data-i18n-title="uiLang" aria-label="Idioma" style="width:auto"></select>
     <button id="mode" data-i18n-title="mode">◐</button>
   </div>
@@ -98,11 +134,10 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 
 <div class="sticky">
 <div class="bar">
-  <button class="primary" id="b-nostr-pub" data-i18n="bNostrPub"></button>
+  <button class="primary" id="b-save" data-i18n="bSave"></button>
   <button id="b-preview" data-i18n="bPreview"></button>
   <button id="b-reload" data-i18n="bReload"></button>
-  <button id="b-download" data-i18n="bDownload"></button>
-  <label class="btn" style="display:inline-flex"><span data-i18n="bImport"></span><input type="file" id="b-import" accept=".json,application/json" hidden></label>
+  <span class="state" id="state"></span>
 </div>
 <nav class="tabs" role="tablist" id="tabs">
   <button type="button" role="tab" data-tab="author" data-i18n="tAuthor"></button>
@@ -120,7 +155,6 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 <form id="form" onsubmit="return false">
 
 <section class="panel" role="tabpanel" data-panel="author">
-  <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button type="button" class="primary" id="b-connect" data-i18n="bConnect"></button> <span class="hint" data-i18n="connectH"></span></div>
   <label><span data-i18n="npub"></span> <small data-i18n="npubH"></small>
     <input type="text" data-path="author.npub" placeholder="npub1…" autocomplete="off"></label>
   <div class="profile" id="profile"></div>
@@ -285,13 +319,23 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
       <label><span data-i18n="dTag"></span> <small data-i18n="dTagH"></small><input type="text" data-path="remoteConfig.d" id="d-tag"></label>
     </div>
   </div>
-  <div class="group"><h3 data-i18n="jsonOut"></h3><div><button type="button" id="b-copy" data-i18n="bCopy"></button></div><pre id="json"></pre></div>
+  <div class="group"><h3 data-i18n="gBackup"></h3>
+    <p class="hint" style="margin:0" data-i18n="backupH"></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button type="button" id="b-download" data-i18n="bDownload"></button>
+      <label class="btn" style="display:inline-flex"><span data-i18n="bImport"></span><input type="file" id="b-import" accept=".json,application/json" hidden></label>
+      <button type="button" id="b-copy" data-i18n="bCopy"></button>
+    </div>
+    <details><summary class="hint" style="cursor:pointer" data-i18n="jsonOut"></summary><pre id="json"></pre></details>
+  </div>
 </section>
 </form>
 </div>
 <script src="assets/js/vendor/nostr-verify.js"></script>
 <script src="assets/js/i18n.js"></script>
 <script src="assets/js/core.js"></script>
+<script src="assets/js/vendor/nostr-signer.js"></script>
+<script src="assets/js/signer.js"></script>
 <script src="assets/js/admin.js"></script>
 </body>
 </html>

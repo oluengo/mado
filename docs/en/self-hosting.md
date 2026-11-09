@@ -13,11 +13,13 @@ your-site/
   mado/            ← Mado (fork or copy), untouched
   blog/
     index.html     ← copy of examples/instance/index.html, with your npub
+    admin/
+      index.html   ← copy of examples/instance/admin/index.html (optional)
 ```
 
 `index.html` loads the code, layouts, themes and typographies from `/mado/`, and the settings from Nostr. Updating Mado (sync your fork) updates every instance, and nobody who forks Mado inherits your settings.
 
-To edit the instance settings, open `/mado/admin.html?site=/blog/`: it loads the settings published for `/blog/`, keeps its own draft, **Preview** opens `/blog/` and **Publish to Nostr** signs them for that folder. A `config.json` in `/blog/` is optional (backup, or an alternative without Nostr).
+To edit the instance settings, open `/blog/admin/` (or, without that folder, `/mado/admin.html?site=/blog/`): sign in with your signer, it loads the settings published for `/blog/`, **Preview** opens `/blog/` and **Save** signs them for that folder. The `admin/` page always loads the settings page from `/mado/`, so it stays up to date. A `config.json` in `/blog/` is optional (backup, or an alternative without Nostr).
 
 The `/mado/` URL in `index.html` can also point to another site (`https://user.github.io/mado/`), but prefer your own fork so updates are under your control.
 
@@ -56,7 +58,7 @@ Nostr clients read this file from other origins, so it needs `Access-Control-All
 - Your npub in `index.html` (`<meta name="mado-npub">`), in `config.json` or in the domain NIP-05 `_`.
 - `assets/`, `layouts/`, `themes/` and `fonts/` next to them.
 - HTTPS (needed for verification and for most relays).
-- Optional: remove `admin.html` and `assets/js/admin.js` from production once configured.
+- Optional: remove `admin.html`, `admin/` and `assets/js/admin*.js` from production once configured.
 
 ## Embedding in an existing website
 

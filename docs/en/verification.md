@@ -23,7 +23,7 @@ Bonus: Nostr clients will also show your NIP-05 as verified.
 Works anywhere, including subfolders like `user.github.io/mado/`.
 
 - In your Nostr client, put the site URL in your profile's **Website** field, **or**
-- Fill in **Public blog URL** (“Verification” tab) and publish the settings on Nostr (**Publish to Nostr**). That event is signed by you.
+- Fill in **Public blog URL** (“Verification” tab) and publish the settings on Nostr (**Save**). That event is signed by you.
 
 A link to a folder covers everything inside it: `user.github.io` also covers `user.github.io/mado/`.
 

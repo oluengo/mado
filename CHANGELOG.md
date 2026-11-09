@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 (2026-11-09)
+
+- Settings page with sign-in: browser extension (NIP-07), Amber on Android (NIP-55) or a bunker (NIP-46, e.g. nsec.app or Amber). Mado never asks for the nsec; the session is remembered in that browser.
+- After signing in, the site's settings load from Nostr; **Save** (or Ctrl+S) signs and publishes them, with an "Unsaved changes / Saved" indicator. "Try without an account" allows changing and previewing without saving.
+- Each site can have its own settings page at `/folder/admin/` (one `index.html` that loads the settings page from Mado): e.g. `/blog/admin/`. Also `/mado/admin/`.
+- The settings page refuses to save a site that belongs to another npub.
+- Export, import and JSON moved to *Advanced → Backup*.
+
 ## 0.5.0 (2026-11-06)
 
 - Settings live on Nostr: the settings page signs them with a NIP-07 extension (**Connect with extension**, **Publish to Nostr**) and the site reads them from the relays (NIP-78, kind 30078). No need to upload `config.json`.

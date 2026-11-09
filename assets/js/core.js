@@ -688,7 +688,7 @@ Mado.fmtCount = (n, lang) => {
   try { return new Intl.NumberFormat(loc, { notation: 'compact', maximumFractionDigits: 1 }).format(n); } catch { return String(n); }
 };
 
-Mado.VERSION = '0.5.0';
+Mado.VERSION = '0.6.0';
 Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;

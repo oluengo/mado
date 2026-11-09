@@ -1,5 +1,6 @@
 /* Mado — página de configuración.
-   La configuración se firma con una extensión NIP-07 y se publica en Nostr (NIP-78).
+   Se entra con un firmante (extensión, Amber o bunker; nunca una nsec), la configuración de esta web
+   se carga de Nostr y «Guardar» la firma y la publica (NIP-78, kind 30078).
    config.json es opcional: copia de seguridad o alternativa sin Nostr. */
 (async function () {
 'use strict';
@@ -47,8 +48,9 @@ function renderDateOptions() {
 
 /* ---------- Carga inicial ---------- */
 // ?site=/blog/ edita la configuración de una instancia ligera en otra carpeta del mismo dominio.
+// En una instancia (/blog/admin/) la página define window.MADO_SITE = '../'.
 const SITE = (() => {
-  const v = new URLSearchParams(location.search).get('site') || '';
+  const v = window.MADO_SITE || new URLSearchParams(location.search).get('site') || '';
   return /^(\.{0,2}\/)(?!\/)[\w\-./]*$/.test(v) ? v.replace(/\/?$/, '/') : '';
 })();
 const SITE_HREF = new URL(SITE || './', location.href).href;
@@ -127,7 +129,18 @@ function collect() {
 function update(save = true) {
   $('#json').textContent = pretty(cfg);
   if (save) Mado.store.set(DRAFT, cfg);
+  renderState();
 }
+// Estado de guardado: compara con lo último publicado (o cargado) de Nostr.
+const SAVED = 'mado-saved:' + Mado.siteKey(SITE_HREF);
+function renderState() {
+  const el = $('#state'); if (!el || !cfg) return;
+  const sv = Mado.store.get(SAVED);
+  const dirty = !sv || sv.json !== JSON.stringify(cfg);
+  el.className = 'state ' + (dirty ? 'dirty' : 'saved');
+  el.textContent = dirty ? (sv ? a('stDirty') : a('stNever')) : a('stSaved', Mado.fmtDate(sv.at, 'relative', ui));
+}
+const markSaved = at => { Mado.store.set(SAVED, { json: JSON.stringify(cfg), at }); renderState(); };
 
 $('#form').addEventListener('input', e => {
   if (e.target.closest('.rep')) return;
@@ -274,54 +287,115 @@ $('#b-clear').onclick = () => { Mado.store.clear('mado-cache:'); Mado.store.clea
 /* ---------- Configuración en Nostr (NIP-78) ---------- */
 const dTag = () => Mado.configD(cfg, SITE_HREF)[0];
 // Busca el npub (si falta) y la configuración publicada de esta web; la aplica sobre cfg.
-async function loadFromNostr({ ask = false } = {}) {
+async function loadFromNostr({ ask = false, apply = true } = {}) {
   if (!cfg.author.npub) { const n = await siteNpub(); if (n) { cfg.author.npub = Mado.npubToHex(n) === n ? Mado.hexToNpub(n) : n; fill(); showProfile(); } }
   try { Mado.npubToHex(cfg.author.npub); } catch { return msg(a('needNpubConnect'), ''); }
   msg(a('remoteSearching'));
   const r = await Mado.fetchRemoteConfig(cfg, SITE_HREF).catch(() => null);
   if (!r || !r.data) {
+    if (r) Mado.store.del(SAVED);
     if (r && r.relays.length && !cfg.relays.length) cfg.relays = r.relays;
     fill(); update(false);
     return msg(a('remoteNone', dTag()), '');
   }
   const when = Mado.fmtDate(r.event.created_at, 'long', ui);
-  if (ask && !confirm(a('remoteConfirm', when))) return msg('');
   const keep = { author: cfg.author, remoteConfig: cfg.remoteConfig };
-  cfg = Mado.merge(Mado.merge(Mado.DEFAULTS, Mado.migrate(r.data)), keep);
-  if (!(r.data.relays || []).length) cfg.relays = r.relays;
+  const pub = Mado.merge(Mado.merge(Mado.DEFAULTS, Mado.migrate(r.data)), keep);
+  if (!(r.data.relays || []).length) pub.relays = r.relays;
+  Mado.store.set(SAVED, { json: JSON.stringify(pub), at: r.event.created_at });
+  if (!apply) { renderState(); return msg(a('draftNote'), ''); }
+  if (ask && !confirm(a('remoteConfirm', when))) return msg('');
+  cfg = pub; Mado.store.del(DRAFT);
   fill(); update(false); showProfile();
   msg(a('remoteLoaded', when), 'ok');
 }
-$('#b-connect').onclick = async () => {
-  if (!window.nostr) return msg(a('noNip07'), 'err');
-  try {
-    const pk = await window.nostr.getPublicKey(), npub = Mado.hexToNpub(pk);
-    let same = false; try { same = Mado.npubToHex(cfg.author.npub) === pk; } catch {}
-    if (!same) { cfg.author.npub = npub; fill(); update(); showProfile(); }
-    await loadFromNostr({ ask: !!Mado.store.get(DRAFT) });
-  } catch (e) { msg(a('signErr') + ' ' + (e.message || e), 'err'); }
+/* ---------- Sesión y Guardar ---------- */
+const S = Mado.Signer;
+const onAuth = url => { try { window.open(url, '_blank', 'noopener'); } catch {} msg(a('bunkerAuth')); };
+const errText = e => {
+  const c = (e && (e.code || e.message)) || '';
+  if (c === 'nip07') return a('noNip07');
+  if (c === 'nip07-other') return a('nip07Other');
+  if (c === 'bunker') return a('bunkerBad');
+  return a('signErr') + (c && !/^(signer|nosession)$/.test(c) ? ' ' + c : '');
 };
-$('#b-nostr-pub').onclick = async () => {
-  collect();
-  if (!window.nostr) return msg(a('noNip07'), 'err');
+let guest = false;
+// La web tiene dueño si su npub sale de config.json, <meta> o NIP-05; si no, el de la sesión.
+let ownerHex = '';
+function sessionHex() { const x = S.session(); return x ? x.pubkey : ''; }
+function renderAccount() {
+  const x = S.session(), box = $('#account');
+  $('#login').hidden = !!x || guest;
+  $('#l-amber').hidden = !S.isAndroid;
+  const npubInput = $('[data-path="author.npub"]');
+  if (!x) {
+    box.innerHTML = guest ? `<button type="button" id="b-login">${a('bLogin')}</button>` : '';
+    if (npubInput) npubInput.readOnly = false;
+    const bl = $('#b-login'); if (bl) bl.onclick = () => { guest = false; renderAccount(); };
+    return;
+  }
+  const np = Mado.hexToNpub(x.pubkey);
+  box.innerHTML = `<img id="acc-pic" alt=""><span><b id="acc-name">${np.slice(0, 12)}…</b> · ${a('m_' + x.method)}</span><button type="button" id="b-logout">${a('bLogout')}</button>`;
+  $('#b-logout').onclick = () => { S.logout(); guest = false; renderAccount(); msg(''); };
+  if (npubInput) npubInput.readOnly = true;
+  Mado.query(cfg.relays, { authors: [x.pubkey], kinds: [0], limit: 2 }, { timeout: 5000 }).then(ev => {
+    const e = ev.filter(e => e.pubkey === x.pubkey).sort((p, q) => q.created_at - p.created_at)[0];
+    let p = null; try { p = e && JSON.parse(e.content); } catch {}
+    if (!p) return;
+    const n = $('#acc-name'), i = $('#acc-pic');
+    if (n) n.textContent = p.display_name || p.name || n.textContent;
+    if (i) { i.src = p.picture || Mado.DEFAULT_AVATAR; Mado.avatarFallback(i, Mado.DEFAULT_AVATAR); }
+  }).catch(() => {});
+}
+// Tras entrar: el npub es el de la sesión (salvo que la web sea de otra cuenta) y se carga lo publicado.
+async function afterLogin() {
+  const pk = sessionHex();
+  renderAccount();
+  if (ownerHex && ownerHex !== pk) return msg(a('notOwner', Mado.hexToNpub(ownerHex).slice(0, 16) + '…'), 'err');
+  let same = false; try { same = Mado.npubToHex(cfg.author.npub) === pk; } catch {}
+  if (!same) { cfg.author.npub = Mado.hexToNpub(pk); fill(); update(!!Mado.store.get(DRAFT)); showProfile(); }
+  await loadFromNostr({ apply: !Mado.store.get(DRAFT) });
+}
+async function doLogin(fn) {
+  say($('#login-msg'), a('loginWait'));
+  try { await fn(); say($('#login-msg'), ''); await afterLogin(); }
+  catch (e) { if (e instanceof S.AmberAway) return; say($('#login-msg'), errText(e), 'err'); }
+}
+$('#l-nip07').onclick = () => doLogin(() => S.loginNip07());
+$('#l-amber').onclick = () => { S.setOp({ name: 'login' }); doLogin(() => S.loginAmber()); };
+$('#l-bunker').onclick = () => doLogin(() => S.loginBunker($('#l-bunker-uri').value, onAuth));
+$('#l-bunker-uri').onkeydown = e => { if (e.key === 'Enter') $('#l-bunker').click(); };
+$('#l-guest').onclick = () => { guest = true; renderAccount(); msg(a('guestNote')); };
+
+// Guardar: firma la configuración de esta web y la publica en tus relays.
+async function save(at) {
+  const pk = sessionHex();
+  if (!pk) { guest = false; renderAccount(); return; }
+  if (ownerHex && ownerHex !== pk) return msg(a('notOwner', Mado.hexToNpub(ownerHex).slice(0, 16) + '…'), 'err');
+  collect(); update();
+  const data = Mado.clone(cfg); delete data.author;
+  at = at || Math.floor(Date.now() / 1000);
+  S.setOp({ name: 'save', at });
+  msg(a('signing'));
   try {
-    const signer = await window.nostr.getPublicKey();
-    let pk; try { pk = Mado.npubToHex(cfg.author.npub); } catch { cfg.author.npub = Mado.hexToNpub(signer); pk = signer; fill(); }
-    if (signer !== pk) return msg(a('wrongKey'), 'err');
-    const data = Mado.clone(cfg); delete data.author;
-    const ev = await window.nostr.signEvent({
-      kind: 30078, created_at: Math.floor(Date.now() / 1000),
-      tags: [['d', dTag()], ['client', 'mado'], ['alt', 'Mado site settings']], content: JSON.stringify(data)
-    });
+    const ev = await S.sign({ kind: 30078, created_at: at, tags: [['d', dTag()], ['client', 'mado'], ['alt', 'Mado site settings']], content: JSON.stringify(data) }, onAuth);
     msg(a('publishing'));
     const known = (Mado.store.get('mado-relays:' + pk) || {}).data || [];
     const relays = Mado.mergeRelays(cfg.relays, known);
     const res = await Mado.publish(relays, ev, cfg.advanced.timeoutMs);
     const ok = Object.values(res).filter(r => r.ok).length;
-    if (ok) { Mado.store.del(DRAFT); Mado.store.clear('mado-remote:'); }
-    msg(ok ? a('published', ok, relays.length) : a('publishFail'), ok ? 'ok' : 'err');
-  } catch (e) { msg(a('signErr') + ' ' + (e.message || e), 'err'); }
-};
+    S.doneOp();
+    if (!ok) return msg(a('publishFail'), 'err');
+    Mado.store.del(DRAFT); Mado.store.clear('mado-remote:');
+    markSaved(at);
+    msg(a('published', ok, relays.length), 'ok');
+  } catch (e) {
+    if (e instanceof S.AmberAway) return;
+    S.doneOp(); msg(errText(e), 'err');
+  }
+}
+$('#b-save').onclick = () => save();
+document.addEventListener('keydown', e => { if ((e.ctrlKey || e.metaKey) && e.key === 's') { e.preventDefault(); save(); } });
 
 /* ---------- Verificación de la web ---------- */
 const guessUrl = () => /^https?:$/.test(location.protocol) && !window.MADO_BUNDLE
@@ -385,7 +459,16 @@ $('#ver').textContent = 'Mado v' + Mado.VERSION;
 applyTexts();   // también busca el perfil si ya hay npub
 fill();
 $('#d-tag').placeholder = 'mado:' + Mado.siteKey(SITE_HREF);
-// Sin borrador: lo publicado en Nostr manda. Con borrador: se avisa y se mantiene.
-if (draft) msg(a('draftNote'), ''); else loadFromNostr();
-if (draft) msg(a('draftLoaded'));
+
+// Arranque: dueño de la web, vuelta de Amber y sesión.
+const back = S.collect(), op = S.getOp();
+try { const n = (await repoConfig()).author?.npub || await siteNpub(); ownerHex = n ? Mado.npubToHex(n) : ''; } catch { ownerHex = ''; }
+renderAccount(); update(false);
+if (op && back && op.name === 'login') { await doLogin(() => S.loginAmber()); S.doneOp(); }
+else if (op && back && op.name === 'save' && S.session()) { renderAccount(); await save(op.at); }
+else {
+  if (op) S.doneOp();
+  if (S.session()) await afterLogin();
+  else if (ownerHex) loadFromNostr({ apply: !draft });
+}
 })();

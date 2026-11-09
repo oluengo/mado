@@ -20,6 +20,7 @@ Si falta el archivo, Mado usa un pequeño avestruz dibujado en su propio código
 | Library | Use · Uso | License | Source |
 |---|---|---|---|
 | @noble/curves, @noble/hashes (Paul Miller) | Signature verification (bundled in `assets/js/vendor/nostr-verify.js`) · Verificación de firmas | MIT | <https://github.com/paulmillr/noble-curves> |
+| nostr-tools (fiatjaf and contributors) | Bunker sign-in, NIP-46 (bundled in `assets/js/vendor/nostr-signer.js`, built from `tools/signer/`) · Entrada con bunker | Unlicense | <https://github.com/nbd-wtf/nostr-tools> |
 | marked | Markdown rendering (loaded from cdnjs) · Renderizado de Markdown | MIT | <https://github.com/markedjs/marked> |
 | DOMPurify | HTML sanitizing (loaded from cdnjs) · Limpieza de HTML | Apache-2.0 / MPL-2.0 | <https://github.com/cure53/DOMPurify> |
 
