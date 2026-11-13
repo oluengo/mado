@@ -1,7 +1,5 @@
 # Languages
 
-[Español](../es/idiomas.md)
-
 The site and the settings page are available in:
 
 | Code | Language |

@@ -1,7 +1,5 @@
 # Themes and typography
 
-[Español](../es/temas.md)
-
 Mado's look is made of three independent pieces:
 
 | Piece | What it controls | Folder |

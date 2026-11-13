@@ -1,7 +1,5 @@
 # Self-hosting
 
-[Español](../es/alojamiento-propio.md)
-
 Mado is plain static files with relative paths, so it runs on any static host and in any folder.
 
 ## Lightweight instance (recommended for your own blog)

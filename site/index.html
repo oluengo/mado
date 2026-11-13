@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,9 +51,7 @@ code { font: .86em var(--mono); background: var(--accent-bg); padding: .1rem .35
 .top nav { margin-left: auto; display: flex; align-items: center; gap: 1.1rem; font-size: .92rem; }
 .navlink { color: var(--muted) !important; }
 .navlink:hover { color: var(--fg) !important; }
-.lang { display: flex; gap: .15rem; font-size: .8rem; }
-.lang button, .theme { font: inherit; background: none; border: 0; color: var(--muted); cursor: pointer; padding: .25rem .35rem; border-radius: 6px; }
-.lang button[aria-pressed="true"] { color: var(--accent); font-weight: 600; background: var(--accent-bg); }
+.theme { font: inherit; background: none; border: 0; color: var(--muted); cursor: pointer; padding: .25rem .35rem; border-radius: 6px; }
 .theme { display: grid; place-items: center; }
 .theme svg { width: 1.1rem; height: 1.1rem; }
 .i-sun { display: none; }
@@ -144,9 +142,6 @@ footer .links a:hover { color: var(--accent); }
 			<a class="navlink" href="#features" data-i="navFeatures"></a>
 			<a class="navlink" href="#start" data-i="navStart"></a>
 			<a class="navlink" href="https://oluengo.github.io/">oluengo</a>
-			<div class="lang" role="group" aria-label="Language">
-				<button data-lang="ca">CA</button><button data-lang="es">ES</button><button data-lang="en">EN</button>
-			</div>
 			<button class="theme" id="theme" type="button" data-i-aria="theme">
 				<svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
 				<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -173,7 +168,7 @@ footer .links a:hover { color: var(--accent); }
 			<ul class="meta" data-list="meta"></ul>
 			<div class="showcase">
 				<div class="window main">
-					<div class="bar"><i></i><i></i><i></i><span>tu-usuario.github.io/blog</span></div>
+					<div class="bar"><i></i><i></i><i></i><span>your-user.github.io/blog</span></div>
 					<img src="site/img/list-violeta.webp" width="1280" height="820" data-i-alt="shotAlt" alt="">
 				</div>
 			</div>
@@ -210,7 +205,7 @@ footer .links a:hover { color: var(--accent); }
 				<div class="box">
 					<h3 data-i="liteTitle"></h3>
 					<p data-i="liteText"></p>
-					<a class="btn" href="https://github.com/oluengo/mado/blob/main/docs/es/alojamiento-propio.md" id="docs-link" data-i="docsBtn"></a>
+					<a class="btn" href="https://github.com/oluengo/mado/blob/main/docs/self-hosting.md" id="docs-link" data-i="docsBtn"></a>
 				</div>
 			</div>
 		</div>
@@ -257,90 +252,6 @@ footer .links a:hover { color: var(--accent); }
 
 <script>
 const I = {
-	es: {
-		navFeatures: "Funciones", navStart: "Empezar", theme: "Cambiar tema",
-		jp: "窓 · mado · ventana",
-		title: "Tus publicaciones de Nostr, en tu propia web",
-		intro: "Mado convierte tus artículos (NIP-23) y notas de Nostr en una web alojada por ti, en GitHub Pages o en cualquier alojamiento estático. Sin servidor, sin compilar y sin nada que instalar.",
-		start: "Crear mi web", demo: "Ver un blog real",
-		meta: ["Hecho sobre Nostr", "Gratis y de código abierto", "Sin servidor", "Cinco idiomas", "Firmas comprobadas"],
-		shotAlt: "Un blog hecho con Mado, diseño Lista y tema Violeta",
-		looksTitle: "Tu web, a tu manera",
-		looksLead: "El aspecto va en tres piezas independientes: 6 diseños, 6 temas de color con modo claro y oscuro, y 3 tipografías. Combínalos o crea los tuyos.",
-		looks: [["featured-arena", "Destacado", "tema Arena, serif"], ["grid-oceano", "Rejilla", "tema Océano, modo oscuro"], ["timeline-sakura", "Cronología", "tema Sakura, serif"]],
-		looksNote: "Capturas con un blog de ejemplo.",
-		featTitle: "Todo lo que necesita un blog",
-		featLead: "Publicas con tu cliente de Nostr de siempre (Habla, Yakihonne, Primal…). Mado solo lee y muestra.",
-		features: [
-			["Portada y enlaces permanentes", "Portada paginada, una página para cada publicación, secciones por hashtag, nube de etiquetas, buscador y página «Sobre mí»."],
-			["Filtros por hashtag", "Incluye o excluye etiquetas, fija publicaciones y oculta respuestas. Opcional: barra y buscador de etiquetas para quien visita."],
-			["Interacciones de Nostr", "Reacciones, comentarios en hilo, zaps, citas y reposts. Cada una se activa por separado."],
-			["Cinco idiomas", "Castellano, català, English, italiano y Deutsch, en la web y en la página de configuración."],
-			["Configuración en Nostr", "Se firma con tu extensión, Amber o bunker y se guarda en tus relays (NIP-78). Cambias la web sin tocar el repositorio."],
-			["Tu web es tuya", "Cada evento se comprueba con su firma, y la web puede demostrar que es tuya con NIP-05 o un enlace firmado."]
-		],
-		startTitle: "Ponla en marcha en cuatro pasos",
-		startLead: "Con GitHub Pages, en unos minutos. También funciona en cualquier alojamiento estático.",
-		steps: [["Haz fork", "Copia el repositorio oluengo/mado en tu cuenta de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Pon tu npub", "En index.html (una línea ya preparada) o en config.json. Si tu dominio tiene NIP-05, ni eso."], ["Configura y publica", "Abre admin/, entra con tu extensión, Amber o bunker, elige el aspecto y pulsa «Guardar». Se aplica al momento."]],
-		adminTitle: "Prueba la configuración", adminText: "Elige diseño, tema, tipografía, filtros e idioma, y mira el resultado antes de publicar. Para guardar entras con tu extensión, Amber o un bunker; para probar, nada.", adminBtn: "Abrir la configuración",
-		liteTitle: "Dentro de otra web", liteText: "¿Ya tienes web? Una instancia ligera de Mado necesita solo un index.html en una carpeta; la configuración va en Nostr. Así funciona oluengo.github.io/blog.", docsBtn: "Alojamiento propio",
-		trustTitle: "Seguro por diseño", trustLead: "Mado es una web estática: no guarda datos de nadie ni tiene acceso a tus claves.",
-		trust: [["Nunca pide tu nsec", "Para guardar la configuración entras con un firmante: extensión, Amber o bunker."], ["Firmas comprobadas", "Cada publicación se verifica antes de mostrarse: nadie puede colar textos en tu nombre."], ["Sin rastreadores", "Ni analítica ni cookies. Solo se conecta a los relays de Nostr que elijas."], ["admin.html no toca el repo", "Solo firma con tu firmante, y la web acepta únicamente lo firmado por tu npub."]],
-		faqTitle: "Preguntas frecuentes",
-		faq: [
-			["¿Necesito saber programar?", "No. Haces fork, activas Pages y configuras desde una página web. Como mucho, pegas tu npub en una línea de index.html."],
-			["¿Dónde escribo los artículos?", "En tu cliente de Nostr habitual (Habla, Yakihonne, Primal, Damus…). Mado lee lo que publicas y lo muestra."],
-			["¿Puedo usar mi propio dominio?", "Sí. GitHub Pages admite dominio propio, y Mado funciona en cualquier alojamiento estático (Netlify, nginx…)."],
-			["¿Cuesta algo?", "No. Mado es gratis y de código abierto (MIT). GitHub Pages también es gratis."],
-			["¿Qué pasa si un relay cae?", "Mado consulta varios relays a la vez y guarda una copia temporal en el navegador de quien visita."],
-			["¿Cómo actualizo mi fork?", "En GitHub, con «Sync fork». Tu configuración está en Nostr, así que no se toca. Mira antes el historial de cambios por si hay algo nuevo que configurar."]
-		],
-		releases: "Versiones", changelog: "Historial de cambios", issues: "Informar de un problema", credits: "Créditos", license: "Licencia MIT",
-		support: "Apoya el proyecto · toca para copiar", copied: "copiado",
-		made: "Hecho con IA · probado por humanos", docs: "es/alojamiento-propio.md"
-	},
-	ca: {
-		navFeatures: "Funcions", navStart: "Començar", theme: "Canvia el tema",
-		jp: "窓 · mado · finestra",
-		title: "Les teves publicacions de Nostr, a la teva web",
-		intro: "Mado converteix els teus articles (NIP-23) i notes de Nostr en una web allotjada per tu, a GitHub Pages o a qualsevol allotjament estàtic. Sense servidor, sense compilar i sense res a instal·lar.",
-		start: "Crear la meva web", demo: "Veure un blog real",
-		meta: ["Fet sobre Nostr", "Gratuït i de codi obert", "Sense servidor", "Cinc idiomes", "Signatures comprovades"],
-		shotAlt: "Un blog fet amb Mado, disseny Llista i tema Violeta",
-		looksTitle: "La teva web, a la teva manera",
-		looksLead: "L'aspecte va en tres peces independents: 6 dissenys, 6 temes de color amb mode clar i fosc, i 3 tipografies. Combina'ls o crea els teus.",
-		looks: [["featured-arena", "Destacat", "tema Arena, serif"], ["grid-oceano", "Graella", "tema Oceà, mode fosc"], ["timeline-sakura", "Cronologia", "tema Sakura, serif"]],
-		looksNote: "Captures amb un blog d'exemple.",
-		featTitle: "Tot el que necessita un blog",
-		featLead: "Publiques amb el teu client de Nostr de sempre (Habla, Yakihonne, Primal…). Mado només llegeix i mostra.",
-		features: [
-			["Portada i enllaços permanents", "Portada paginada, una pàgina per a cada publicació, seccions per hashtag, núvol d'etiquetes, cercador i pàgina «Sobre mi»."],
-			["Filtres per hashtag", "Inclou o exclou etiquetes, fixa publicacions i amaga respostes. Opcional: barra i cercador d'etiquetes per a qui visita."],
-			["Interaccions de Nostr", "Reaccions, comentaris en fil, zaps, cites i reposts. Cadascuna s'activa per separat."],
-			["Cinc idiomes", "Castellano, català, English, italiano i Deutsch, a la web i a la pàgina de configuració."],
-			["Configuració a Nostr", "Se signa amb la teva extensió, Amber o bunker i es desa als teus relays (NIP-78). Canvies la web sense tocar el repositori."],
-			["La teva web és teva", "Cada esdeveniment es comprova amb la seva signatura, i la web pot demostrar que és teva amb NIP-05 o un enllaç signat."]
-		],
-		startTitle: "Posa-la en marxa en quatre passos",
-		startLead: "Amb GitHub Pages, en uns minuts. També funciona a qualsevol allotjament estàtic.",
-		steps: [["Fes fork", "Copia el repositori oluengo/mado al teu compte de GitHub."], ["Activa Pages", "Settings → Pages → Deploy from a branch → main / root."], ["Posa el teu npub", "A index.html (una línia ja preparada) o a config.json. Si el teu domini té NIP-05, ni això."], ["Configura i publica", "Obre admin/, entra amb la teva extensió, Amber o bunker, tria l'aspecte i prem «Desar». S'aplica a l'instant."]],
-		adminTitle: "Prova la configuració", adminText: "Tria disseny, tema, tipografia, filtres i idioma, i mira el resultat abans de publicar. Per desar entres amb la teva extensió, Amber o un bunker; per provar, res.", adminBtn: "Obre la configuració",
-		liteTitle: "Dins d'una altra web", liteText: "Ja tens web? Una instància lleugera de Mado només necessita un index.html en una carpeta; la configuració va a Nostr. Així funciona oluengo.github.io/blog.", docsBtn: "Allotjament propi",
-		trustTitle: "Segur per disseny", trustLead: "Mado és una web estàtica: no desa dades de ningú ni té accés a les teves claus.",
-		trust: [["Mai demana el teu nsec", "Per desar la configuració entres amb un signant: extensió, Amber o bunker."], ["Signatures comprovades", "Cada publicació es verifica abans de mostrar-se: ningú pot colar textos en nom teu."], ["Sense rastrejadors", "Ni analítica ni galetes. Només es connecta als relays de Nostr que triïs."], ["admin.html no toca el repo", "Només signa amb el teu signant, i la web només accepta el que signa el teu npub."]],
-		faqTitle: "Preguntes freqüents",
-		faq: [
-			["Cal saber programar?", "No. Fas fork, actives Pages i configures des d'una pàgina web. Com a molt, enganxes el teu npub en una línia d'index.html."],
-			["On escric els articles?", "Al teu client de Nostr habitual (Habla, Yakihonne, Primal, Damus…). Mado llegeix el que publiques i ho mostra."],
-			["Puc fer servir el meu domini?", "Sí. GitHub Pages admet domini propi, i Mado funciona a qualsevol allotjament estàtic (Netlify, nginx…)."],
-			["Costa alguna cosa?", "No. Mado és gratuït i de codi obert (MIT). GitHub Pages també és gratuït."],
-			["Què passa si un relay cau?", "Mado consulta diversos relays alhora i desa una còpia temporal al navegador de qui visita."],
-			["Com actualitzo el meu fork?", "A GitHub, amb «Sync fork». La teva configuració és a Nostr, així que no es toca. Mira abans l'historial de canvis per si hi ha alguna cosa nova a configurar."]
-		],
-		releases: "Versions", changelog: "Historial de canvis", issues: "Informa d'un problema", credits: "Crèdits", license: "Llicència MIT",
-		support: "Dona suport al projecte · toca per copiar", copied: "copiat",
-		made: "Fet amb IA · provat per humans", docs: "es/alojamiento-propio.md"
-	},
 	en: {
 		navFeatures: "Features", navStart: "Get started", theme: "Toggle theme",
 		jp: "窓 · mado · window",
@@ -381,18 +292,11 @@ const I = {
 		],
 		releases: "Releases", changelog: "Changelog", issues: "Report a problem", credits: "Credits", license: "MIT License",
 		support: "Support the project · tap to copy", copied: "copied",
-		made: "Built with AI · tested by humans", docs: "en/self-hosting.md"
+		made: "Built with AI · tested by humans", docs: "self-hosting.md"
 	}
 };
-const LANGS = ["ca", "es", "en"], root = document.documentElement;
+const root = document.documentElement;
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-function pickLang() {
-	const q = new URLSearchParams(location.search).get("lang");
-	if (LANGS.includes(q)) return q;
-	try { const s = localStorage.getItem("lang"); if (LANGS.includes(s)) return s; } catch (e) {}
-	const n = (navigator.languages || [navigator.language || ""]).map(x => String(x).slice(0, 2));
-	return n.find(x => LANGS.includes(x)) || "en";
-}
 let L;
 function render(lang) {
 	L = lang; const t = I[lang]; root.lang = lang;
@@ -408,13 +312,8 @@ function render(lang) {
 	document.getElementById("trust-list").innerHTML = t.trust.map(([b, s]) => `<li><b>${esc(b)}</b><span>${esc(s)}</span></li>`).join("");
 	document.getElementById("faq-list").innerHTML = t.faq.map(([q, a]) => `<details><summary>${esc(q)}</summary><p>${esc(a)}</p></details>`).join("");
 	document.getElementById("docs-link").href = "https://github.com/oluengo/mado/blob/main/docs/" + t.docs;
-		document.getElementById("readme").href = "https://github.com/oluengo/mado" + (lang === "en" ? "#english" : "");
-	document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
+		document.getElementById("readme").href = "https://github.com/oluengo/mado";
 }
-document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => {
-	try { localStorage.setItem("lang", b.dataset.lang); } catch (e) {}
-	render(b.dataset.lang);
-}));
 try { const th = localStorage.getItem("theme"); if (th) root.dataset.theme = th; } catch (e) {}
 document.getElementById("theme").addEventListener("click", () => {
 	const cur = root.dataset.theme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
@@ -428,7 +327,7 @@ document.querySelectorAll("[data-copy]").forEach(b => b.addEventListener("click"
 	copied.textContent = ok ? b.textContent + " " + I[L].copied : b.dataset.copy;
 	clearTimeout(ct); ct = setTimeout(() => { copied.textContent = ""; }, ok ? 1800 : 8000);
 }));
-render(pickLang());
+render("en");
 </script>
 </body>
 </html>

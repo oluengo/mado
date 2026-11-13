@@ -1,7 +1,5 @@
 # Site verification
 
-[Español](../es/verificacion.md)
-
 Anyone can display public Nostr posts — that is how Nostr works. Verification lets your site prove that **you**, the author, claim it. Mado checks it on every visit using data signed with your key.
 
 The result shows as a subtle halo around the avatar — **pastel green** if verified, **pastel red** if not — and a short line in the footer. The avatar links to your profile on njump.me, so anyone can confirm it outside your site.

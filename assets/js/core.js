@@ -394,7 +394,7 @@ Mado.applyFont = font => {
 
 /* ---------- Diseños (estructura de la página) ----------
    Cada diseño vive en layouts/<id>/ (layout.js + layout.css) y se registra con
-   Mado.registerLayout(id, { shell, list, item, options }). Ver docs/es/disenos.md. */
+   Mado.registerLayout(id, { shell, list, item, options }). See docs/layouts.md. */
 Mado._layouts = {};
 Mado.registerLayout = (id, def) => { Mado._layouts[id] = def || {}; };
 Mado.loadLayouts = async () => {

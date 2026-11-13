@@ -1,7 +1,5 @@
 # Layouts
 
-[Español](../es/disenos.md)
-
 Mado separates **layouts** (structure), **themes** (colours) and **typography**. Any combination works — see [Themes and typography](themes.md).
 
 | Id | Name | What it does |

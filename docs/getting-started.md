@@ -1,7 +1,5 @@
 # Getting started
 
-[Español](../es/primeros-pasos.md)
-
 ## What you need
 
 - A Nostr account (your **npub**). You publish with your usual client (Habla, Yakihonne, Primal, Damus…); Mado only reads and shows.

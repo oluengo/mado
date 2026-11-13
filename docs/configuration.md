@@ -1,7 +1,5 @@
 # Configuration reference
 
-[Español](../es/configuracion.md)
-
 Settings are published to Nostr from the settings page (`admin.html`), signed with your npub (NIP-78, kind 30078). `config.json` has the same format and is optional: if both exist, what is published on Nostr wins. This page is for reference; missing fields use the defaults shown.
 
 ## `author`
