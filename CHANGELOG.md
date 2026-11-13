@@ -39,7 +39,7 @@
 
 ## 0.1.0 — beta (2026-10-24)
 
-- First public beta · Primera beta pública.
+- First public beta.
 - Articles (NIP-23) and notes, hashtag filters, pinned posts, search, tags, About page.
 - Layouts: list, grid, sidebar, featured, timeline, compact (extensible: `layouts/`).
 - Colour themes: Violeta, Océano, Bosque, Arena, Grafito, Sakura (light/dark).

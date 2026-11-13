@@ -1,20 +1,20 @@
 ---
-name: Bug report · Error
-about: Something doesn't work · Algo no funciona
+name: Bug report
+about: Something doesn't work
 labels: bug
 ---
 
-**What happens · Qué pasa**
+**What happens**
 
-**What you expected · Qué esperabas**
+**What you expected**
 
-**Steps · Pasos**
+**Steps**
 1.
 2.
 
-**Site URL and browser · URL de la web y navegador**
+**Site URL and browser**
 
-**config.json** (remove anything private · quita lo privado)
+**config.json** (remove anything private)
 
 ```json
 

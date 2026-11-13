@@ -1,7 +1,7 @@
 {
   "name": "mado-signer",
   "private": true,
-  "description": "Empaqueta nostr-tools (NIP-46) para la página de configuración de Mado (../../assets/js/vendor/nostr-signer.js).",
+  "description": "Bundles nostr-tools (NIP-46) for the Mado settings page (../../assets/js/vendor/nostr-signer.js).",
   "license": "MIT",
   "scripts": {
     "build": "esbuild entry.mjs --bundle --minify --format=iife --global-name=MadoNostr --target=es2020 --legal-comments=eof --outfile=../../assets/js/vendor/nostr-signer.js"

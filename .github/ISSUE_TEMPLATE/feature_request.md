@@ -1,11 +1,11 @@
 ---
-name: Feature request · Propuesta
-about: An idea for Mado · Una idea para Mado
+name: Feature request
+about: An idea for Mado
 labels: enhancement
 ---
 
-**What would you like · Qué te gustaría**
+**What would you like**
 
-**Why · Para qué**
+**Why**
 
-**Alternatives you considered · Alternativas que has pensado**
+**Alternatives you considered**

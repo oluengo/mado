@@ -1,8 +1,8 @@
-# Publica oluengo.github.io/mado/: la web del proyecto (site/index.html) en la raíz
-# y el resto del repositorio tal cual (assets/, admin.html, layouts/, themes/, fonts/…),
-# que usan las instancias ligeras como oluengo.github.io/blog/.
-# Solo se ejecuta en oluengo/mado: en un fork, Pages se publica desde la rama (README).
-# Requiere Settings → Pages → Source: «GitHub Actions».
+# Publishes oluengo.github.io/mado/: the project website (site/index.html) at the root
+# and the rest of the repository as is (assets/, admin.html, layouts/, themes/, fonts/…),
+# used by lightweight instances such as oluengo.github.io/blog/.
+# Only runs in oluengo/mado: in a fork, Pages is published from the branch (README).
+# Requires Settings → Pages → Source: "GitHub Actions".
 name: Pages
 
 on:
@@ -28,7 +28,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Montar el sitio
+      - name: Assemble the site
         run: |
           mkdir _site
           tar --exclude=./.git --exclude=./.github --exclude=./_site -cf - . | tar -xf - -C _site

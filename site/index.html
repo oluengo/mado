@@ -131,6 +131,7 @@ footer .links a:hover { color: var(--accent); }
 	.navlink { display: none; }
 	.hero { padding-top: 3rem; }
 }
+.top nav .navlink.more { display: inline-flex; white-space: nowrap; }
 </style>
 </head>
 <body>
@@ -141,7 +142,7 @@ footer .links a:hover { color: var(--accent); }
 		<nav>
 			<a class="navlink" href="#features" data-i="navFeatures"></a>
 			<a class="navlink" href="#start" data-i="navStart"></a>
-			<a class="navlink" href="https://oluengo.github.io/">oluengo</a>
+			<a class="navlink more" href="https://oluengo.github.io/">More apps</a>
 			<button class="theme" id="theme" type="button" data-i-aria="theme">
 				<svg class="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
 				<svg class="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
@@ -270,7 +271,7 @@ const I = {
 			["Home page and permalinks", "Paginated home, a page for each post, hashtag sections, tag cloud, search and an About page."],
 			["Hashtag filters", "Include or exclude tags, pin posts and hide replies. Optional: a tag bar and tag search for visitors."],
 			["Nostr interactions", "Reactions, threaded comments, zaps, quotes and reposts. Each one can be turned on separately."],
-			["Five languages", "Castellano, català, English, italiano and Deutsch, on the site and on the settings page."],
+			["Five languages", "English, Spanish, Catalan, Italian and German, on the site and on the settings page."],
 			["Settings on Nostr", "Signed with your extension, Amber or a bunker and stored on your relays (NIP-78). Change the site without touching the repository."],
 			["Your site is yours", "Every event is checked against its signature, and the site can prove it's yours with NIP-05 or a signed link."]
 		],

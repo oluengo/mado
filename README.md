@@ -12,7 +12,7 @@
 <td width="33%"><img src="site/img/grid-oceano.webp" alt="Grid layout, Ocean theme"></td>
 </tr></table>
 
-**Mado** (窓, Japanese for “window”) turns your Nostr articles (NIP-23) and notes into a website you host yourself, on GitHub Pages or any static host. You publish with your usual Nostr client and Mado shows it. No server, no build step, nothing to install. Free. In Castellano, Català, English, Italiano and Deutsch.
+**Mado** (窓, Japanese for “window”) turns your Nostr articles (NIP-23) and notes into a website you host yourself, on GitHub Pages or any static host. You publish with your usual Nostr client and Mado shows it. No server, no build step, nothing to install. Free. In English, Spanish, Catalan, Italian and German.
 
 ## What it does
 
