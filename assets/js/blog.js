@@ -61,7 +61,7 @@ function renderShell() {
   const parts = {
     brand: `<div class="mado-brand"><a class="mado-av mado-av-h" id="mado-av" target="_blank" rel="noopener"><img id="mado-logo" alt=""></a>
       <a class="mado-brand-text" href="#/"><h1 class="mado-title" id="mado-title"></h1><p class="mado-desc" id="mado-desc"></p></a></div>`,
-    tools: `<div class="mado-tools">${cfg.site.langSwitch ? `<select class="mado-btn mado-lang" id="mado-lang" aria-label="${T.language}">${Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}"${k === lang ? ' selected' : ''}>${k.toUpperCase()} · ${n}</option>`).join('')}</select>` : ''}${cfg.site.modeToggle ? `<button class="mado-btn" id="mado-mode" title="${T.toggleMode}" aria-label="${T.toggleMode}">◐</button>` : ''}</div>`,
+    tools: `<div class="mado-tools">${cfg.site.langSwitch ? `<select class="mado-btn mado-lang" id="mado-lang" aria-label="${T.language}">${Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}" title="${n}"${k === lang ? ' selected' : ''}>${k.toUpperCase()}</option>`).join('')}</select>` : ''}${cfg.site.modeToggle ? `<button class="mado-btn" id="mado-mode" title="${T.toggleMode}" aria-label="${T.toggleMode}">◐</button>` : ''}</div>`,
     nav: `<nav class="mado-nav" id="mado-nav"></nav>`,
     search: cfg.site.showSearch ? `<form class="mado-search" id="mado-search" role="search"><input type="search" placeholder="${T.searchPh}" aria-label="${T.search}"></form>` : '',
     aside: `<div class="mado-aside-tags" id="mado-aside-tags"></div>`,

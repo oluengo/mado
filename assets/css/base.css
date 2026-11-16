@@ -37,7 +37,7 @@ img, video { max-width: 100% }
 .mado-vstate b { font-weight: 600 }
 .mado-vstate.is-ok b { color: rgb(var(--halo-ok)) }
 .mado-vstate.is-no b { color: rgb(var(--halo-no)) }
-.mado-lang { padding: 5px 8px; max-width: 130px }
+.mado-lang { padding: 5px 6px; width: auto; max-width: 64px }
 .mado-title { font-family: var(--font-head); font-size: 1.45rem; font-weight: 650; line-height: 1.2; margin: 0 }
 .mado-desc { color: var(--muted); margin: 4px 0 0; font-size: .95rem }
 .mado-tools { display: flex; gap: 8px }

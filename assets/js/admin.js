@@ -22,7 +22,7 @@ $('#mode').onclick = () => { Mado.toggleMode(); if (typeof renderThemes === 'fun
 let ui = Mado.resolveLang(Mado.store.get('mado-admin-lang')), A = Mado.ta(ui);
 // a('clave', ...args): texto traducido (las claves con argumentos son funciones).
 const a = (k, ...args) => { const v = A[k] != null ? A[k] : Mado.ta('es')[k]; return typeof v === 'function' ? v(...args) : (v == null ? k : v); };
-$('#ui-lang').innerHTML = Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}">${n}</option>`).join('');
+$('#ui-lang').innerHTML = Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}" title="${n}">${k.toUpperCase()}</option>`).join('');
 $('#ui-lang').value = ui;
 $('#ui-lang').onchange = e => { ui = e.target.value; A = Mado.ta(ui); Mado.store.set('mado-admin-lang', ui); applyTexts(); };
 
@@ -36,7 +36,7 @@ function applyTexts() {
 }
 function renderLangOptions() {
   const sel = $('#site-lang'), v = cfg.site.lang;
-  sel.innerHTML = `<option value="auto">${a('langAuto')}</option>` + Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}">${n}</option>`).join('');
+  sel.innerHTML = `<option value="auto">${a('langAuto')}</option>` + Object.entries(Mado.LANGS()).map(([k, n]) => `<option value="${k}" title="${n}">${k.toUpperCase()}</option>`).join('');
   sel.value = v;
 }
 function renderDateOptions() {

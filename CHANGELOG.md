@@ -4,6 +4,7 @@
 
 - Optional social graph on the "About" page (`nav.socialGraph`, off by default): an animated network with the author in the centre, the people they follow around them and mutual follows closer and highlighted. Nodes can be dragged; tapping one opens the profile on njump.me. `nav.graphMax` limits the nodes (mutuals first).
 - The graph code (`assets/js/graph.js`) only loads when the option is on.
+- Language selectors (site header and settings page) show only the code (ES, CA, EN, IT, DE); the full name is the tooltip.
 
 ## 0.6.0 (2026-11-09)
 
