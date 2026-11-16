@@ -267,7 +267,9 @@ pre{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:
 <section class="panel" role="tabpanel" data-panel="nav" hidden>
   <div class="checks">
     <label class="check"><input type="checkbox" data-path="nav.showAbout"> <span data-i18n="showAbout"></span></label>
+    <label class="check"><input type="checkbox" data-path="nav.socialGraph"> <span data-i18n="socialGraph"></span></label>
   </div>
+  <label style="max-width:260px"><span data-i18n="graphMax"></span><input type="number" min="10" max="300" step="10" data-path="nav.graphMax" data-type="number"></label>
   <div class="grid">
     <div><span class="hint" data-i18n="sections"></span>
       <div class="rep" id="sections" style="margin-top:6px"></div>

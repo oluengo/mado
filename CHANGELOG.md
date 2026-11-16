@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0 (2026-11-16)
+
+- Optional social graph on the "About" page (`nav.socialGraph`, off by default): an animated network with the author in the centre, the people they follow around them and mutual follows closer and highlighted. Nodes can be dragged; tapping one opens the profile on njump.me. `nav.graphMax` limits the nodes (mutuals first).
+- The graph code (`assets/js/graph.js`) only loads when the option is on.
+
 ## 0.6.0 (2026-11-09)
 
 - Settings page with sign-in: browser extension (NIP-07), Amber on Android (NIP-55) or a bunker (NIP-46, e.g. nsec.app or Amber). Mado never asks for the nsec; the session is remembered in that browser.

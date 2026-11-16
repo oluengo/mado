@@ -16,7 +16,7 @@
 
 ## What it does
 
-- **Paginated home page**, permanent links, hashtag sections, search and an “About” page.
+- **Paginated home page**, permanent links, hashtag sections, search and an “About” page, with an optional animated social graph (follows and mutuals).
 - **Hashtag filters** (include/exclude, any/all), pinned posts and hidden replies. Optional: a tag bar and tag search for visitors.
 - **Look in three independent pieces:** 6 layouts, 6 colour themes with light and dark mode, and 3 typefaces. Mix them and make your own.
 - **Nostr interactions**, each optional: reactions, threaded comments, zaps, quotes and reposts.

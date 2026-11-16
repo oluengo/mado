@@ -26,6 +26,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'citas'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'Todas', tagSearchPh: 'Buscar etiqueta…', tagModeAny: 'Con alguna de las etiquetas', tagModeAll: 'Con todas las etiquetas',
+    graphTitle: 'Red en Nostr', graphFollows: n => `Sigue a ${n}`, graphMutuals: n => `${n} mutuos`, graphShown: n => `se muestran ${n}`, graphMutual: 'se siguen mutuamente', graphEmpty: 'No se ha podido cargar la red.',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Hecho con', playVideo: 'Reproducir vídeo', license: 'Licencia MIT'
   },
   ca: {
@@ -46,6 +47,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'cites'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'Totes', tagSearchPh: 'Cerca una etiqueta…', tagModeAny: 'Amb alguna de les etiquetes', tagModeAll: 'Amb totes les etiquetes',
+    graphTitle: 'Xarxa a Nostr', graphFollows: n => `Segueix ${n}`, graphMutuals: n => `${n} mutus`, graphShown: n => `se\'n mostren ${n}`, graphMutual: 'es segueixen mútuament', graphEmpty: 'No s\'ha pogut carregar la xarxa.',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Fet amb', playVideo: 'Reproduir el vídeo', license: 'Llicència MIT'
   },
   en: {
@@ -66,6 +68,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'quote' : 'quotes'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'All', tagSearchPh: 'Find a tag…', tagModeAny: 'With any of the tags', tagModeAll: 'With all the tags',
+    graphTitle: 'Network on Nostr', graphFollows: n => `Follows ${n}`, graphMutuals: n => `${n} mutual`, graphShown: n => `${n} shown`, graphMutual: 'follow each other', graphEmpty: 'Could not load the network.',
     footOk: 'Verified site', footNo: 'Unverified site', madeWith: 'Made with', playVideo: 'Play video', license: 'MIT License'
   },
   it: {
@@ -86,6 +89,7 @@ const BLOG = {
     ixRepostsN: n => `${n} repost`, ixQuotesN: n => `${n} ${n === 1 ? 'citazione' : 'citazioni'}`,
     ixZapsN: (n, s) => `${n} zap · ${s} sats`,
     allTags: 'Tutte', tagSearchPh: 'Cerca un tag…', tagModeAny: 'Con almeno uno dei tag', tagModeAll: 'Con tutti i tag',
+    graphTitle: 'Rete su Nostr', graphFollows: n => `Segue ${n}`, graphMutuals: n => `${n} reciproci`, graphShown: n => `${n} mostrati`, graphMutual: 'si seguono a vicenda', graphEmpty: 'Impossibile caricare la rete.',
     footOk: 'Sito verificato', footNo: 'Sito non verificato', madeWith: 'Creato con', playVideo: 'Riproduci video', license: 'Licenza MIT'
   },
   de: {
@@ -106,6 +110,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'Repost' : 'Reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'Zitat' : 'Zitate'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'Zap' : 'Zaps'} · ${s} Sats`,
     allTags: 'Alle', tagSearchPh: 'Schlagwort suchen…', tagModeAny: 'Mit einem der Schlagwörter', tagModeAll: 'Mit allen Schlagwörtern',
+    graphTitle: 'Netzwerk auf Nostr', graphFollows: n => `Folgt ${n}`, graphMutuals: n => `${n} gegenseitig`, graphShown: n => `${n} angezeigt`, graphMutual: 'folgen sich gegenseitig', graphEmpty: 'Das Netzwerk konnte nicht geladen werden.',
     footOk: 'Verifizierte Website', footNo: 'Nicht verifizierte Website', madeWith: 'Erstellt mit', playVideo: 'Video abspielen', license: 'MIT-Lizenz'
   }
 };
@@ -181,6 +186,7 @@ const ADMIN = {
     useProfile: 'Usar datos del perfil Nostr', modeToggle: 'Botón claro/oscuro', showSearch: 'Buscador',
     showTags: 'Mostrar hashtags', readingTime: 'Tiempo de lectura', langSwitch: 'Selector de idioma en el blog',
     s4: 'Navegación', showAbout: 'Página «Sobre mí» (biografía del perfil)',
+    socialGraph: 'Grafo social en «Sobre mí» (a quién sigues y quién te sigue también)', graphMax: 'Máximo de personas en el grafo',
     sections: 'Secciones del menú (cada una muestra un hashtag)', addSection: '+ Añadir sección',
     links: 'Enlaces externos', addLink: '+ Añadir enlace', secLabelPh: 'Nombre en el menú', secTagPh: 'hashtag', linkLabelPh: 'Texto', remove: 'Quitar',
     s5: 'Verificación de la web',
@@ -301,6 +307,7 @@ const ADMIN = {
     useProfile: 'Fer servir les dades del perfil Nostr', modeToggle: 'Botó clar/fosc', showSearch: 'Cercador',
     showTags: 'Mostrar hashtags', readingTime: 'Temps de lectura', langSwitch: "Selector d'idioma al blog",
     s4: 'Navegació', showAbout: 'Pàgina «Sobre mi» (biografia del perfil)',
+    socialGraph: 'Graf social a «Sobre mi» (a qui segueixes i qui et segueix també)', graphMax: 'Màxim de persones al graf',
     sections: 'Seccions del menú (cadascuna mostra un hashtag)', addSection: '+ Afegir secció',
     links: 'Enllaços externs', addLink: '+ Afegir enllaç', secLabelPh: 'Nom al menú', secTagPh: 'hashtag', linkLabelPh: 'Text', remove: 'Treure',
     s5: 'Verificació de la web',
@@ -420,6 +427,7 @@ const ADMIN = {
     useProfile: 'Use Nostr profile data', modeToggle: 'Light/dark button', showSearch: 'Search box',
     showTags: 'Show hashtags', readingTime: 'Reading time', langSwitch: 'Language selector on the blog',
     s4: 'Navigation', showAbout: '“About” page (profile bio)',
+    socialGraph: 'Social graph on the “About” page (who you follow and who follows you back)', graphMax: 'Maximum people in the graph',
     sections: 'Menu sections (each one shows a hashtag)', addSection: '+ Add section',
     links: 'External links', addLink: '+ Add link', secLabelPh: 'Menu label', secTagPh: 'hashtag', linkLabelPh: 'Text', remove: 'Remove',
     s5: 'Site verification',
@@ -539,6 +547,7 @@ const ADMIN = {
     useProfile: 'Usa i dati del profilo Nostr', modeToggle: 'Pulsante chiaro/scuro', showSearch: 'Ricerca',
     showTags: 'Mostra hashtag', readingTime: 'Tempo di lettura', langSwitch: 'Selettore di lingua nel blog',
     s4: 'Navigazione', showAbout: 'Pagina «Chi sono» (biografia del profilo)',
+    socialGraph: 'Grafo sociale in «Chi sono» (chi segui e chi ti segue a sua volta)', graphMax: 'Massimo di persone nel grafo',
     sections: 'Sezioni del menu (ognuna mostra un hashtag)', addSection: '+ Aggiungi sezione',
     links: 'Link esterni', addLink: '+ Aggiungi link', secLabelPh: 'Nome nel menu', secTagPh: 'hashtag', linkLabelPh: 'Testo', remove: 'Rimuovi',
     s5: 'Verifica del sito',
@@ -658,6 +667,7 @@ const ADMIN = {
     useProfile: 'Daten des Nostr-Profils verwenden', modeToggle: 'Hell/Dunkel-Schalter', showSearch: 'Suche',
     showTags: 'Hashtags anzeigen', readingTime: 'Lesezeit', langSwitch: 'Sprachauswahl im Blog',
     s4: 'Navigation', showAbout: 'Seite „Über mich“ (Profil-Bio)',
+    socialGraph: 'Soziales Netzwerk auf „Über mich“ (wem du folgst und wer dir zurückfolgt)', graphMax: 'Maximale Personen im Graphen',
     sections: 'Menübereiche (jeder zeigt einen Hashtag)', addSection: '+ Bereich hinzufügen',
     links: 'Externe Links', addLink: '+ Link hinzufügen', secLabelPh: 'Name im Menü', secTagPh: 'Hashtag', linkLabelPh: 'Text', remove: 'Entfernen',
     s5: 'Verifizierung der Website',

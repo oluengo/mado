@@ -534,8 +534,35 @@ function viewAbout() {
     <div class="mado-actions">
       ${p.website ? `<a href="${Mado.esc(p.website)}" target="_blank" rel="noopener">${Mado.esc(p.website.replace(/^https?:\/\//, ''))} ↗</a>` : ''}
       <a href="https://njump.me/${npub}" target="_blank" rel="noopener">${T.openNostr}</a>
-    </div></section>`);
+    </div></section>
+    ${cfg.nav.socialGraph ? `<section class="mado-graph" id="mado-graph"><h2 class="mado-graph-h">${T.graphTitle}</h2><p class="mado-graph-info mado-status">${T.loading}</p><div class="mado-graph-box"></div></section>` : ''}`);
   Mado.avatarFallback($('#mado-about-av'), cfg.site.fallbackAvatar || Mado.DEFAULT_AVATAR);
+  if (cfg.nav.socialGraph) renderGraph(p);
+}
+
+/* ---------- Grafo social ---------- */
+async function renderGraph(p) {
+  const sec = $('#mado-graph'); if (!sec) return;
+  const key = 'mado-graph:' + pk + ':' + cfg.nav.graphMax, c = Mado.store.get(key);
+  let data = c && Date.now() - c.ts < Math.max(cfg.advanced.cacheMinutes, 30) * 60000 ? c.data : null;
+  const [, fresh] = await Promise.all([
+    window.MADO_BUNDLE || Mado.drawGraph ? null : Mado.loadScript(Mado.url('assets/js/graph.js')),
+    data ? null : Mado.fetchSocialGraph(cfg.relays, pk, { max: +cfg.nav.graphMax || 100, timeout: cfg.advanced.timeoutMs }).catch(() => null)
+  ]);
+  if (fresh) { data = fresh; Mado.store.set(key, { ts: Date.now(), data }); }
+  if (!document.body.contains(sec)) return;
+  const info = sec.querySelector('.mado-graph-info');
+  if (!data || !data.nodes.length || !Mado.drawGraph) { info.textContent = T.graphEmpty; return; }
+  info.classList.remove('mado-status');
+  info.innerHTML = `${T.graphFollows(Mado.fmtCount(data.follows, lang))} · <span class="mado-graph-mutual">${T.graphMutuals(Mado.fmtCount(data.mutuals, lang))}</span>` +
+    (data.nodes.length < data.follows ? ` · ${T.graphShown(data.nodes.length)}` : '');
+  const name = p.display_name || p.name || '';
+  Mado.drawGraph(sec.querySelector('.mado-graph-box'), data, {
+    center: { pk, name, picture: p.picture || '' },
+    aria: info.textContent,
+    label: d => (d.name || Mado.hexToNpub(d.pk).slice(0, 14) + '…') + (d.mutual ? ' · ' + T.graphMutual : ''),
+    open: d => window.open('https://njump.me/' + Mado.hexToNpub(d.pk), '_blank', 'noopener')
+  });
 }
 
 start();

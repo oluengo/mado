@@ -154,3 +154,12 @@ a.mado-ix-i:hover { color: var(--accent) }
 .mado-chip-mode { font-size: .75rem; color: var(--muted) }
 .mado-tagsearch { width: 100%; max-width: 280px; font: inherit; font-size: .85rem; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 10px; margin-bottom: 12px }
 .mado-tagbar .mado-tagsearch { margin: 0 }
+
+/* Grafo social (Sobre mí) */
+.mado-graph { margin-top: 40px; padding-top: 22px; border-top: 1px solid var(--line) }
+.mado-graph-h { font-family: var(--font-head); font-size: 1.05rem; font-weight: 600; margin: 0 0 4px }
+.mado-graph-info { font-size: .82rem; color: var(--muted); margin: 0 0 12px }
+.mado-graph-mutual { color: var(--accent) }
+.mado-graph-box { position: relative; width: 100%; touch-action: pan-y }
+.mado-graph-canvas { display: block; width: 100%; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card) }
+.mado-graph-tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--bg); font-size: .75rem; padding: 3px 8px; border-radius: 6px; white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis }
