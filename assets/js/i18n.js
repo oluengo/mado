@@ -26,7 +26,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'citas'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'Todas', tagSearchPh: 'Buscar etiqueta…', tagModeAny: 'Con alguna de las etiquetas', tagModeAll: 'Con todas las etiquetas',
-    graphTitle: 'Red en Nostr', graphFollows: n => `Sigue a ${n}`, graphMutuals: n => `${n} mutuos`, graphShown: n => `se muestran ${n}`, graphMutual: 'se siguen mutuamente', graphEmpty: 'No se ha podido cargar la red.',
+    graphZoomIn: 'Acercar', graphZoomOut: 'Alejar', graphReset: 'Centrar', graphTitle: 'Red en Nostr', graphFollows: n => `Sigue a ${n}`, graphMutuals: n => `${n} mutuos`, graphShown: n => `se muestran ${n}`, graphMutual: 'se siguen mutuamente', graphEmpty: 'No se ha podido cargar la red.',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Hecho con', playVideo: 'Reproducir vídeo', license: 'Licencia MIT'
   },
   ca: {
@@ -47,7 +47,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'cita' : 'cites'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'Totes', tagSearchPh: 'Cerca una etiqueta…', tagModeAny: 'Amb alguna de les etiquetes', tagModeAll: 'Amb totes les etiquetes',
-    graphTitle: 'Xarxa a Nostr', graphFollows: n => `Segueix ${n}`, graphMutuals: n => `${n} mutus`, graphShown: n => `se\'n mostren ${n}`, graphMutual: 'es segueixen mútuament', graphEmpty: 'No s\'ha pogut carregar la xarxa.',
+    graphZoomIn: 'Apropar', graphZoomOut: 'Allunyar', graphReset: 'Centrar', graphTitle: 'Xarxa a Nostr', graphFollows: n => `Segueix ${n}`, graphMutuals: n => `${n} mutus`, graphShown: n => `se\'n mostren ${n}`, graphMutual: 'es segueixen mútuament', graphEmpty: 'No s\'ha pogut carregar la xarxa.',
     footOk: 'Web verificada', footNo: 'Web no verificada', madeWith: 'Fet amb', playVideo: 'Reproduir el vídeo', license: 'Llicència MIT'
   },
   en: {
@@ -68,7 +68,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'repost' : 'reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'quote' : 'quotes'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'zap' : 'zaps'} · ${s} sats`,
     allTags: 'All', tagSearchPh: 'Find a tag…', tagModeAny: 'With any of the tags', tagModeAll: 'With all the tags',
-    graphTitle: 'Network on Nostr', graphFollows: n => `Follows ${n}`, graphMutuals: n => `${n} mutual`, graphShown: n => `${n} shown`, graphMutual: 'follow each other', graphEmpty: 'Could not load the network.',
+    graphZoomIn: 'Zoom in', graphZoomOut: 'Zoom out', graphReset: 'Reset view', graphTitle: 'Network on Nostr', graphFollows: n => `Follows ${n}`, graphMutuals: n => `${n} mutual`, graphShown: n => `${n} shown`, graphMutual: 'follow each other', graphEmpty: 'Could not load the network.',
     footOk: 'Verified site', footNo: 'Unverified site', madeWith: 'Made with', playVideo: 'Play video', license: 'MIT License'
   },
   it: {
@@ -89,7 +89,7 @@ const BLOG = {
     ixRepostsN: n => `${n} repost`, ixQuotesN: n => `${n} ${n === 1 ? 'citazione' : 'citazioni'}`,
     ixZapsN: (n, s) => `${n} zap · ${s} sats`,
     allTags: 'Tutte', tagSearchPh: 'Cerca un tag…', tagModeAny: 'Con almeno uno dei tag', tagModeAll: 'Con tutti i tag',
-    graphTitle: 'Rete su Nostr', graphFollows: n => `Segue ${n}`, graphMutuals: n => `${n} reciproci`, graphShown: n => `${n} mostrati`, graphMutual: 'si seguono a vicenda', graphEmpty: 'Impossibile caricare la rete.',
+    graphZoomIn: 'Ingrandisci', graphZoomOut: 'Riduci', graphReset: 'Centra', graphTitle: 'Rete su Nostr', graphFollows: n => `Segue ${n}`, graphMutuals: n => `${n} reciproci`, graphShown: n => `${n} mostrati`, graphMutual: 'si seguono a vicenda', graphEmpty: 'Impossibile caricare la rete.',
     footOk: 'Sito verificato', footNo: 'Sito non verificato', madeWith: 'Creato con', playVideo: 'Riproduci video', license: 'Licenza MIT'
   },
   de: {
@@ -110,7 +110,7 @@ const BLOG = {
     ixRepostsN: n => `${n} ${n === 1 ? 'Repost' : 'Reposts'}`, ixQuotesN: n => `${n} ${n === 1 ? 'Zitat' : 'Zitate'}`,
     ixZapsN: (n, s) => `${n} ${n === 1 ? 'Zap' : 'Zaps'} · ${s} Sats`,
     allTags: 'Alle', tagSearchPh: 'Schlagwort suchen…', tagModeAny: 'Mit einem der Schlagwörter', tagModeAll: 'Mit allen Schlagwörtern',
-    graphTitle: 'Netzwerk auf Nostr', graphFollows: n => `Folgt ${n}`, graphMutuals: n => `${n} gegenseitig`, graphShown: n => `${n} angezeigt`, graphMutual: 'folgen sich gegenseitig', graphEmpty: 'Das Netzwerk konnte nicht geladen werden.',
+    graphZoomIn: 'Vergrößern', graphZoomOut: 'Verkleinern', graphReset: 'Zentrieren', graphTitle: 'Netzwerk auf Nostr', graphFollows: n => `Folgt ${n}`, graphMutuals: n => `${n} gegenseitig`, graphShown: n => `${n} angezeigt`, graphMutual: 'folgen sich gegenseitig', graphEmpty: 'Das Netzwerk konnte nicht geladen werden.',
     footOk: 'Verifizierte Website', footNo: 'Nicht verifizierte Website', madeWith: 'Erstellt mit', playVideo: 'Video abspielen', license: 'MIT-Lizenz'
   }
 };

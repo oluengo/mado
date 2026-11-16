@@ -691,13 +691,14 @@ Mado.fmtCount = (n, lang) => {
 
 /* ---------- Grafo social (página «Sobre mí») ---------- */
 // A quién sigue el autor (kind 3), quién de ellos le sigue también y sus perfiles.
-// Devuelve { follows, mutuals, nodes: [{ pk, name, picture, mutual }] } con como mucho `max` nodos (mutuos primero).
+// Devuelve { follows, mutuals, nodes: [{ pk, name, picture, mutual }], links: [[a, b]] } con como mucho `max` nodos
+// (mutuos primero). links = quién sigue a quién entre esas personas, sacado de las listas de los mutuos.
 Mado.fetchSocialGraph = async (relays, pk, { max = 100, timeout = 7000 } = {}) => {
   const hex = /^[0-9a-f]{64}$/;
   const latest = list => list.sort((a, b) => b.created_at - a.created_at)[0];
   const contacts = latest((await Mado.query(relays, { kinds: [3], authors: [pk], limit: 3 }, { timeout })).filter(e => e.pubkey === pk));
   const follows = [...new Set((contacts ? contacts.tags : []).filter(t => t[0] === 'p' && hex.test(t[1] || '')).map(t => t[1]))].filter(k => k !== pk);
-  if (!follows.length) return { follows: 0, mutuals: 0, nodes: [] };
+  if (!follows.length) return { follows: 0, mutuals: 0, nodes: [], links: [] };
   const chunks = (a, n) => { const out = []; for (let i = 0; i < a.length; i += n) out.push(a.slice(i, i + n)); return out; };
   // Listas de contactos de quienes sigue que incluyen al autor = le siguen también.
   const back = await Mado.query(relays, chunks(follows, 250).map(c => ({ kinds: [3], authors: c, '#p': [pk] })), { timeout });
@@ -706,13 +707,25 @@ Mado.fetchSocialGraph = async (relays, pk, { max = 100, timeout = 7000 } = {}) =
   const metas = await Mado.query(relays, chunks(chosen, 150).map(c => ({ kinds: [0], authors: c })), { timeout });
   const prof = {};
   metas.sort((a, b) => a.created_at - b.created_at).forEach(m => { try { prof[m.pubkey] = JSON.parse(m.content); } catch {} });
+  // Conexiones entre ellos: las listas de los mutuos ya han llegado completas en la consulta anterior.
+  const inSet = new Set(chosen), seen = new Set(), links = [];
+  for (const e of back) {
+    if (!inSet.has(e.pubkey)) continue;
+    for (const t of e.tags) {
+      const o = t[1];
+      if (t[0] !== 'p' || o === e.pubkey || !inSet.has(o)) continue;
+      const id = e.pubkey < o ? e.pubkey + o : o + e.pubkey;
+      if (!seen.has(id)) { seen.add(id); links.push([e.pubkey, o]); }
+      if (links.length >= 1500) break;
+    }
+  }
   return {
-    follows: follows.length, mutuals: mutual.size,
+    follows: follows.length, mutuals: mutual.size, links,
     nodes: chosen.map(k => { const p = prof[k] || {}; return { pk: k, name: String(p.display_name || p.name || '').slice(0, 60), picture: /^https:\/\//.test(p.picture || '') ? p.picture : '', mutual: mutual.has(k) }; })
   };
 };
 
-Mado.VERSION = '0.7.0';
+Mado.VERSION = '0.7.1';
 Mado.PROJECT = { name: 'Mado', version: Mado.VERSION, url: 'https://github.com/oluengo/mado', npub: 'npub1vuf2g6s0mcjr34lhkg2vvtj4x65w29xn28nznw9fhcqcpyr4zc9q6myguj' };
 
 window.Mado = Mado;

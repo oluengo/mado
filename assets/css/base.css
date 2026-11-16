@@ -163,3 +163,6 @@ a.mado-ix-i:hover { color: var(--accent) }
 .mado-graph-box { position: relative; width: 100%; touch-action: pan-y }
 .mado-graph-canvas { display: block; width: 100%; border: 1px solid var(--line); border-radius: var(--radius); background: var(--card) }
 .mado-graph-tip { position: absolute; pointer-events: none; background: var(--fg); color: var(--bg); font-size: .75rem; padding: 3px 8px; border-radius: 6px; white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis }
+.mado-graph-ui { position: absolute; right: 10px; bottom: 10px; display: flex; flex-direction: column; gap: 4px }
+.mado-graph-ui button { width: 30px; height: 30px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--fg); font: 600 15px/1 system-ui, sans-serif; cursor: pointer; opacity: .85 }
+.mado-graph-ui button:hover { opacity: 1; border-color: var(--accent); color: var(--accent) }

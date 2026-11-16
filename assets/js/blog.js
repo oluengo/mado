@@ -543,7 +543,7 @@ function viewAbout() {
 /* ---------- Grafo social ---------- */
 async function renderGraph(p) {
   const sec = $('#mado-graph'); if (!sec) return;
-  const key = 'mado-graph:' + pk + ':' + cfg.nav.graphMax, c = Mado.store.get(key);
+  const key = 'mado-graph2:' + pk + ':' + cfg.nav.graphMax, c = Mado.store.get(key);
   let data = c && Date.now() - c.ts < Math.max(cfg.advanced.cacheMinutes, 30) * 60000 ? c.data : null;
   const [, fresh] = await Promise.all([
     window.MADO_BUNDLE || Mado.drawGraph ? null : Mado.loadScript(Mado.url('assets/js/graph.js')),
@@ -561,7 +561,8 @@ async function renderGraph(p) {
     center: { pk, name, picture: p.picture || '' },
     aria: info.textContent,
     label: d => (d.name || Mado.hexToNpub(d.pk).slice(0, 14) + '…') + (d.mutual ? ' · ' + T.graphMutual : ''),
-    open: d => window.open('https://njump.me/' + Mado.hexToNpub(d.pk), '_blank', 'noopener')
+    open: d => window.open('https://njump.me/' + Mado.hexToNpub(d.pk), '_blank', 'noopener'),
+    t: { zoomIn: T.graphZoomIn, zoomOut: T.graphZoomOut, reset: T.graphReset }
   });
 }
 

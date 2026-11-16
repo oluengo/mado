@@ -61,7 +61,7 @@ The site first finds the npub (`config.json`, `<meta>` or NIP-05), then looks fo
 | Field | Default | Description |
 |---|---|---|
 | `showAbout` | `true` | "About" page with the profile bio. |
-| `socialGraph` | `false` | Animated social graph on the "About" page: the author in the centre, the people they follow around them, and those who follow back (mutuals) closer and highlighted. Drag the nodes; tap one to open its profile. |
+| `socialGraph` | `false` | Animated social graph on the "About" page: the author in the centre, the people they follow around them, mutuals closer and glowing, and the connections between them (from the mutuals' follow lists). Hover to highlight a node's neighbourhood, drag nodes or the background, zoom with the buttons or Ctrl/pinch; tap a node to open its profile. |
 | `graphMax` | `100` | Maximum people shown in the graph (mutuals first). |
 | `sections` | `[]` | Menu entries that show a hashtag: `{ "label": "Bitcoin", "tag": "bitcoin" }`. |
 | `links` | `[]` | External links: `{ "label": "GitHub", "url": "https://…" }`. |

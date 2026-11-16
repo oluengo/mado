@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1 (2026-11-16)
+
+- Livelier social graph: connections between the people you follow (from your mutuals' follow lists) form groups; entrance animation from the centre; nodes keep drifting gently; mutuals glow and small pulses travel along their lines.
+- Hovering a node lights up its neighbourhood and dims the rest; drag nodes, drag the background to pan, zoom with the buttons or Ctrl/pinch (the plain wheel still scrolls the page).
+- It only animates while visible and follows theme and light/dark changes; with "reduce motion" it is drawn still.
+
 ## 0.7.0 (2026-11-16)
 
 - Optional social graph on the "About" page (`nav.socialGraph`, off by default): an animated network with the author in the centre, the people they follow around them and mutual follows closer and highlighted. Nodes can be dragged; tapping one opens the profile on njump.me. `nav.graphMax` limits the nodes (mutuals first).
