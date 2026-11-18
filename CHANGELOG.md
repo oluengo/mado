@@ -54,7 +54,7 @@
 - First public beta.
 - Articles (NIP-23) and notes, hashtag filters, pinned posts, search, tags, About page.
 - Layouts: list, grid, sidebar, featured, timeline, compact (extensible: `layouts/`).
-- Colour themes: Violeta, Océano, Bosque, Arena, Grafito, Sakura (light/dark).
+- Colour themes: Violet, Ocean, Forest, Sand, Graphite, Sakura (light/dark).
 - Typographies: mono, serif, sans.
 - Old theme ids (minimal, revista, tarjetas) are migrated automatically.
 - Signature verification of every event (NIP-01).
